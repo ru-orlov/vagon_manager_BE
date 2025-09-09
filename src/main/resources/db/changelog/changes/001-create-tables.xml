@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="001-create-tables" author="copilot">
+        <createTable tableName="vagons">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="number" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(64)"/>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+            <column name="sync_status" type="VARCHAR(32)"/>
+        </createTable>
+
+        <createTable tableName="inventory_groups">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+            <column name="sync_status" type="VARCHAR(32)"/>
+            <column name="vagon_uuid" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="inventory_groups"
+                baseColumnNames="vagon_uuid"
+                referencedTableName="vagons"
+                referencedColumnNames="uuid"
+                onDelete="CASCADE"
+                constraintName="fk_groups_vagon"/>
+
+        <createTable tableName="inventory_items">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="uuid" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="quantity" type="INTEGER" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+            <column name="sync_status" type="VARCHAR(32)"/>
+            <column name="group_uuid" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="inventory_items"
+                baseColumnNames="group_uuid"
+                referencedTableName="inventory_groups"
+                referencedColumnNames="uuid"
+                onDelete="CASCADE"
+                constraintName="fk_items_group"/>
+
+        <createTable tableName="photos">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="url" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_uuid" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="photos"
+                baseColumnNames="item_uuid"
+                referencedTableName="inventory_items"
+                referencedColumnNames="uuid"
+                onDelete="CASCADE"
+                constraintName="fk_photos_item"/>
+    </changeSet>
+</databaseChangeLog>
