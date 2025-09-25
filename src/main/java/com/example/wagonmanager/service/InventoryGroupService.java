@@ -26,8 +26,8 @@ public class InventoryGroupService {
         return groupRepository.findByUuid(uuid);
     }
 
-    public List<InventoryGroup> getGroupsByVagonUuid(String vagonUuid) {
-        return groupRepository.findAllByVagon_Uuid(vagonUuid);
+    public List<InventoryGroup> getGroupsByVagonUuid(String wagonUuid) {
+        return groupRepository.findAllByWagonUuid(wagonUuid);
     }
 
     public InventoryGroup saveGroup(InventoryGroup group) {

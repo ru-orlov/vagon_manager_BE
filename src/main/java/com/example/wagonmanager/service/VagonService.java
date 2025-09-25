@@ -1,6 +1,6 @@
 package com.example.wagonmanager.service;
 
-import com.example.wagonmanager.model.Vagon;
+import com.example.wagonmanager.model.Wagon;
 import com.example.wagonmanager.repository.VagonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +18,16 @@ public class VagonService {
         this.vagonRepository = vagonRepository;
     }
 
-    public List<Vagon> getAllVagons() {
+    public List<Wagon> getAllVagons() {
         return vagonRepository.findAll();
     }
 
-    public Optional<Vagon> getVagonByUuid(String uuid) {
+    public Optional<Wagon> getVagonByUuid(String uuid) {
         return vagonRepository.findByUuid(uuid);
     }
 
-    public Vagon saveVagon(Vagon vagon) {
-        return vagonRepository.save(vagon);
+    public Wagon saveVagon(Wagon wagon) {
+        return vagonRepository.save(wagon);
     }
 
     public void deleteVagon(Long id) {

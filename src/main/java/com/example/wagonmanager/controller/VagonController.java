@@ -1,6 +1,6 @@
 package com.example.wagonmanager.controller;
 
-import com.example.wagonmanager.model.Vagon;
+import com.example.wagonmanager.model.Wagon;
 import com.example.wagonmanager.service.VagonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +20,29 @@ public class VagonController {
     }
 
     @GetMapping
-    public List<Vagon> getAllVagons() {
+    public List<Wagon> getAllVagons() {
         return vagonService.getAllVagons();
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<Vagon> getVagonByUuid(@PathVariable String uuid) {
+    public ResponseEntity<Wagon> getVagonByUuid(@PathVariable String uuid) {
         return vagonService.getVagonByUuid(uuid)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Vagon addVagon(@RequestBody Vagon vagon) {
-        return vagonService.saveVagon(vagon);
+    public Wagon addVagon(@RequestBody Wagon wagon) {
+        return vagonService.saveVagon(wagon);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Vagon> updateVagon(@PathVariable Long id, @RequestBody Vagon vagon) {
-        if (!vagonService.getVagonByUuid(vagon.getUuid()).isPresent()) {
+    public ResponseEntity<Wagon> updateVagon(@PathVariable Long id, @RequestBody Wagon wagon) {
+        if (!vagonService.getVagonByUuid(wagon.getUuid()).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        vagon.setId(id);
-        return ResponseEntity.ok(vagonService.saveVagon(vagon));
+        wagon.setId(id);
+        return ResponseEntity.ok(vagonService.saveVagon(wagon));
     }
 
     @DeleteMapping("/{id}")

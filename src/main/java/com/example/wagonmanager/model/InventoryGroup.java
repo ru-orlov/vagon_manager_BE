@@ -36,8 +36,8 @@ public class InventoryGroup {
     private String syncStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vagon_uuid", referencedColumnName = "uuid")
-    private Vagon vagon;
+    @JoinColumn(name = "wagon_uuid", referencedColumnName = "uuid")
+    private Wagon wagon;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryItem> items = new ArrayList<>();

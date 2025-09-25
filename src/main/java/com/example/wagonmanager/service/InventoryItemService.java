@@ -27,7 +27,7 @@ public class InventoryItemService {
     }
 
     public List<InventoryItem> getItemsByGroupUuid(String groupUuid) {
-        return itemRepository.findAllByGroup_Uuid(groupUuid);
+        return itemRepository.findAllByGroupUuid(groupUuid);
     }
 
     public InventoryItem saveItem(InventoryItem item) {
