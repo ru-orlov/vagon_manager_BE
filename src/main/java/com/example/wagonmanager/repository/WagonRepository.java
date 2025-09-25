@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface VagonRepository extends JpaRepository<Wagon, Long> {
+public interface WagonRepository extends JpaRepository<Wagon, Long> {
     Optional<Wagon> findByUuid(String uuid);
 }

@@ -4,7 +4,7 @@ import com.example.wagonmanager.dto.SyncPayload;
 import com.example.wagonmanager.model.Wagon;
 import com.example.wagonmanager.service.InventoryGroupService;
 import com.example.wagonmanager.service.InventoryItemService;
-import com.example.wagonmanager.service.VagonService;
+import com.example.wagonmanager.service.WagonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -14,7 +14,7 @@ import java.util.*;
 public class SyncController {
 
     @Autowired
-    private VagonService vagonService;
+    private WagonService wagonService;
     @Autowired
     private InventoryGroupService groupService;
     @Autowired
@@ -44,7 +44,7 @@ public class SyncController {
     // Выгрузка изменений для клиента
     @GetMapping("/download")
     public SyncPayload downloadSyncData(@RequestParam(name = "since") Date since) {
-        List<Wagon> wagons = vagonService.getAllVagons().stream().filter(
+        List<Wagon> wagons = wagonService.getAllVagons().stream().filter(
                 v -> v.getUpdatedAt() != null && v.getUpdatedAt().after(since)
         ).toList();
         // То же для групп, items, photos
