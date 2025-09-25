@@ -11,8 +11,8 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "vagons")
-public class Vagon {
+@Table(name = "wagons")
+public class Wagon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,7 +35,7 @@ public class Vagon {
     @Column(name="sync_status")
     private String syncStatus;
 
-    @OneToMany(mappedBy = "vagon", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "wagon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryGroup> groups = new ArrayList<>();
 
     // getters/setters

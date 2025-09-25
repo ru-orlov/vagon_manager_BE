@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface InventoryItemRepository extends JpaRepository<InventoryItem, Long> {
     Optional<InventoryItem> findByUuid(String uuid);
-    List<InventoryItem> findAllByGroup_Uuid(String groupUuid);
+    List<InventoryItem> findAllByGroupUuid(String groupUuid);
 }

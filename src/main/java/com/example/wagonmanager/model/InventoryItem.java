@@ -41,9 +41,4 @@ public class InventoryItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_uuid", referencedColumnName = "uuid")
     private InventoryGroup group;
-
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Photo> photos = new ArrayList<>();
-
-    // getters/setters
 }
