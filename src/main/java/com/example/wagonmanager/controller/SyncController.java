@@ -7,6 +7,8 @@ import com.example.wagonmanager.service.InventoryItemService;
 import com.example.wagonmanager.service.WagonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.*;
 
 @RestController
@@ -19,34 +21,34 @@ public class SyncController {
     private InventoryGroupService groupService;
     @Autowired
     private InventoryItemService itemService;
+    private static final Logger logger = LoggerFactory.getLogger(SyncController.class);
 
     // Загрузка изменений от клиента
     @PostMapping("/upload")
     public Map<String, Object> uploadSyncData(@RequestBody SyncPayload payload) {
-        List<Wagon> savedWagons = new ArrayList<>();
         System.out.printf(">>> uploadSyncData");
-//        for (Wagon v : payload.getWagons()) {
-//            // реализуй сравнение updated_at
-//            Optional<Wagon> existing = vagonService.getVagonByUuid(v.getUuid());
-//            if (existing.isEmpty() || v.getUpdatedAt().after(existing.get().getUpdatedAt())) {
-//                savedWagons.add(vagonService.saveVagon(v));
-//            }
-//        }
-        // То же для групп, items, photos
-        // ...
+        System.out.printf(">>> payload.getWagons().size(): %d", payload.getWagons().size());
+        int wagonsUpdated = wagonService.batchSaveOrUpdate(payload.getWagons());
+        int groupsUpdated = groupService.batchSaveOrUpdate(payload.getInventoryGroups());
+        int itemsUpdated = itemService.batchSaveOrUpdate(payload.getInventoryItems());
+
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);
-//        result.put("savedVagons", savedVagons.size());
-        // ...
+        result.put("wagonsUpdated", wagonsUpdated);
+        result.put("groupsUpdated", groupsUpdated);
+        result.put("itemsUpdated", itemsUpdated);
+
         return result;
     }
 
     // Выгрузка изменений для клиента
     @GetMapping("/download")
     public SyncPayload downloadSyncData(@RequestParam(name = "since") Date since) {
-        List<Wagon> wagons = wagonService.getAllVagons().stream().filter(
+        System.out.println("since " + since);
+        List<Wagon> wagons = wagonService.getAllWagons().stream().filter(
                 v -> v.getUpdatedAt() != null && v.getUpdatedAt().after(since)
         ).toList();
+        System.out.println("wagons " + wagons.size());
         // То же для групп, items, photos
         SyncPayload payload = new SyncPayload();
         payload.setWagons(wagons);
