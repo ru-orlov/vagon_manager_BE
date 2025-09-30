@@ -11,6 +11,7 @@ import java.util.Optional;
 @Service
 public class InventoryItemService {
 
+    @Autowired
     private final InventoryItemRepository itemRepository;
 
     @Autowired
@@ -32,6 +33,10 @@ public class InventoryItemService {
 
     public InventoryItem saveItem(InventoryItem item) {
         return itemRepository.save(item);
+    }
+
+    public int batchSaveOrUpdate(List<InventoryItem> inventoryItems) {
+        return itemRepository.saveAll(inventoryItems).size();
     }
 
     public void deleteItem(Long id) {

@@ -4,6 +4,7 @@ import com.example.wagonmanager.model.Wagon;
 import com.example.wagonmanager.repository.WagonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,25 +12,32 @@ import java.util.Optional;
 @Service
 public class WagonService {
 
-    private final WagonRepository wagonRepository;
+    @Autowired
+    private WagonRepository wagonRepository;
 
     @Autowired
     public WagonService(WagonRepository wagonRepository) {
         this.wagonRepository = wagonRepository;
     }
 
-    public List<Wagon> getAllVagons() {
+    public List<Wagon> getAllWagons() {
         return wagonRepository.findAll();
     }
 
-    public Optional<Wagon> getVagonByUuid(String uuid) {
+    public Optional<Wagon> getWagonByUuid(String uuid) {
         return wagonRepository.findByUuid(uuid);
     }
-
-    public Wagon saveVagon(Wagon wagon) {
+    @Transactional
+    public Wagon saveWagon(Wagon wagon) {
         return wagonRepository.save(wagon);
     }
 
+    @Transactional
+    public int batchSaveOrUpdate(List<Wagon> wagons) {
+        return wagonRepository.saveAll(wagons).size();
+    }
+
+    @Transactional
     public void deleteVagon(Long id) {
         wagonRepository.deleteById(id);
     }

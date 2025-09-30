@@ -37,4 +37,7 @@ public class InventoryGroupService {
     public void deleteGroup(Long id) {
         groupRepository.deleteById(id);
     }
+    public int batchSaveOrUpdate(List<InventoryGroup> inventoryGroups) {
+        return groupRepository.saveAll(inventoryGroups).size();
+    }
 }

@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface InventoryItemRepository extends JpaRepository<InventoryItem, Long> {
     Optional<InventoryItem> findByUuid(String uuid);
     List<InventoryItem> findAllByGroupUuid(String groupUuid);
+
+//    List<InventoryItem> batchUpdate(List<InventoryItem> wagons);
 }

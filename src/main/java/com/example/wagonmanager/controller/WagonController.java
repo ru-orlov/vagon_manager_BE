@@ -21,28 +21,28 @@ public class WagonController {
 
     @GetMapping
     public List<Wagon> getAllVagons() {
-        return wagonService.getAllVagons();
+        return wagonService.getAllWagons();
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<Wagon> getVagonByUuid(@PathVariable String uuid) {
-        return wagonService.getVagonByUuid(uuid)
+        return wagonService.getWagonByUuid(uuid)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public Wagon addVagon(@RequestBody Wagon wagon) {
-        return wagonService.saveVagon(wagon);
+        return wagonService.saveWagon(wagon);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Wagon> updateVagon(@PathVariable Long id, @RequestBody Wagon wagon) {
-        if (!wagonService.getVagonByUuid(wagon.getUuid()).isPresent()) {
+        if (!wagonService.getWagonByUuid(wagon.getUuid()).isPresent()) {
             return ResponseEntity.notFound().build();
         }
         wagon.setId(id);
-        return ResponseEntity.ok(wagonService.saveVagon(wagon));
+        return ResponseEntity.ok(wagonService.saveWagon(wagon));
     }
 
     @DeleteMapping("/{id}")
