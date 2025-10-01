@@ -4,6 +4,7 @@ import com.example.wagonmanager.model.InventoryItem;
 import com.example.wagonmanager.repository.InventoryItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +36,24 @@ public class InventoryItemService {
         return itemRepository.save(item);
     }
 
+    @Transactional
     public int batchSaveOrUpdate(List<InventoryItem> inventoryItems) {
-        return itemRepository.saveAll(inventoryItems).size();
+        int affected = 0;
+        for (InventoryItem inventoryItem : inventoryItems) {
+            affected += itemRepository.upsertInventoryItem(
+                    inventoryItem.getUuid(),
+                    inventoryItem.getGroupId(),
+                    inventoryItem.getWagonUuid(),
+                    inventoryItem.getName(),
+                    inventoryItem.getDescription(),
+                    inventoryItem.getQuantity(),
+                    inventoryItem.getPhotos(),
+                    inventoryItem.getUpdatedAt(),
+                    inventoryItem.getCreatedAt(),
+                    inventoryItem.getSyncStatus()
+            );
+        }
+        return affected;
     }
 
     public void deleteItem(Long id) {
