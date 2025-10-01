@@ -11,7 +11,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "inventory_groups")
+@Table(name = "inventory_group")
 public class InventoryGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

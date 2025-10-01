@@ -34,11 +34,21 @@ public class WagonService {
 
     @Transactional
     public int batchSaveOrUpdate(List<Wagon> wagons) {
-        return wagonRepository.saveAll(wagons).size();
+        int affected = 0;
+        for (Wagon wagon : wagons) {
+            affected += wagonRepository.upsertWagon(
+                    wagon.getUuid(),
+                    wagon.getNumber(),
+                    wagon.getType(),
+                    wagon.getUpdatedAt(),
+                    wagon.getCreatedAt()
+            );
+        }
+        return affected;
     }
 
     @Transactional
-    public void deleteVagon(Long id) {
+    public void deleteWagon(Long id) {
         wagonRepository.deleteById(id);
     }
 }

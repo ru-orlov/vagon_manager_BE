@@ -11,10 +11,10 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "wagons")
+@Table(name = "wagon")
 public class Wagon {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable=false, unique=true)
@@ -31,9 +31,6 @@ public class Wagon {
 
     @Column(name="updated_at")
     private Date updatedAt;
-
-    @Column(name="sync_status")
-    private String syncStatus;
 
     @OneToMany(mappedBy = "wagon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InventoryGroup> groups = new ArrayList<>();

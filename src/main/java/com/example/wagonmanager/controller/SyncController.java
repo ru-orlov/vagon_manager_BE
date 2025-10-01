@@ -28,13 +28,17 @@ public class SyncController {
     public Map<String, Object> uploadSyncData(@RequestBody SyncPayload payload) {
         System.out.printf(">>> uploadSyncData");
         System.out.printf(">>> payload.getWagons().size(): %d", payload.getWagons().size());
-        int wagonsUpdated = wagonService.batchSaveOrUpdate(payload.getWagons());
+        Map<String, Object> result = new HashMap<>();
+        if (payload.getWagons().size() > 0) {
+            int wagonsUpdated = wagonService.batchSaveOrUpdate(payload.getWagons());
+            result.put("wagonsUpdated", wagonsUpdated);
+        }
         int groupsUpdated = groupService.batchSaveOrUpdate(payload.getInventoryGroups());
         int itemsUpdated = itemService.batchSaveOrUpdate(payload.getInventoryItems());
 
-        Map<String, Object> result = new HashMap<>();
+
         result.put("success", true);
-        result.put("wagonsUpdated", wagonsUpdated);
+
         result.put("groupsUpdated", groupsUpdated);
         result.put("itemsUpdated", itemsUpdated);
 
