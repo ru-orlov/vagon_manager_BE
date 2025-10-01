@@ -14,17 +14,26 @@ import java.util.*;
 @Table(name = "inventory_item")
 public class InventoryItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable=false, unique=true)
     private String uuid;
 
     @Column(nullable=false)
+    private String groupId;
+
+    @Column(nullable=false)
+    private String wagonUuid;
+
+    @Column(nullable=false)
     private String name;
 
     @Column
     private String description;
+
+    @Column
+    private List<String> photos = new ArrayList<>();
 
     @Column(nullable=false)
     private int quantity;

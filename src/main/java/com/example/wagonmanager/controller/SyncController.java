@@ -29,19 +29,20 @@ public class SyncController {
         System.out.printf(">>> uploadSyncData");
         System.out.printf(">>> payload.getWagons().size(): %d", payload.getWagons().size());
         Map<String, Object> result = new HashMap<>();
-        if (payload.getWagons().size() > 0) {
+        if (!payload.getWagons().isEmpty()) {
             int wagonsUpdated = wagonService.batchSaveOrUpdate(payload.getWagons());
             result.put("wagonsUpdated", wagonsUpdated);
         }
-        int groupsUpdated = groupService.batchSaveOrUpdate(payload.getInventoryGroups());
-        int itemsUpdated = itemService.batchSaveOrUpdate(payload.getInventoryItems());
-
+        if (!payload.getInventoryGroups().isEmpty()) {
+            int groupsUpdated = groupService.batchSaveOrUpdate(payload.getInventoryGroups());
+            result.put("groupsUpdated", groupsUpdated);
+        }
+        if (!payload.getInventoryItems().isEmpty()) {
+            int itemsUpdated = itemService.batchSaveOrUpdate(payload.getInventoryItems());
+            result.put("itemsUpdated", itemsUpdated);
+        }
 
         result.put("success", true);
-
-        result.put("groupsUpdated", groupsUpdated);
-        result.put("itemsUpdated", itemsUpdated);
-
         return result;
     }
 

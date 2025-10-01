@@ -1,9 +1,11 @@
 package com.example.wagonmanager.service;
 
 import com.example.wagonmanager.model.InventoryGroup;
+import com.example.wagonmanager.model.Wagon;
 import com.example.wagonmanager.repository.InventoryGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +39,20 @@ public class InventoryGroupService {
     public void deleteGroup(Long id) {
         groupRepository.deleteById(id);
     }
+
+    @Transactional
     public int batchSaveOrUpdate(List<InventoryGroup> inventoryGroups) {
-        return groupRepository.saveAll(inventoryGroups).size();
+        int affected = 0;
+        for (InventoryGroup inventoryGroup : inventoryGroups) {
+            affected += groupRepository.upsertInventoryGroup(
+                    inventoryGroup.getUuid(),
+                    inventoryGroup.getName(),
+                    inventoryGroup.getDescription(),
+                    inventoryGroup.getUpdatedAt(),
+                    inventoryGroup.getCreatedAt(),
+                    inventoryGroup.getSyncStatus()
+            );
+        }
+        return affected;
     }
 }
