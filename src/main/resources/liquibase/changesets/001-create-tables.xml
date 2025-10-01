@@ -5,7 +5,7 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <changeSet id="001-create-tables" author="copilot">
-        <createTable tableName="wagons">
+        <createTable tableName="wagon">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -23,7 +23,7 @@
             <column name="sync_status" type="VARCHAR(32)"/>
         </createTable>
 
-        <createTable tableName="inventory_groups">
+        <createTable tableName="inventory_group">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -43,7 +43,7 @@
         </createTable>
 
 
-        <createTable tableName="inventory_items">
+        <createTable tableName="inventory_item">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>

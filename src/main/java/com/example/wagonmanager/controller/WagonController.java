@@ -37,7 +37,7 @@ public class WagonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Wagon> updateVagon(@PathVariable Long id, @RequestBody Wagon wagon) {
+    public ResponseEntity<Wagon> updateWagon(@PathVariable Long id, @RequestBody Wagon wagon) {
         if (!wagonService.getWagonByUuid(wagon.getUuid()).isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -46,8 +46,8 @@ public class WagonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVagon(@PathVariable Long id) {
-        wagonService.deleteVagon(id);
+    public ResponseEntity<Void> deleteWagon(@PathVariable Long id) {
+        wagonService.deleteWagon(id);
         return ResponseEntity.noContent().build();
     }
 }
