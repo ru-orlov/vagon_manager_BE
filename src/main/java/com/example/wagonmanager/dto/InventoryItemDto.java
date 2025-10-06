@@ -6,7 +6,7 @@ import java.util.List;
 
 public class InventoryItemDto {
     private String uuid;
-    private String groupId;
+    private String groupUuid;
     private String wagonUuid;
     private String name;
     private String description;
@@ -18,10 +18,10 @@ public class InventoryItemDto {
 
     public InventoryItemDto() {}
 
-    public InventoryItemDto(String uuid, String groupId, String wagonUuid, String name, String description,
+    public InventoryItemDto(String uuid, String groupUuid, String wagonUuid, String name, String description,
                             int quantity, Date createdAt, Date updatedAt, String syncStatus) {
         this.uuid = uuid;
-        this.groupId = groupId;
+        this.groupUuid = groupUuid;
         this.wagonUuid = wagonUuid;
         this.name = name;
         this.description = description;
@@ -39,12 +39,12 @@ public class InventoryItemDto {
         this.uuid = uuid;
     }
 
-    public String getGroupId() {
-        return groupId;
+    public String getGroupUuid() {
+        return groupUuid;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
+    public void setGroupUuid(String groupUuid) {
+        this.groupUuid = groupUuid;
     }
 
     public String getWagonUuid() {

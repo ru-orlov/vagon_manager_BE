@@ -32,8 +32,8 @@ public class Wagon {
     @Column(name="updated_at")
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "wagon", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<InventoryGroup> groups = new ArrayList<>();
+//    @OneToMany(mappedBy = "wagonUuid", fetch = FetchType.LAZY)
+//    private List<InventoryGroup> inventoryGroups = new ArrayList<>();
 
     // getters/setters
 }

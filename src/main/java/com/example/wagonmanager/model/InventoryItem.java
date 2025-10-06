@@ -20,8 +20,8 @@ public class InventoryItem {
     @Column(nullable=false, unique=true)
     private String uuid;
 
-    @Column(nullable=false)
-    private String groupId;
+    @Column(name="group_uuid", nullable=false)
+    private String groupUuid;
 
     @Column(nullable=false)
     private String wagonUuid;
@@ -47,7 +47,7 @@ public class InventoryItem {
     @Column(name="sync_status")
     private String syncStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_uuid", referencedColumnName = "uuid")
-    private InventoryGroup group;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "group_uuid", referencedColumnName = "uuid")
+//    private InventoryGroup group;
 }

@@ -16,10 +16,10 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO inventory_item (uuid, group_id, wagon_uuid, name, description, quantity, photos, created_at, updated_at, sync_status) " +
-            "VALUES (:uuid, :groupId, :wagonUuid, :name, :description, :quantity, :photos, :createdAt, :updatedAt, :syncStatus) " +
+    @Query(value = "INSERT INTO inventory_item (uuid, group_uuid, wagon_uuid, name, description, quantity, photos, created_at, updated_at, sync_status) " +
+            "VALUES (:uuid, :groupUuid, :wagonUuid, :name, :description, :quantity, :photos, :createdAt, :updatedAt, :syncStatus) " +
             "ON CONFLICT (uuid) DO UPDATE SET " +
-            "group_id = EXCLUDED.group_id, " +
+            "group_uuid = EXCLUDED.group_uuid, " +
             "wagon_uuid = EXCLUDED.wagon_uuid, " +
             "name = EXCLUDED.name, " +
             "description = EXCLUDED.description, " +
@@ -31,7 +31,7 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
             nativeQuery = true)
     int upsertInventoryItem(
             @Param("uuid") String uuid,
-            @Param("groupId") String groupUuid,
+            @Param("groupUuid") String groupUuid,
             @Param("wagonUuid") String wagonUuid,
             @Param("name") String name,
             @Param("description") String description,

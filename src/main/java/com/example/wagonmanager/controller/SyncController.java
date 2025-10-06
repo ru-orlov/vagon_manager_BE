@@ -46,7 +46,18 @@ public class SyncController {
         return result;
     }
 
-    // Выгрузка изменений для клиента
+    @GetMapping("/wagonwithitems")
+    public SyncPayload wagonWithItems(@RequestParam(name = "uuid") String wagonuuid) {
+        System.out.println("wagonuuid " + wagonuuid);
+        Optional<Wagon> wagons = wagonService.getWagonByUuid(wagonuuid);
+        System.out.println("wagons " + wagons.isEmpty());
+
+        SyncPayload payload = new SyncPayload();
+        payload.setWagons(List.of(wagons.get()));
+        // ...
+        return payload;
+    }
+
     @GetMapping("/download")
     public SyncPayload downloadSyncData(@RequestParam(name = "since") Date since) {
         System.out.println("since " + since);

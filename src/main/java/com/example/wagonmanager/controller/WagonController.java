@@ -47,7 +47,7 @@ public class WagonController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWagon(@PathVariable Long id) {
-        wagonService.deleteWagon(id);
+        wagonService.deleteWagonByUuid(id);
         return ResponseEntity.noContent().build();
     }
 }
