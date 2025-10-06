@@ -32,8 +32,7 @@ public class Wagon {
     @Column(name="updated_at")
     private Date updatedAt;
 
-//    @OneToMany(mappedBy = "wagonUuid", fetch = FetchType.LAZY)
-//    private List<InventoryGroup> inventoryGroups = new ArrayList<>();
-
-    // getters/setters
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wagon_uuid", referencedColumnName = "uuid")
+    private List<InventoryGroup> inventoryGroups = new ArrayList<>();
 }
