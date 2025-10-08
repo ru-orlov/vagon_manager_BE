@@ -1,6 +1,7 @@
 package com.example.wagonmanager.controller;
 
 import com.example.wagonmanager.dto.SyncPayload;
+import com.example.wagonmanager.model.InventoryItem;
 import com.example.wagonmanager.model.Wagon;
 import com.example.wagonmanager.service.InventoryGroupService;
 import com.example.wagonmanager.service.InventoryItemService;
@@ -46,15 +47,26 @@ public class SyncController {
         return result;
     }
 
-    @GetMapping("/wagonwithitems")
+    @GetMapping("/downloadwagon")
     public SyncPayload wagonWithItems(@RequestParam(name = "uuid") String wagonuuid) {
         System.out.println("wagonuuid " + wagonuuid);
         Optional<Wagon> wagons = wagonService.getWagonByUuid(wagonuuid);
         System.out.println("wagons " + wagons.isEmpty());
 
         SyncPayload payload = new SyncPayload();
-        payload.setWagons(List.of(wagons.get()));
-        // ...
+        if (wagons.isPresent()) {
+            Wagon dto = new Wagon();
+            dto.setUuid(wagonuuid);
+            dto.setNumber(wagons.get().getNumber());
+            dto.setType(wagons.get().getType());
+            dto.setCreatedAt(wagons.get().getCreatedAt());
+            dto.setUpdatedAt(wagons.get().getUpdatedAt());
+            payload.setWagons(List.of(dto));
+            payload.setInventoryGroups(wagons.get().getInventoryGroups());
+            List<InventoryItem> inventoryItems = new ArrayList<>();
+            wagons.get().getInventoryGroups().forEach(group -> inventoryItems.addAll(group.getInventoryItems()));
+            payload.setInventoryItems(inventoryItems);
+        }
         return payload;
     }
 
