@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/vagons")
+@RequestMapping("/api/v1/wagon")
 public class WagonController {
 
     private final WagonService wagonService;
@@ -47,7 +47,7 @@ public class WagonController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWagon(@PathVariable Long id) {
-        wagonService.deleteWagon(id);
+        wagonService.deleteWagonByUuid(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -42,7 +42,7 @@ public class InventoryItemService {
         for (InventoryItem inventoryItem : inventoryItems) {
             affected += itemRepository.upsertInventoryItem(
                     inventoryItem.getUuid(),
-                    inventoryItem.getGroupId(),
+                    inventoryItem.getGroupUuid(),
                     inventoryItem.getWagonUuid(),
                     inventoryItem.getName(),
                     inventoryItem.getDescription(),

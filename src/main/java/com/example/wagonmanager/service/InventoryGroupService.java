@@ -48,6 +48,7 @@ public class InventoryGroupService {
                     inventoryGroup.getUuid(),
                     inventoryGroup.getName(),
                     inventoryGroup.getDescription(),
+                    inventoryGroup.getWagonUuid(),
                     inventoryGroup.getUpdatedAt(),
                     inventoryGroup.getCreatedAt(),
                     inventoryGroup.getSyncStatus()

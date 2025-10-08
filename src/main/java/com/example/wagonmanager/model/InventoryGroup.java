@@ -26,6 +26,9 @@ public class InventoryGroup {
     @Column
     private String description;
 
+    @Column(name="wagon_uuid")
+    private String wagonUuid;
+
     @Column(name="created_at")
     private Date createdAt;
 
@@ -35,12 +38,7 @@ public class InventoryGroup {
     @Column(name="sync_status")
     private String syncStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "wagon_uuid", referencedColumnName = "uuid")
-    private Wagon wagon;
-
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<InventoryItem> items = new ArrayList<>();
-
-    // getters/setters
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_uuid", referencedColumnName = "uuid")
+    private List<InventoryItem> inventoryItems = new ArrayList<>();
 }

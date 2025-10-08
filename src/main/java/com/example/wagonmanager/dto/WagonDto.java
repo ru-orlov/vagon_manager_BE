@@ -2,7 +2,7 @@ package com.example.wagonmanager.dto;
 
 
 public class WagonDto {
-    private String uuid;
+    private String wagonUuid;
     public String number;
     public String type;
     public String createdAt;
@@ -11,7 +11,7 @@ public class WagonDto {
 
     public WagonDto() {}
     public WagonDto(WagonDto wagon) {
-        this.uuid = wagon.getUuid();
+        this.wagonUuid = wagon.getWagonUuid();
         this.number = wagon.getNumber();
         this.type = wagon.getType();
         this.updatedAt = wagon.getUpdatedAt();
@@ -19,12 +19,12 @@ public class WagonDto {
         this.syncStatus = wagon.getSyncStatus();
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getWagonUuid() {
+        return wagonUuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setWagonUuid(String wagonUuid) {
+        this.wagonUuid = wagonUuid;
     }
 
     public String getNumber() {

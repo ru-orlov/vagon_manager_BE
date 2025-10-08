@@ -48,7 +48,7 @@ public class WagonService {
     }
 
     @Transactional
-    public void deleteWagon(Long id) {
-        wagonRepository.deleteById(id);
+    public void deleteWagonByUuid(Long wagonUuid) {
+        wagonRepository.deleteById(wagonUuid);
     }
 }
