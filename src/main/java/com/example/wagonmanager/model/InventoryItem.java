@@ -33,7 +33,7 @@ public class InventoryItem {
     private String description;
 
     @Column
-    private List<String> photos = new ArrayList<>();
+    private String[] photos = new String[]{};
 
     @Column(nullable=false)
     private int quantity;

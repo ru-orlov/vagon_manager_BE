@@ -36,7 +36,7 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
             @Param("name") String name,
             @Param("description") String description,
             @Param("quantity") int quantity,
-            @Param("photos") List<String> photos,
+            @Param("photos") String[] photos,
             @Param("createdAt") java.util.Date createdAt,
             @Param("updatedAt") java.util.Date updatedAt,
             @Param("syncStatus") String syncStatus
