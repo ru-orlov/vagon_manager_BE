@@ -1,17 +1,22 @@
 package com.example.wagonmanager.service;
 
+import com.example.wagonmanager.controller.SyncController;
 import com.example.wagonmanager.model.InventoryItem;
 import com.example.wagonmanager.repository.InventoryItemRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class InventoryItemService {
-
+    private static final Logger logger = LoggerFactory.getLogger(SyncController.class);
     @Autowired
     private final InventoryItemRepository itemRepository;
 
@@ -58,5 +63,23 @@ public class InventoryItemService {
 
     public void deleteItem(Long id) {
         itemRepository.deleteById(id);
+    }
+
+    public String saveInventoryPhoto(MultipartFile file, String wagonUuid, String uuid) throws IOException {
+        String baseDir = "D:\\Inventory\\Photos\\" + wagonUuid + "\\" + uuid;
+        java.nio.file.Path dir = java.nio.file.Paths.get(baseDir);
+        if (!java.nio.file.Files.exists(dir)) {
+            java.nio.file.Files.createDirectories(dir);
+        }
+
+        String original = java.nio.file.Paths.get(file.getOriginalFilename()).getFileName().toString();
+        java.nio.file.Path target = dir.resolve(original);
+
+        try (java.io.InputStream in = file.getInputStream()) {
+            java.nio.file.Files.copy(in, target, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        logger.info("Saved photo to {}", target);
+        return target.toString();
     }
 }
