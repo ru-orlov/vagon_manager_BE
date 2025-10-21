@@ -29,6 +29,11 @@ public class PhotoUploadResponse {
     public PhotoUploadResponse() {
     }
 
+    public PhotoUploadResponse(boolean success, String photoUuid) {
+        this.success = success;
+        this.inventoryItemUuid = photoUuid;
+    }
+
     // --- getters / setters ---
     public boolean isSuccess() {
         return success;
