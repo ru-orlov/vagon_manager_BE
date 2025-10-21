@@ -1,5 +1,6 @@
 package com.example.wagonmanager.controller;
 
+import com.example.wagonmanager.dto.PhotoUploadResponse;
 import com.example.wagonmanager.dto.SyncPayload;
 import com.example.wagonmanager.model.InventoryItem;
 import com.example.wagonmanager.model.Wagon;
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -45,6 +49,18 @@ public class SyncController {
 
         result.put("success", true);
         return result;
+    }
+
+    @PostMapping("/api/v1/photos/upload")
+    public PhotoUploadResponse uploadPhoto(@RequestParam("file") MultipartFile file,
+                                           @RequestParam("inventoryItemUuid") String uuid) throws IOException {
+
+        System.out.printf(">>> uploadPhoto for inventoryItemUuid: %s\n", uuid);
+        System.out.printf(">>> file original filename: %s, size: %d\n", file.getOriginalFilename(), file.getSize());
+        // сохранить файл (disk, S3 и т.д.)
+        //String storedFilename = saveFile(file, uuid); // ваша реализация
+        // сохранить запись в БД (photo id, url, связь с inventoryItem)
+        return new PhotoUploadResponse();
     }
 
     @GetMapping("/downloadwagon")
