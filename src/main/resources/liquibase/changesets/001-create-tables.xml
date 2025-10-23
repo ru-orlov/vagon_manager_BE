@@ -69,6 +69,7 @@
             <column name="created_at" type="TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
             <column name="sync_status" type="VARCHAR(32)"/>
+            <column name="photo_sync_status" type="VARCHAR(32)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

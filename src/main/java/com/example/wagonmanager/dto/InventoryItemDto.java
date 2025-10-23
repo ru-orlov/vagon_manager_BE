@@ -11,15 +11,16 @@ public class InventoryItemDto {
     private String name;
     private String description;
     private int quantity;
-    private List<String> photos = new ArrayList<>();
+    private String photos;
     private Date createdAt;
     private Date updatedAt;
     private String syncStatus;
+    private String photoSyncStatus;
 
     public InventoryItemDto() {}
 
     public InventoryItemDto(String uuid, String groupUuid, String wagonUuid, String name, String description,
-                            int quantity, Date createdAt, Date updatedAt, String syncStatus) {
+                            int quantity, Date createdAt, Date updatedAt, String syncStatus, String photoSyncStatus) {
         this.uuid = uuid;
         this.groupUuid = groupUuid;
         this.wagonUuid = wagonUuid;
@@ -29,6 +30,7 @@ public class InventoryItemDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.syncStatus = syncStatus;
+        this.photoSyncStatus = photoSyncStatus;
     }
 
     public String getUuid() {
@@ -79,11 +81,11 @@ public class InventoryItemDto {
         this.quantity = quantity;
     }
 
-    public List<String> getPhotos() {
+    public String getPhotos() {
         return photos;
     }
 
-    public void setPhotos(List<String> photos) {
+    public void setPhotos(String photos) {
         this.photos = photos;
     }
 
@@ -109,5 +111,13 @@ public class InventoryItemDto {
 
     public void setSyncStatus(String syncStatus) {
         this.syncStatus = syncStatus;
+    }
+
+    public String getPhotoSyncStatus() {
+        return photoSyncStatus;
+    }
+
+    public void setPhotoSyncStatus(String photoSyncStatus) {
+        this.photoSyncStatus = photoSyncStatus;
     }
 }

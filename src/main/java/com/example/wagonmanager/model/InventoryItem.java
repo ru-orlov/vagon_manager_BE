@@ -33,7 +33,7 @@ public class InventoryItem {
     private String description;
 
     @Column
-    private String[] photos = new String[]{};
+    private String photos;
 
     @Column(nullable=false)
     private int quantity;
@@ -46,4 +46,7 @@ public class InventoryItem {
 
     @Column(name="sync_status")
     private String syncStatus;
+
+    @Column(name="photo_sync_status")
+    private String photoSyncStatus;
 }
