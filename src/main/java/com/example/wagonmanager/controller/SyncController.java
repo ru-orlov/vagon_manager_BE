@@ -31,22 +31,21 @@ public class SyncController {
     // Загрузка изменений от клиента
     @PostMapping("/upload")
     public Map<String, Object> uploadSyncData(@RequestBody SyncPayload payload) {
-        System.out.printf(">>> uploadSyncData");
-        System.out.printf(">>> payload.getWagons().size(): %d", payload.getWagons().size());
+        System.out.println(">>> uploadSyncData");
+        System.out.println(">>> payload.getWagons().size(): " + payload.getWagons().size());
         Map<String, Object> result = new HashMap<>();
         if (!payload.getWagons().isEmpty()) {
-            int wagonsUpdated = wagonService.batchSaveOrUpdate(payload.getWagons());
+            int wagonsUpdated = wagonService.batchSaveOrUpdate(payload.getWagons(), payload.userName);
             result.put("wagonsUpdated", wagonsUpdated);
         }
         if (!payload.getInventoryGroups().isEmpty()) {
-            int groupsUpdated = groupService.batchSaveOrUpdate(payload.getInventoryGroups());
+            int groupsUpdated = groupService.batchSaveOrUpdate(payload.getInventoryGroups(), payload.userName);
             result.put("groupsUpdated", groupsUpdated);
         }
         if (!payload.getInventoryItems().isEmpty()) {
-            int itemsUpdated = itemService.batchSaveOrUpdate(payload.getInventoryItems());
+            int itemsUpdated = itemService.batchSaveOrUpdate(payload.getInventoryItems(), payload.userName);
             result.put("itemsUpdated", itemsUpdated);
         }
-
         result.put("success", true);
         return result;
     }

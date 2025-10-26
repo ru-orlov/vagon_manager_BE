@@ -38,6 +38,9 @@ public class InventoryGroup {
     @Column(name="sync_status")
     private String syncStatus;
 
+    @Column(name="username")
+    private String userName;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_uuid", referencedColumnName = "uuid")
     private List<InventoryItem> inventoryItems = new ArrayList<>();

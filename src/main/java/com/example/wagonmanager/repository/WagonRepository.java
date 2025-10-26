@@ -14,11 +14,12 @@ public interface WagonRepository extends JpaRepository<Wagon, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO wagon (uuid, number, type, created_at, updated_at) " +
-            "VALUES (:uuid, :number, :type, :createdAt, :updatedAt) " +
+    @Query(value = "INSERT INTO wagon (uuid, number, type, username, created_at, updated_at) " +
+            "VALUES (:uuid, :number, :type, :username, :createdAt, :updatedAt) " +
             "ON CONFLICT (uuid) DO UPDATE SET " +
             "number = EXCLUDED.number, " +
             "type = EXCLUDED.type, " +
+            "username = EXCLUDED.username, " +
             "created_at = EXCLUDED.created_at, " +
             "updated_at = EXCLUDED.updated_at ",
             nativeQuery = true)
@@ -26,6 +27,7 @@ public interface WagonRepository extends JpaRepository<Wagon, Long> {
             @Param("uuid") String uuid,
             @Param("number") String number,
             @Param("type") String type,
+            @Param("username") String username,
             @Param("createdAt") java.util.Date createdAt,
             @Param("updatedAt") java.util.Date updatedAt
     );

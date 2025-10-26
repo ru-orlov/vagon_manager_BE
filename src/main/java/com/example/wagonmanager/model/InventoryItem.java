@@ -49,4 +49,7 @@ public class InventoryItem {
 
     @Column(name="photo_sync_status")
     private String photoSyncStatus;
+
+    @Column(name="username")
+    private String userName;
 }

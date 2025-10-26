@@ -42,7 +42,7 @@ public class InventoryItemService {
     }
 
     @Transactional
-    public int batchSaveOrUpdate(List<InventoryItem> inventoryItems) {
+    public int batchSaveOrUpdate(List<InventoryItem> inventoryItems, String userName) {
         int affected = 0;
         for (InventoryItem inventoryItem : inventoryItems) {
             affected += itemRepository.upsertInventoryItem(
@@ -53,6 +53,7 @@ public class InventoryItemService {
                     inventoryItem.getDescription(),
                     inventoryItem.getQuantity(),
                     inventoryItem.getPhotos(),
+                    userName,
                     inventoryItem.getUpdatedAt(),
                     inventoryItem.getCreatedAt(),
                     inventoryItem.getSyncStatus()

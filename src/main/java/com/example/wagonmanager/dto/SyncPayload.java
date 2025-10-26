@@ -16,4 +16,5 @@ public class SyncPayload {
     private List<Wagon> wagons;
     private List<InventoryGroup> inventoryGroups;
     private List<InventoryItem> inventoryItems;
+    public String userName;
 }

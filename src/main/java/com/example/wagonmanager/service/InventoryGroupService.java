@@ -41,7 +41,7 @@ public class InventoryGroupService {
     }
 
     @Transactional
-    public int batchSaveOrUpdate(List<InventoryGroup> inventoryGroups) {
+    public int batchSaveOrUpdate(List<InventoryGroup> inventoryGroups, String userName) {
         int affected = 0;
         for (InventoryGroup inventoryGroup : inventoryGroups) {
             affected += groupRepository.upsertInventoryGroup(
@@ -49,6 +49,7 @@ public class InventoryGroupService {
                     inventoryGroup.getName(),
                     inventoryGroup.getDescription(),
                     inventoryGroup.getWagonUuid(),
+                    userName,
                     inventoryGroup.getUpdatedAt(),
                     inventoryGroup.getCreatedAt(),
                     inventoryGroup.getSyncStatus()

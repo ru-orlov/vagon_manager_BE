@@ -32,6 +32,12 @@ public class Wagon {
     @Column(name="updated_at")
     private Date updatedAt;
 
+    @Column(name="sync_status")
+    private String syncStatus;
+
+    @Column(name="username")
+    private String userName;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "wagon_uuid", referencedColumnName = "uuid")
     private List<InventoryGroup> inventoryGroups = new ArrayList<>();

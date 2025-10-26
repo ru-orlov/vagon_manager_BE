@@ -16,8 +16,8 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO inventory_item (uuid, group_uuid, wagon_uuid, name, description, quantity, photos, created_at, updated_at, sync_status) " +
-            "VALUES (:uuid, :groupUuid, :wagonUuid, :name, :description, :quantity, :photos, :createdAt, :updatedAt, :syncStatus) " +
+    @Query(value = "INSERT INTO inventory_item (uuid, group_uuid, wagon_uuid, name, description, quantity, photos, username, created_at, updated_at, sync_status) " +
+            "VALUES (:uuid, :groupUuid, :wagonUuid, :name, :description, :quantity, :photos, :userName, :createdAt, :updatedAt, :syncStatus) " +
             "ON CONFLICT (uuid) DO UPDATE SET " +
             "group_uuid = EXCLUDED.group_uuid, " +
             "wagon_uuid = EXCLUDED.wagon_uuid, " +
@@ -25,6 +25,7 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
             "description = EXCLUDED.description, " +
             "quantity = EXCLUDED.quantity, " +
             "photos = EXCLUDED.photos, " +
+            "userName = EXCLUDED.userName, " +
             "created_at = EXCLUDED.created_at, " +
             "updated_at = EXCLUDED.updated_at, " +
             "sync_status = EXCLUDED.sync_status ",
@@ -37,6 +38,7 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
             @Param("description") String description,
             @Param("quantity") int quantity,
             @Param("photos") String photos,
+            @Param("userName") String userName,
             @Param("createdAt") java.util.Date createdAt,
             @Param("updatedAt") java.util.Date updatedAt,
             @Param("syncStatus") String syncStatus
