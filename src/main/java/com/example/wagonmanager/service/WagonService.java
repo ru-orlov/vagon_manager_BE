@@ -33,13 +33,14 @@ public class WagonService {
     }
 
     @Transactional
-    public int batchSaveOrUpdate(List<Wagon> wagons) {
+    public int batchSaveOrUpdate(List<Wagon> wagons, String userName) {
         int affected = 0;
         for (Wagon wagon : wagons) {
             affected += wagonRepository.upsertWagon(
                     wagon.getUuid(),
                     wagon.getNumber(),
                     wagon.getType(),
+                    userName,
                     wagon.getUpdatedAt(),
                     wagon.getCreatedAt()
             );

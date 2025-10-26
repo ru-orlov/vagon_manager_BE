@@ -16,12 +16,13 @@ public interface InventoryGroupRepository extends JpaRepository<InventoryGroup, 
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO inventory_group (uuid, name, description, wagon_uuid, created_at, updated_at, sync_status) " +
-            "VALUES (:uuid, :name, :description, :wagonUuid, :createdAt, :updatedAt, :syncStatus) " +
+    @Query(value = "INSERT INTO inventory_group (uuid, name, description, wagon_uuid, userName, created_at, updated_at, sync_status) " +
+            "VALUES (:uuid, :name, :description, :wagonUuid, :username, :createdAt, :updatedAt, :syncStatus) " +
             "ON CONFLICT (uuid) DO UPDATE SET " +
             "name = EXCLUDED.name, " +
             "description = EXCLUDED.description, " +
             "wagon_uuid = EXCLUDED.wagon_uuid, " +
+            "username = EXCLUDED.username, " +
             "created_at = EXCLUDED.created_at, " +
             "updated_at = EXCLUDED.updated_at, " +
             "sync_status = EXCLUDED.sync_status ",
@@ -31,6 +32,7 @@ public interface InventoryGroupRepository extends JpaRepository<InventoryGroup, 
             @Param("name") String name,
             @Param("description") String description,
             @Param("wagonUuid") String wagonUuid,
+            @Param("username") String username,
             @Param("createdAt") java.util.Date createdAt,
             @Param("updatedAt") java.util.Date updatedAt,
             @Param("syncStatus") String syncStatus
