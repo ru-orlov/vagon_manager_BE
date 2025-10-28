@@ -1,0 +1,11 @@
+id,brand_id,name,year_of_manufacture,price
+1,1,X6,2021,80000
+2,1,i8,2021,147500
+3,2,Q4 e-tron,2022,43900
+4,2,SQ5 Sportback,2022,59000
+5,3,Bentayga,2020,160000
+6,3,Flying Spur W12 Sedan,2021,216700
+7,4,Portofino,2020,215000
+8,4,F8 Spider,2020,274280
+9,5,RAV 4 HYBRID XLE,2021,38434
+10,5,CAMRY SE,2021,31877
