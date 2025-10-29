@@ -35,10 +35,9 @@
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="id" type="BIGINT"/>
             <column name="wagon_uuid" type="uuid"/>
             <column name="number" type="VARCHAR(32)"/>
-            <column name="action_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
             <column name="username" type="VARCHAR(32)"/>
             <column name="operation" type="VARCHAR(16)">
                 <constraints nullable="false"/>
@@ -55,41 +54,41 @@
             <column name="number"/>
         </createIndex>
 
-        <sql>
-            <![CDATA[
-            CREATE OR REPLACE FUNCTION public.wagon_audit_trigger_fn() RETURNS trigger AS $$
-            BEGIN
-                IF TG_OP = 'INSERT' THEN
-                    INSERT INTO wagon_audit(
-                        wagon_uuid, number, action_at, username, operation, old_data, new_data
-                    ) VALUES (
-                        NEW.uuid, NEW.number, now(), NEW.username, TG_OP, NULL, row_to_json(NEW)::jsonb
-                    );
-                    RETURN NEW;
-                ELSIF TG_OP = 'UPDATE' THEN
-                    INSERT INTO wagon_audit(
-                        wagon_uuid, number, action_at, username, operation, changed_by, old_data, new_data
-                    ) VALUES (
-                        NEW.uuid, NEW.number, now(), NEW.username, TG_OP, row_to_json(OLD)::jsonb, row_to_json(NEW)::jsonb
-                    );
-                    RETURN NEW;
-                ELSIF TG_OP = 'DELETE' THEN
-                    INSERT INTO wagon_audit(
-                        wagon_uuid, number, action_at, username, operation, changed_by, old_data, new_data
-                    ) VALUES (
-                        OLD.uuid, OLD.number, now(), OLD.username, TG_OP, current_user, now(), row_to_json(OLD)::jsonb, NULL
-                    );
-                    RETURN OLD;
-                END IF;
-                RETURN NULL;
-            END;
-            $$ LANGUAGE plpgsql;
+        <createProcedure>
+        CREATE OR REPLACE FUNCTION public.wagon_audit_trigger_fn() RETURNS trigger LANGUAGE plpgsql AS $$
+        BEGIN
+            IF TG_OP = 'INSERT' THEN
+                INSERT INTO wagon_audit(
+                    wagon_uuid, number, updated_at, username, operation, old_data, new_data
+                ) VALUES (
+                    NEW.uuid, NEW.number, now(), NEW.username, TG_OP, NULL, row_to_json(NEW)::jsonb
+                );
+                RETURN NEW;
+            ELSIF TG_OP = 'UPDATE' THEN
+                INSERT INTO wagon_audit(
+                    wagon_uuid, number, updated_at, username, operation, changed_by, old_data, new_data
+                ) VALUES (
+                    NEW.uuid, NEW.number, now(), NEW.username, TG_OP, row_to_json(OLD)::jsonb, row_to_json(NEW)::jsonb
+                );
+                RETURN NEW;
+            ELSIF TG_OP = 'DELETE' THEN
+                INSERT INTO wagon_audit(
+                    wagon_uuid, number, updated_at, username, operation, changed_by, old_data, new_data
+                ) VALUES (
+                    OLD.uuid, OLD.number, now(), OLD.username, TG_OP, current_user, now(), row_to_json(OLD)::jsonb, NULL
+                );
+                RETURN OLD;
+            END IF;
+            RETURN NULL;
+        END;
+        $$;
+        </createProcedure>
 
+        <sql>
             DROP TRIGGER IF EXISTS trg_wagon_audit ON wagon;
             CREATE TRIGGER trg_wagon_audit
             AFTER INSERT OR UPDATE OR DELETE ON wagon
             FOR EACH ROW EXECUTE FUNCTION public.wagon_audit_trigger_fn();
-            ]]>
         </sql>
 
         <createTable tableName="inventory_group">
@@ -106,10 +105,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="TEXT"/>
+            <column name="username" type="VARCHAR(32)"/>
             <column name="created_at" type="TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
             <column name="sync_status" type="VARCHAR(32)"/>
-            <column name="username" type="VARCHAR(32)"/>
         </createTable>
         <createIndex tableName="inventory_group" indexName="idx_inventory_group_uuid_unique" unique="true">
             <column name="uuid"/>
@@ -125,35 +124,11 @@
             <column name="inventory_group_id" type="BIGINT"/>
             <column name="inventory_group_uuid" type="uuid"/>
             <column name="wagon_uuid" type="uuid"/>
-            <column name="sync_status" type="VARCHAR(32)"/>
-            <column name="username" type="VARCHAR(32)"/>
             <column name="operation" type="VARCHAR(16)">
                 <constraints nullable="false"/>
             </column>
-            <column name="changed_by" type="VARCHAR(128)"/>
-            <column name="changed_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
-            <column name="old_data" type="JSONB"/>
-            <column name="new_data" type="JSONB"/>
-        </createTable>
-
-        <createTable tableName="inventory_group_audit">
-            <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="inventory_group_id" type="BIGINT"/>
-            <column name="inventory_group_uuid" type="uuid"/>
-            <column name="wagon_uuid" type="uuid"/>
-            <column name="name" type="VARCHAR(128)"/>
-            <column name="description" type="TEXT"/>
-            <column name="created_at" type="TIMESTAMP"/>
-            <column name="updated_at" type="TIMESTAMP"/>
-            <column name="sync_status" type="VARCHAR(32)"/>
             <column name="username" type="VARCHAR(32)"/>
-            <column name="operation" type="VARCHAR(16)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="changed_by" type="VARCHAR(128)"/>
-            <column name="changed_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
             <column name="old_data" type="JSONB"/>
             <column name="new_data" type="JSONB"/>
         </createTable>
@@ -165,46 +140,41 @@
             <column name="wagon_uuid"/>
         </createIndex>
 
+        <createProcedure>
+        CREATE OR REPLACE FUNCTION public.inventory_group_audit_trigger_fn() RETURNS trigger LANGUAGE plpgsql AS $body$
+        BEGIN
+            IF TG_OP = 'INSERT' THEN
+                INSERT INTO inventory_group_audit(
+                    inventory_group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
+                ) VALUES (
+                    new.uuid, new.wagon_uuid, new.username, new.username, TG_OP, now(), null, row_to_json(new)::jsonb
+                );
+                RETURN NEW;
+            ELSIF TG_OP = 'UPDATE' THEN
+                INSERT INTO inventory_group_audit(
+                    inventory_group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
+                ) VALUES (
+                    new.uuid, new.wagon_uuid, new.username, TG_OP, now(), row_to_json(old)::jsonb, row_to_json(new)::jsonb
+                );
+                RETURN NEW;
+            ELSIF TG_OP = 'DELETE' THEN
+                INSERT INTO inventory_group_audit(
+                    inventory_group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
+                ) VALUES (
+                    old.uuid, old.wagon_uuid, old.username, TG_OP, now(), row_to_json(old)::jsonb, null
+                );
+                RETURN OLD;
+            END IF;
+            RETURN NULL;
+        END;
+        $body$;
+        </createProcedure>
+
         <sql>
-        <![CDATA[
-        create or replace function public.inventory_group_audit_trigger_fn() returns trigger as $$
-        begin
-            if tg_op = 'INSERT' then
-                insert into inventory_group_audit(
-                    inventory_group_uuid, wagon_uuid, name, description, created_at, updated_at, sync_status, username,
-                    operation, changed_by, changed_at, old_data, new_data
-                ) values (
-                    new.uuid, new.wagon_uuid, new.name, new.description, new.created_at, new.updated_at, new.sync_status, new.username,
-                    tg_op, current_user, now(), null, row_to_json(new)::jsonb
-                );
-                return new;
-            elsif tg_op = 'UPDATE' then
-                insert into inventory_group_audit(
-                    inventory_group_uuid, wagon_uuid, name, description, created_at, updated_at, sync_status, username,
-                    operation, changed_by, changed_at, old_data, new_data
-                ) values (
-                    new.uuid, new.wagon_uuid, new.name, new.description, new.created_at, new.updated_at, new.sync_status, new.username,
-                    tg_op, current_user, now(), row_to_json(old)::jsonb, row_to_json(new)::jsonb
-                );
-                return new;
-            elsif tg_op = 'DELETE' then
-                insert into inventory_group_audit(
-                    inventory_group_uuid, wagon_uuid, name, description, created_at, updated_at, sync_status, username,
-                    operation, changed_by, changed_at, old_data, new_data
-                ) values (
-                    old.uuid, old.wagon_uuid, old.name, old.description, old.created_at, old.updated_at, old.sync_status, old.username,
-                    tg_op, current_user, now(), row_to_json(old)::jsonb, null
-                );
-                return old;
-            end if;
-            return null;
-        end;
-        $$ language plpgsql;
-        drop trigger if exists trg_inventory_group_audit on inventory_group;
-        create trigger trg_inventory_group_audit
-        after insert or update or delete on inventory_group
-        for each row execute function public.inventory_group_audit_trigger_fn();
-        ]]>>
+        DROP TRIGGER IF EXISTS trg_inventory_group_audit ON inventory_group;
+        CREATE TRIGGER trg_inventory_group_audit
+        AFTER INSERT OR UPDATE OR DELETE ON inventory_group
+        FOR EACH ROW EXECUTE FUNCTION public.inventory_group_audit_trigger_fn();
         </sql>
 
 
@@ -251,26 +221,61 @@
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="inventory_item_id" type="BIGINT"/>
             <column name="inventory_item_uuid" type="uuid"/>
             <column name="group_uuid" type="uuid"/>
             <column name="wagon_uuid" type="uuid"/>
-            <column name="name" type="VARCHAR(128)"/>
-            <column name="description" type="TEXT"/>
-            <column name="quantity" type="INTEGER"/>
-            <column name="photos" type="VARCHAR(1028)"/>
-            <column name="created_at" type="TIMESTAMP"/>
-            <column name="updated_at" type="TIMESTAMP"/>
-            <column name="sync_status" type="VARCHAR(32)"/>
-            <column name="photo_sync_status" type="VARCHAR(32)"/>
             <column name="username" type="VARCHAR(32)"/>
             <column name="operation" type="VARCHAR(16)">
                 <constraints nullable="false"/>
             </column>
-            <column name="changed_by" type="VARCHAR(128)"/>
-            <column name="changed_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
             <column name="old_data" type="JSONB"/>
             <column name="new_data" type="JSONB"/>
         </createTable>
+        <createIndex tableName="inventory_item_audit" indexName="idx_inventory_item_audit_inventory_item_uuid" unique="false">
+            <column name="inventory_item_uuid"/>
+        </createIndex>
+        <createIndex tableName="inventory_item_audit" indexName="idx_inventory_item_audit_group_uuid" unique="false">
+            <column name="group_uuid"/>
+        </createIndex>
+        <createIndex tableName="inventory_item_audit" indexName="idx_inventory_item_audit_wagon_uuid" unique="false">
+            <column name="wagon_uuid"/>
+        </createIndex>
+
+        <createProcedure>
+        CREATE OR REPLACE FUNCTION public.inventory_item_audit_trigger_fn() RETURNS trigger LANGUAGE plpgsql AS $body$
+        BEGIN
+            IF TG_OP = 'INSERT' THEN
+                INSERT INTO inventory_item_audit(
+                    inventory_item_uuid, group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
+                ) VALUES (
+                    new.uuid, new.group_uuid, new.wagon_uuid, new.username, tg_op, now(), null, row_to_json(new)::jsonb
+                );
+                return new;
+            ELSIF TG_OP = 'UPDATE' THEN
+                INSERT INTO inventory_item_audit(
+                    inventory_item_uuid, group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
+                ) VALUES (
+                    new.uuid, new.group_uuid, new.wagon_uuid, new.username, tg_op, now(), row_to_json(old)::jsonb, row_to_json(new)::jsonb
+                );
+                return new;
+            ELSIF TG_OP = 'DELETE' THEN
+                INSERT INTO inventory_item_audit(
+                    inventory_item_uuid, group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
+                ) VALUES (
+                    old.uuid, old.group_uuid, old.wagon_uuid, old.username, tg_op, now(), row_to_json(old)::jsonb, null
+                );
+                RETURN OLD;
+            END IF;
+            RETURN NULL;
+        END;
+        $body$;
+        </createProcedure>
+        <sql>
+        DROP TRIGGER IF EXISTS trg_inventory_item_audit ON inventory_item;
+        CREATE TRIGGER trg_inventory_item_audit
+        AFTER INSERT OR UPDATE OR DELETE ON inventory_item
+        FOR EACH ROW EXECUTE FUNCTION public.inventory_item_audit_trigger_fn();
+        </sql>
     </changeSet>
 </databaseChangeLog>
