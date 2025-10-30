@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class InventoryItemService {
@@ -29,12 +30,12 @@ public class InventoryItemService {
         return itemRepository.findAll();
     }
 
-    public Optional<InventoryItem> getItemByUuid(String uuid) {
+    public Optional<InventoryItem> getItemByUuid(UUID uuid) {
         return itemRepository.findByUuid(uuid);
     }
 
     public List<InventoryItem> getItemsByGroupUuid(String groupUuid) {
-        return itemRepository.findAllByGroupUuid(groupUuid);
+        return itemRepository.findAllByGroupUuid(UUID.fromString(groupUuid));
     }
 
     public InventoryItem saveItem(InventoryItem item) {

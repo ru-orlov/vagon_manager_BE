@@ -18,7 +18,7 @@ public class Wagon {
     private Long id;
 
     @Column(nullable=false, unique=true)
-    private String uuid;
+    private UUID uuid;
 
     @Column(nullable=false)
     private String number;

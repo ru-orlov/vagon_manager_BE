@@ -9,10 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface InventoryGroupRepository extends JpaRepository<InventoryGroup, Long> {
-    Optional<InventoryGroup> findByUuid(String uuid);
-    List<InventoryGroup> findAllByWagonUuid(String wagonUuid);
+    Optional<InventoryGroup> findByUuid(UUID uuid);
+    List<InventoryGroup> findAllByWagonUuid(UUID wagonUuid);
 
     @Modifying
     @Transactional
@@ -22,16 +23,24 @@ public interface InventoryGroupRepository extends JpaRepository<InventoryGroup, 
             "name = EXCLUDED.name, " +
             "description = EXCLUDED.description, " +
             "wagon_uuid = EXCLUDED.wagon_uuid, " +
-            "username = EXCLUDED.username, " +
+            "userName = EXCLUDED.userName, " +
             "created_at = EXCLUDED.created_at, " +
             "updated_at = EXCLUDED.updated_at, " +
-            "sync_status = EXCLUDED.sync_status ",
+            "sync_status = EXCLUDED.sync_status " +
+            "WHERE (inventory_group.name IS DISTINCT FROM EXCLUDED.name OR " +
+            "inventory_group.description IS DISTINCT FROM EXCLUDED.description OR " +
+            "inventory_group.wagon_uuid IS DISTINCT FROM EXCLUDED.wagon_uuid OR " +
+            "inventory_group.userName IS DISTINCT FROM EXCLUDED.userName OR " +
+            "inventory_group.created_at IS DISTINCT FROM EXCLUDED.created_at OR " +
+            "inventory_group.updated_at IS DISTINCT FROM EXCLUDED.updated_at OR " +
+            "inventory_group.sync_status IS DISTINCT FROM EXCLUDED.sync_status)",
             nativeQuery = true)
+
     int upsertInventoryGroup(
-            @Param("uuid") String uuid,
+            @Param("uuid") UUID uuid,
             @Param("name") String name,
             @Param("description") String description,
-            @Param("wagonUuid") String wagonUuid,
+            @Param("wagonUuid") UUID wagonUuid,
             @Param("username") String username,
             @Param("createdAt") java.util.Date createdAt,
             @Param("updatedAt") java.util.Date updatedAt,

@@ -8,9 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface WagonRepository extends JpaRepository<Wagon, Long> {
-    Optional<Wagon> findByUuid(String uuid);
+    Optional<Wagon> findByUuid(UUID uuid);
 
     @Modifying
     @Transactional
@@ -21,10 +22,13 @@ public interface WagonRepository extends JpaRepository<Wagon, Long> {
             "type = EXCLUDED.type, " +
             "username = EXCLUDED.username, " +
             "created_at = EXCLUDED.created_at, " +
-            "updated_at = EXCLUDED.updated_at ",
+            "updated_at = EXCLUDED.updated_at " +
+            "WHERE (wagon.username IS DISTINCT FROM EXCLUDED.username) " +
+            "OR (wagon.created_at IS DISTINCT FROM EXCLUDED.created_at) " +
+            "OR (wagon.updated_at IS DISTINCT FROM EXCLUDED.updated_at)",
             nativeQuery = true)
     int upsertWagon(
-            @Param("uuid") String uuid,
+            @Param("uuid") UUID uuid,
             @Param("number") String number,
             @Param("type") String type,
             @Param("username") String username,

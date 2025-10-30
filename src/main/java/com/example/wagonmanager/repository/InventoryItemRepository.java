@@ -9,10 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface InventoryItemRepository extends JpaRepository<InventoryItem, Long> {
-    Optional<InventoryItem> findByUuid(String uuid);
-    List<InventoryItem> findAllByGroupUuid(String groupUuid);
+    Optional<InventoryItem> findByUuid(UUID uuid);
+    List<InventoryItem> findAllByGroupUuid(UUID groupUuid);
 
     @Modifying
     @Transactional
@@ -25,15 +26,25 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
             "description = EXCLUDED.description, " +
             "quantity = EXCLUDED.quantity, " +
             "photos = EXCLUDED.photos, " +
-            "userName = EXCLUDED.userName, " +
+            "username = EXCLUDED.username, " +
             "created_at = EXCLUDED.created_at, " +
             "updated_at = EXCLUDED.updated_at, " +
-            "sync_status = EXCLUDED.sync_status ",
+            "sync_status = EXCLUDED.sync_status " +
+            "WHERE (EXCLUDED.name IS DISTINCT FROM inventory_item.name) " +
+            "OR (EXCLUDED.description IS DISTINCT FROM inventory_item.description) " +
+            "OR (EXCLUDED.quantity IS DISTINCT FROM inventory_item.quantity) " +
+            "OR (EXCLUDED.photos IS DISTINCT FROM inventory_item.photos) " +
+            "OR (EXCLUDED.username IS DISTINCT FROM inventory_item.username) " +
+            "OR (EXCLUDED.created_at IS DISTINCT FROM inventory_item.created_at) " +
+            "OR (EXCLUDED.updated_at IS DISTINCT FROM inventory_item.updated_at) " +
+            "OR (EXCLUDED.sync_status IS DISTINCT FROM inventory_item.sync_status)",
             nativeQuery = true)
+
+
     int upsertInventoryItem(
-            @Param("uuid") String uuid,
-            @Param("groupUuid") String groupUuid,
-            @Param("wagonUuid") String wagonUuid,
+            @Param("uuid") UUID uuid,
+            @Param("groupUuid") UUID groupUuid,
+            @Param("wagonUuid") UUID wagonUuid,
             @Param("name") String name,
             @Param("description") String description,
             @Param("quantity") int quantity,

@@ -27,9 +27,9 @@
         <createIndex tableName="wagon" indexName="idx_wagon_uuid_unique" unique="true">
             <column name="uuid"/>
         </createIndex>
-        <createIndex tableName="wagon" indexName="idx_wagon_number_unique" unique="true">
+<!--        <createIndex tableName="wagon" indexName="idx_wagon_number_unique" unique="true">
             <column name="number"/>
-        </createIndex>
+        </createIndex>-->
 
         <createTable tableName="wagon_audit">
             <column name="id" type="BIGSERIAL">
@@ -66,14 +66,14 @@
                 RETURN NEW;
             ELSIF TG_OP = 'UPDATE' THEN
                 INSERT INTO wagon_audit(
-                    wagon_uuid, number, updated_at, username, operation, changed_by, old_data, new_data
+                    wagon_uuid, number, updated_at, username, operation, old_data, new_data
                 ) VALUES (
                     NEW.uuid, NEW.number, now(), NEW.username, TG_OP, row_to_json(OLD)::jsonb, row_to_json(NEW)::jsonb
                 );
                 RETURN NEW;
             ELSIF TG_OP = 'DELETE' THEN
                 INSERT INTO wagon_audit(
-                    wagon_uuid, number, updated_at, username, operation, changed_by, old_data, new_data
+                    wagon_uuid, number, updated_at, username, operation, old_data, new_data
                 ) VALUES (
                     OLD.uuid, OLD.number, now(), OLD.username, TG_OP, current_user, now(), row_to_json(OLD)::jsonb, NULL
                 );
@@ -147,7 +147,7 @@
                 INSERT INTO inventory_group_audit(
                     inventory_group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
                 ) VALUES (
-                    new.uuid, new.wagon_uuid, new.username, new.username, TG_OP, now(), null, row_to_json(new)::jsonb
+                    new.uuid, new.wagon_uuid, new.username, TG_OP, now(), null, row_to_json(new)::jsonb
                 );
                 RETURN NEW;
             ELSIF TG_OP = 'UPDATE' THEN
@@ -198,9 +198,7 @@
             <column name="quantity" type="INTEGER" defaultValueNumeric="0">
                 <constraints nullable="false"/>
             </column>
-            <column name="photos" type="VARCHAR(1028)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="photos" type="VARCHAR(1028)"/>
             <column name="created_at" type="TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
             <column name="sync_status" type="VARCHAR(32)"/>

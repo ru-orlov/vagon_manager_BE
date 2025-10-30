@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class InventoryGroupService {
@@ -24,12 +25,12 @@ public class InventoryGroupService {
         return groupRepository.findAll();
     }
 
-    public Optional<InventoryGroup> getGroupByUuid(String uuid) {
+    public Optional<InventoryGroup> getGroupByUuid(UUID uuid) {
         return groupRepository.findByUuid(uuid);
     }
 
     public List<InventoryGroup> getGroupsByVagonUuid(String wagonUuid) {
-        return groupRepository.findAllByWagonUuid(wagonUuid);
+        return groupRepository.findAllByWagonUuid(UUID.fromString(wagonUuid));
     }
 
     public InventoryGroup saveGroup(InventoryGroup group) {

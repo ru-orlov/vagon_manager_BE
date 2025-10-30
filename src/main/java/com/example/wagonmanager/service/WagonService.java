@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class WagonService {
@@ -24,7 +25,7 @@ public class WagonService {
         return wagonRepository.findAll();
     }
 
-    public Optional<Wagon> getWagonByUuid(String uuid) {
+    public Optional<Wagon> getWagonByUuid(UUID uuid) {
         return wagonRepository.findByUuid(uuid);
     }
     @Transactional

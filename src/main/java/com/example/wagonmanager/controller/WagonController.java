@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/wagon")
@@ -26,7 +27,7 @@ public class WagonController {
 
     @GetMapping("/{uuid}")
     public ResponseEntity<Wagon> getVagonByUuid(@PathVariable String uuid) {
-        return wagonService.getWagonByUuid(uuid)
+        return wagonService.getWagonByUuid(UUID.fromString(uuid))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
