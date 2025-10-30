@@ -18,7 +18,7 @@ public class InventoryGroup {
     private Long id;
 
     @Column(nullable=false, unique=true)
-    private String uuid;
+    private UUID uuid;
 
     @Column(nullable=false)
     private String name;
@@ -27,7 +27,7 @@ public class InventoryGroup {
     private String description;
 
     @Column(name="wagon_uuid")
-    private String wagonUuid;
+    private UUID wagonUuid;
 
     @Column(name="created_at")
     private Date createdAt;

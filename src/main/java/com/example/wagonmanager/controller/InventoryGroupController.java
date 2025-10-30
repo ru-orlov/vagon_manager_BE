@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/groups")
@@ -26,7 +27,7 @@ public class InventoryGroupController {
 
     @GetMapping("/{uuid}")
     public ResponseEntity<InventoryGroup> getGroupByUuid(@PathVariable String uuid) {
-        return groupService.getGroupByUuid(uuid)
+        return groupService.getGroupByUuid(UUID.fromString(uuid))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

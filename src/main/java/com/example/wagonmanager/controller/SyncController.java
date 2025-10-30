@@ -69,13 +69,13 @@ public class SyncController {
     @GetMapping("/downloadwagon")
     public SyncPayload wagonWithItems(@RequestParam(name = "uuid") String wagonuuid) {
         System.out.println("wagonuuid " + wagonuuid);
-        Optional<Wagon> wagons = wagonService.getWagonByUuid(wagonuuid);
+        Optional<Wagon> wagons = wagonService.getWagonByUuid(UUID.fromString(wagonuuid));
         System.out.println("wagons " + wagons.isEmpty());
 
         SyncPayload payload = new SyncPayload();
         if (wagons.isPresent()) {
             Wagon dto = new Wagon();
-            dto.setUuid(wagonuuid);
+            dto.setUuid(UUID.fromString(wagonuuid));
             dto.setNumber(wagons.get().getNumber());
             dto.setType(wagons.get().getType());
             dto.setCreatedAt(wagons.get().getCreatedAt());

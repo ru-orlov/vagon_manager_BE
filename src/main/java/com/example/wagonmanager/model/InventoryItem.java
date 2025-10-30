@@ -18,13 +18,13 @@ public class InventoryItem {
     private Long id;
 
     @Column(nullable=false, unique=true)
-    private String uuid;
+    private UUID uuid;
 
     @Column(name="group_uuid", nullable=false)
-    private String groupUuid;
+    private UUID groupUuid;
 
     @Column(name="wagon_uuid", nullable=false)
-    private String wagonUuid;
+    private UUID wagonUuid;
 
     @Column(nullable=false)
     private String name;
