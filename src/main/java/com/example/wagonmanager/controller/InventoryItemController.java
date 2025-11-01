@@ -1,23 +1,34 @@
 package com.example.wagonmanager.controller;
 
+import com.example.wagonmanager.dto.WagonInventoryResponse;
+import com.example.wagonmanager.model.InventoryGroup;
 import com.example.wagonmanager.model.InventoryItem;
+import com.example.wagonmanager.model.Wagon;
+import com.example.wagonmanager.service.InventoryGroupService;
 import com.example.wagonmanager.service.InventoryItemService;
+import com.example.wagonmanager.service.WagonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/items")
 public class InventoryItemController {
 
     private final InventoryItemService itemService;
+    private final WagonService wagonService;
+    private final InventoryGroupService groupService;
 
     @Autowired
-    public InventoryItemController(InventoryItemService itemService) {
+    public InventoryItemController(InventoryItemService itemService, WagonService wagonService, InventoryGroupService groupService) {
         this.itemService = itemService;
+        this.wagonService = wagonService;
+        this.groupService = groupService;
     }
 
     @GetMapping
@@ -30,6 +41,23 @@ public class InventoryItemController {
         return itemService.getItemByUuid(UUID.fromString(uuid))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/wagon/{uuid}/inventory")
+    public ResponseEntity<WagonInventoryResponse> getWagonInventory(@PathVariable String uuid) {
+        Optional<Wagon> optionalWagon = wagonService.getWagonByUuid(UUID.fromString(uuid));
+        if (optionalWagon.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Wagon wagon = optionalWagon.get();
+        List<InventoryGroup> groups = groupService.getGroupsByWagonUuid(uuid);
+        List<WagonInventoryResponse.GroupWithItems> groupsWithItems = groups.stream().map(g -> {
+            List<InventoryItem> items = itemService.getItemsByGroupUuid(String.valueOf(g.getUuid()));
+            return new WagonInventoryResponse.GroupWithItems(g, items);
+        }).collect(Collectors.toList());
+
+        WagonInventoryResponse resp = new WagonInventoryResponse(wagon, groupsWithItems);
+        return ResponseEntity.ok(resp);
     }
 
     @GetMapping("/group/{groupUuid}")

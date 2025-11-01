@@ -1,7 +1,6 @@
 package com.example.wagonmanager.service;
 
 import com.example.wagonmanager.model.InventoryGroup;
-import com.example.wagonmanager.model.Wagon;
 import com.example.wagonmanager.repository.InventoryGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class InventoryGroupService {
         return groupRepository.findByUuid(uuid);
     }
 
-    public List<InventoryGroup> getGroupsByVagonUuid(String wagonUuid) {
+    public List<InventoryGroup> getGroupsByWagonUuid(String wagonUuid) {
         return groupRepository.findAllByWagonUuid(UUID.fromString(wagonUuid));
     }
 

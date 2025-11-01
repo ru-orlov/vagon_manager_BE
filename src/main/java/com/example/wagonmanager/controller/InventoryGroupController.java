@@ -32,9 +32,9 @@ public class InventoryGroupController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/vagon/{vagonUuid}")
-    public List<InventoryGroup> getGroupsByVagonUuid(@PathVariable String vagonUuid) {
-        return groupService.getGroupsByVagonUuid(vagonUuid);
+    @GetMapping("/wagon/{wagonUuid}")
+    public List<InventoryGroup> getGroupsByWagonUuid(@PathVariable String wagonUuid) {
+        return groupService.getGroupsByWagonUuid(wagonUuid);
     }
 
     @PostMapping

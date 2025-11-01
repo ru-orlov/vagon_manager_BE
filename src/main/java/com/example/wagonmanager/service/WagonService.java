@@ -1,5 +1,6 @@
 package com.example.wagonmanager.service;
 
+import com.example.wagonmanager.dto.WagonDto;
 import com.example.wagonmanager.model.Wagon;
 import com.example.wagonmanager.repository.WagonRepository;
 import org.springframework.beans.factory.annotation.Autowired;

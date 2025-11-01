@@ -1,6 +1,9 @@
 package com.example.wagonmanager.repository;
 
+import com.example.wagonmanager.dto.WagonDto;
 import com.example.wagonmanager.model.Wagon;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +38,6 @@ public interface WagonRepository extends JpaRepository<Wagon, Long> {
             @Param("createdAt") java.util.Date createdAt,
             @Param("updatedAt") java.util.Date updatedAt
     );
+
+    Page<Wagon> findByNumberContainingIgnoreCaseOrTypeContainingIgnoreCase(String number, String type, Pageable pageable);
 }
