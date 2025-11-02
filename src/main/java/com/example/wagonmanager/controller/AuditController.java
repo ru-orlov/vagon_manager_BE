@@ -24,7 +24,7 @@ public class AuditController {
      * GET /api/v1/audit/wagon/{wagonUuid}?page=0&size=50&since=2025-10-01T00:00:00Z
      * Reads from wagon_audit table.
      */
-    @GetMapping("/audit/wagon/{wagonUuid}")
+    @GetMapping("/wagon/{wagonUuid}")
     public PagedResponse<AuditEntry> getWagonAudit(
             @PathVariable String wagonUuid,
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -43,7 +43,7 @@ public class AuditController {
      * GET /api/v1/audit/item/{itemUuid}?page=0&size=50&since=...
      * Reads from inventory_item_audit table.
      */
-    @GetMapping("/audit/item/{itemUuid}")
+    @GetMapping("/item/{itemUuid}")
     public PagedResponse<AuditEntry> getItemAudit(
             @PathVariable String itemUuid,
             @RequestParam(name = "page", defaultValue = "0") int page,
