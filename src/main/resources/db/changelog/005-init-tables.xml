@@ -12,7 +12,7 @@
                 <tableExists tableName="poinscsuvednastr"/>
             </not>
         </preConditions>
-        <createTable tableName="poinscsuvednastr">
+        <createTable tableName="poinscsuvednastr" remarks="Рассылка по источнику">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -38,7 +38,7 @@
                 <tableExists tableName="poinsd_refaults"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsd_refaults">
+        <createTable tableName="poinsd_refaults" remarks="Причина расторжения">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -64,7 +64,7 @@
                 <tableExists tableName="poinsdadataconfig"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdadataconfig">
+        <createTable tableName="poinsdadataconfig" remarks="Конфигурация дадата">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -85,7 +85,7 @@
                 <tableExists tableName="poinsdannietipaobander"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdannietipaobander">
+        <createTable tableName="poinsdannietipaobander" remarks="Данные типа обьекта андеррайтинга">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -111,7 +111,7 @@
                 <tableExists tableName="poinsdecisionloss"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdecisionloss">
+        <createTable tableName="poinsdecisionloss" remarks="Решение по убыткам">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -135,7 +135,7 @@
                 <tableExists tableName="poinsdeistviesostoania"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdeistviesostoania">
+        <createTable tableName="poinsdeistviesostoania" remarks="Действие при переходе в состояние">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -159,7 +159,7 @@
                 <tableExists tableName="poinsdiapasonbso"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdiapasonbso">
+        <createTable tableName="poinsdiapasonbso" remarks="Диапазон БСО">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -181,7 +181,7 @@
                 <tableExists tableName="poinsdiapnomerprodukt"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdiapnomerprodukt">
+        <createTable tableName="poinsdiapnomerprodukt" remarks="привязка диапазона номеров к страховому продукту">
             <column name="DIAP_NOMER" type="bigint(20)"/>
             <column name="PRODUKT" type="bigint(20)"/>
         </createTable>
@@ -199,7 +199,7 @@
                 <tableExists tableName="poinsdog2statem"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdog2statem">
+        <createTable tableName="poinsdog2statem" remarks="Привязка договора к конесному автомату состояний">
             <column name="dogovor" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -221,7 +221,7 @@
                 <tableExists tableName="poinsdogdregpravilo"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdogdregpravilo">
+        <createTable tableName="poinsdogdregpravilo" remarks="Договор с датой регистрацией в прошлом">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -248,7 +248,7 @@
                 <tableExists tableName="poinsdokobektosmri"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdokobektosmri">
+        <createTable tableName="poinsdokobektosmri" remarks="Документ обьекта осмотра риск инженером">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -265,7 +265,7 @@
                 <tableExists tableName="poinsdoksostander"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdoksostander">
+        <createTable tableName="poinsdoksostander" remarks="Документы состояния андеррайтинга">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -282,7 +282,7 @@
                 <tableExists tableName="poinsdopfilerev"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdopfilerev">
+        <createTable tableName="poinsdopfilerev" remarks="Дополнительный файл ревизии тарифа">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -305,7 +305,7 @@
                 <tableExists tableName="poinsdoprashcfg"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdoprashcfg">
+        <createTable tableName="poinsdoprashcfg" remarks="Настройки дополнительных расходов">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -340,7 +340,7 @@
                 <tableExists tableName="poinsdopustznacparam"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdopustznacparam">
+        <createTable tableName="poinsdopustznacparam" remarks="Допустимое значение">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -361,7 +361,7 @@
                 <tableExists tableName="poinsdostpartner"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdostpartner">
+        <createTable tableName="poinsdostpartner" remarks="Привязка сотрудника к доступному партнеру ск">
             <column name="sotrudnik" type="bigint(20)"/>
             <column name="partner" type="bigint(20)"/>
         </createTable>
@@ -379,7 +379,7 @@
                 <tableExists tableName="poinsdostpodr"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdostpodr">
+        <createTable tableName="poinsdostpodr" remarks="Привязка сотрудника к доступному подразделению">
             <column name="sotrudnik" type="bigint(20)"/>
             <column name="kurPodr" type="bigint(20)"/>
         </createTable>
@@ -397,7 +397,7 @@
                 <tableExists tableName="poinsdosttp"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdosttp">
+        <createTable tableName="poinsdosttp" remarks="Привязка сотрудника к доступной точке продаж">
             <column name="sotrudnik" type="bigint(20)"/>
             <column name="tp" type="bigint(20)"/>
         </createTable>
@@ -415,7 +415,7 @@
                 <tableExists tableName="poinsdostupsposobopalti"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdostupsposobopalti">
+        <createTable tableName="poinsdostupsposobopalti" remarks="Доступный способ оплаты">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -433,7 +433,7 @@
                 <tableExists tableName="poinsdov2prod"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdov2prod">
+        <createTable tableName="poinsdov2prod" remarks="Привязка доверенности к страховому продукту">
             <column name="prod" type="bigint(20)"/>
             <column name="dov" type="bigint(20)"/>
         </createTable>
@@ -451,7 +451,7 @@
                 <tableExists tableName="poinsdoverennost"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdoverennost">
+        <createTable tableName="poinsdoverennost" remarks="Доверенность">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -487,7 +487,7 @@
                 <tableExists tableName="poinsdtvalctrl"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdtvalctrl">
+        <createTable tableName="poinsdtvalctrl" remarks="Журнал контроля времени">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -511,7 +511,7 @@
                 <tableExists tableName="poinsdtvalctrllog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsdtvalctrllog">
+        <createTable tableName="poinsdtvalctrllog" remarks="Запись лога журнала контроля времени">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -533,7 +533,7 @@
                 <tableExists tableName="poinselementrasceta"/>
             </not>
         </preConditions>
-        <createTable tableName="poinselementrasceta">
+        <createTable tableName="poinselementrasceta" remarks="Элемент расчета">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -556,7 +556,7 @@
                 <tableExists tableName="poinselementstrahprod"/>
             </not>
         </preConditions>
-        <createTable tableName="poinselementstrahprod">
+        <createTable tableName="poinselementstrahprod" remarks="Элемент страхового продукта">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -587,7 +587,7 @@
                 <tableExists tableName="poinsfact2plan"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsfact2plan">
+        <createTable tableName="poinsfact2plan" remarks="Фактические поступления по плану">
             <column name="fct" type="bigint(20)"/>
             <column name="pln" type="bigint(20)"/>
         </createTable>
@@ -605,7 +605,7 @@
                 <tableExists tableName="poinsfact2plateg"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsfact2plateg">
+        <createTable tableName="poinsfact2plateg" remarks="Привязка фактических поступлений к платежу">
             <column name="fct" type="bigint(20)"/>
             <column name="plat" type="bigint(20)"/>
         </createTable>
@@ -623,7 +623,7 @@
                 <tableExists tableName="poinsfailzajavki"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsfailzajavki">
+        <createTable tableName="poinsfailzajavki" remarks="Привязка типа обьекта состояния к типу обьекта доступа">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -650,7 +650,7 @@
                 <tableExists tableName="poinsfiledokobektosmri"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsfiledokobektosmri">
+        <createTable tableName="poinsfiledokobektosmri" remarks="Файл документа обьекта осмотра риск инженером">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -673,7 +673,7 @@
                 <tableExists tableName="poinsfilesostander"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsfilesostander">
+        <createTable tableName="poinsfilesostander" remarks="Файл состояния андеррайтинга">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -696,7 +696,7 @@
                 <tableExists tableName="poinsfiletemplatent"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsfiletemplatent">
+        <createTable tableName="poinsfiletemplatent" remarks="Шаблон настройки тарифа">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -718,7 +718,7 @@
                 <tableExists tableName="poinsgennumrule"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsgennumrule">
+        <createTable tableName="poinsgennumrule" remarks="Конфигурация правил генерации номеров">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -736,7 +736,7 @@
                 <tableExists tableName="poinsgrupsprtar"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsgrupsprtar">
+        <createTable tableName="poinsgrupsprtar" remarks="Группировка справочников тарификатора">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -761,7 +761,7 @@
                 <tableExists tableName="poinsiiservice"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsiiservice">
+        <createTable tableName="poinsiiservice" remarks="служба интеграции страховой информации">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -789,7 +789,7 @@
                 <tableExists tableName="poinsiiservstrahprod"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsiiservstrahprod">
+        <createTable tableName="poinsiiservstrahprod" remarks="Привязка службы интеграции к страховому продукту">
             <column name="servis" type="bigint(20)"/>
             <column name="produkt" type="bigint(20)"/>
         </createTable>
@@ -807,7 +807,7 @@
                 <tableExists tableName="poinsimpobject2deistlog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsimpobject2deistlog">
+        <createTable tableName="poinsimpobject2deistlog" remarks="Привязка лога действий пользователя к логу импортированных обьектов">
             <column name="object" type="bigint(20)"/>
             <column name="deistvlog" type="bigint(20)"/>
         </createTable>
@@ -825,7 +825,7 @@
                 <tableExists tableName="poinsimportobjlog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsimportobjlog">
+        <createTable tableName="poinsimportobjlog" remarks="Лог импортированных обьектов">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -861,7 +861,7 @@
                 <tableExists tableName="poinsimportreclog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsimportreclog">
+        <createTable tableName="poinsimportreclog" remarks="Лог импортированных записей">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -896,7 +896,7 @@
                 <tableExists tableName="poinsimprec2deistvlog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsimprec2deistvlog">
+        <createTable tableName="poinsimprec2deistvlog" remarks="Привязка записи импорта к действию">
             <column name="imprec" type="bigint(20)"/>
             <column name="deistvlog" type="bigint(20)"/>
         </createTable>
@@ -914,7 +914,7 @@
                 <tableExists tableName="poinsinsapplication"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsinsapplication">
+        <createTable tableName="poinsinsapplication" remarks="зявление об убытках">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -937,7 +937,7 @@
                 <tableExists tableName="poinsinsevent"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsinsevent">
+        <createTable tableName="poinsinsevent" remarks="страховой случай">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -961,7 +961,7 @@
                 <tableExists tableName="poinskalibrovkapecati"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskalibrovkapecati">
+        <createTable tableName="poinskalibrovkapecati" remarks="Калибровка печати">
             <column name="nastroiki" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -988,7 +988,7 @@
                 <tableExists tableName="poinsklientucast"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsklientucast">
+        <createTable tableName="poinsklientucast" remarks="Клиент участника">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1041,7 +1041,7 @@
                 <tableExists tableName="poinskodirovkadogovora"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskodirovkadogovora">
+        <createTable tableName="poinskodirovkadogovora" remarks="Кодировка договора">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1064,7 +1064,7 @@
                 <tableExists tableName="poinskomponentdog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskomponentdog">
+        <createTable tableName="poinskomponentdog" remarks="компонент договора">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1116,7 +1116,7 @@
                 <tableExists tableName="poinskontakt"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskontakt">
+        <createTable tableName="poinskontakt" remarks="Контакт технической поддержки">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1134,7 +1134,7 @@
                 <tableExists tableName="poinskontrekvizit"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskontrekvizit">
+        <createTable tableName="poinskontrekvizit" remarks="Реквизиты">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1160,7 +1160,7 @@
                 <tableExists tableName="poinskorratributadog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskorratributadog">
+        <createTable tableName="poinskorratributadog" remarks="Проверка атрибута договора">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1183,7 +1183,7 @@
                 <tableExists tableName="poinskorrektnostatributa"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskorrektnostatributa">
+        <createTable tableName="poinskorrektnostatributa" remarks="Корректность атрибута">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1207,7 +1207,7 @@
                 <tableExists tableName="poinskurpartner"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskurpartner">
+        <createTable tableName="poinskurpartner" remarks="привязка сотрудников к курирующим партнерам">
             <column name="sotrudnik" type="bigint(20)"/>
             <column name="partner" type="bigint(20)"/>
         </createTable>
@@ -1225,7 +1225,7 @@
                 <tableExists tableName="poinskurtp"/>
             </not>
         </preConditions>
-        <createTable tableName="poinskurtp">
+        <createTable tableName="poinskurtp" remarks="Привязка сотрудника к курируемой точке продаж">
             <column name="sotrudnik" type="bigint(20)"/>
             <column name="tp" type="bigint(20)"/>
         </createTable>
@@ -1243,7 +1243,7 @@
                 <tableExists tableName="poinslimitander"/>
             </not>
         </preConditions>
-        <createTable tableName="poinslimitander">
+        <createTable tableName="poinslimitander" remarks="Предел андеррайтинга">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1277,7 +1277,7 @@
                 <tableExists tableName="poinsloss"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsloss">
+        <createTable tableName="poinsloss" remarks="Убыток">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1320,7 +1320,7 @@
                 <tableExists tableName="poinslosspayment"/>
             </not>
         </preConditions>
-        <createTable tableName="poinslosspayment">
+        <createTable tableName="poinslosspayment" remarks="Оплата убытков">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1366,7 +1366,7 @@
                 <tableExists tableName="poinsmarkakciadog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsmarkakciadog">
+        <createTable tableName="poinsmarkakciadog" remarks="Привязка маркетинговых акций партнера к договору">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1388,7 +1388,7 @@
                 <tableExists tableName="poinsmarkprogdog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsmarkprogdog">
+        <createTable tableName="poinsmarkprogdog" remarks="Привязка маркетинговой программы к версии договора страхования">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1410,7 +1410,7 @@
                 <tableExists tableName="poinsmasinasost"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsmasinasost">
+        <createTable tableName="poinsmasinasost" remarks="Конечный автомат состояний">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1438,7 +1438,7 @@
                 <tableExists tableName="poinsmemberinsevent"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsmemberinsevent">
+        <createTable tableName="poinsmemberinsevent" remarks="Участник убытка">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1482,7 +1482,7 @@
                 <tableExists tableName="poinsmstate"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsmstate">
+        <createTable tableName="poinsmstate" remarks="Состояние">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1517,7 +1517,7 @@
                 <tableExists tableName="poinsnastroikatarifa"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsnastroikatarifa">
+        <createTable tableName="poinsnastroikatarifa" remarks="Настройка тарифа">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1540,7 +1540,7 @@
                 <tableExists tableName="poinsnastrpecatsotr"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsnastrpecatsotr">
+        <createTable tableName="poinsnastrpecatsotr" remarks="Настройка печати сотрудника">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1560,7 +1560,7 @@
                 <tableExists tableName="poinsnotifyparam"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsnotifyparam">
+        <createTable tableName="poinsnotifyparam" remarks="Параметры уведомлений">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1581,7 +1581,7 @@
                 <tableExists tableName="poinsnrange2ucast"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsnrange2ucast">
+        <createTable tableName="poinsnrange2ucast" remarks="Привязка диапазона номеров к участнику">
             <column name="DIAP_NOMER" type="bigint(20)"/>
             <column name="UCAST" type="bigint(20)"/>
         </createTable>
@@ -1599,7 +1599,7 @@
                 <tableExists tableName="poinsntcfg2tp"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsntcfg2tp">
+        <createTable tableName="poinsntcfg2tp" remarks="Привязка настроек тарифа к точкам продаж">
             <column name="ntCfg" type="bigint(20)"/>
             <column name="tp" type="bigint(20)"/>
         </createTable>
@@ -1617,7 +1617,7 @@
                 <tableExists tableName="poinsntcfg2ucastnik"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsntcfg2ucastnik">
+        <createTable tableName="poinsntcfg2ucastnik" remarks="Привязка конфигурации настроек тарифа к участнику страхового рынка">
             <column name="ntCfg" type="bigint(20)"/>
             <column name="ucastnik" type="bigint(20)"/>
         </createTable>
@@ -1635,7 +1635,7 @@
                 <tableExists tableName="poinsnumberingsettings"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsnumberingsettings">
+        <createTable tableName="poinsnumberingsettings" remarks="Настройки правил генерации номеров">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1663,7 +1663,7 @@
                 <tableExists tableName="poinsnumbsettingscompref"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsnumbsettingscompref">
+        <createTable tableName="poinsnumbsettingscompref" remarks="Правило генерации номеров со сложным префиксом">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1681,7 +1681,7 @@
                 <tableExists tableName="poinsnumbsettingsnabor"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsnumbsettingsnabor">
+        <createTable tableName="poinsnumbsettingsnabor" remarks="Настройки правил генерации номеров для набора">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1703,7 +1703,7 @@
                 <tableExists tableName="poinsoand2osost"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsoand2osost">
+        <createTable tableName="poinsoand2osost" remarks="Привязка обьекта андеррайтинга к обьекту состояния">
             <column name="obektAnderr" type="bigint(20)"/>
             <column name="obektSost" type="bigint(20)"/>
         </createTable>
@@ -1725,7 +1725,7 @@
                 <tableExists tableName="poinsobektanderraitinga"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobektanderraitinga">
+        <createTable tableName="poinsobektanderraitinga" remarks="Обьект андеррайтинга">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1782,7 +1782,7 @@
                 <tableExists tableName="poinsobektosmotrari"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobektosmotrari">
+        <createTable tableName="poinsobektosmotrari" remarks="Обьект осмотра риск инженером">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1807,7 +1807,7 @@
                 <tableExists tableName="poinsobektsoglcs"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobektsoglcs">
+        <createTable tableName="poinsobektsoglcs" remarks="Обьект согласования по черным спискам">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1832,7 +1832,7 @@
                 <tableExists tableName="poinsobektsogldog"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobektsogldog">
+        <createTable tableName="poinsobektsogldog" remarks="Обьект согласования по договору">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1861,7 +1861,7 @@
                 <tableExists tableName="poinsobektsoglps"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobektsoglps">
+        <createTable tableName="poinsobektsoglps" remarks="Обьект согласования с перестраховщиком">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1882,7 +1882,7 @@
                 <tableExists tableName="poinsobektsostzajav"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobektsostzajav">
+        <createTable tableName="poinsobektsostzajav" remarks="Обьект состояния для заявки">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1899,7 +1899,7 @@
                 <tableExists tableName="poinsobektssostoan"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobektssostoan">
+        <createTable tableName="poinsobektssostoan" remarks="Обьект с состоянием">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1920,7 +1920,7 @@
                 <tableExists tableName="poinsobektvhranilise"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobektvhranilise">
+        <createTable tableName="poinsobektvhranilise" remarks="Обьект в хранилище">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1967,7 +1967,7 @@
                 <tableExists tableName="poinsobmhrancfg"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobmhrancfg">
+        <createTable tableName="poinsobmhrancfg" remarks="Конфигурация обмена данными с хранилищем">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -1992,7 +1992,7 @@
                 <tableExists tableName="poinsobrasnasogl"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobrasnasogl">
+        <createTable tableName="poinsobrasnasogl" remarks="Обращение за согласованием">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2017,7 +2017,7 @@
                 <tableExists tableName="poinsobrasvozmvred"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobrasvozmvred">
+        <createTable tableName="poinsobrasvozmvred" remarks="Обращение для согласования документа о возможном ущербе">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2046,7 +2046,7 @@
                 <tableExists tableName="poinsobzakazzaavlstrah"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsobzakazzaavlstrah">
+        <createTable tableName="poinsobzakazzaavlstrah" remarks="Привязка обьекта заказа к заявлению на множественное страхование">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2063,7 +2063,7 @@
                 <tableExists tableName="poinsogranictarifa"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsogranictarifa">
+        <createTable tableName="poinsogranictarifa" remarks="Ограничения тарифа">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2120,7 +2120,7 @@
                 <tableExists tableName="poinsotcetsk"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsotcetsk">
+        <createTable tableName="poinsotcetsk" remarks="Отчет страховой компании">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2181,7 +2181,7 @@
                 <tableExists tableName="poinsparamkonst"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsparamkonst">
+        <createTable tableName="poinsparamkonst" remarks="Параметр константа">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2216,7 +2216,7 @@
                 <tableExists tableName="poinsparamsotrnadogovor"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsparamsotrnadogovor">
+        <createTable tableName="poinsparamsotrnadogovor" remarks="Параметр сотрудника на договоре">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2233,7 +2233,7 @@
                 <tableExists tableName="poinsparamtpnadogovor"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsparamtpnadogovor">
+        <createTable tableName="poinsparamtpnadogovor" remarks="Параметр точка продаж на договоре">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2250,7 +2250,7 @@
                 <tableExists tableName="poinspartneroformzadrug"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspartneroformzadrug">
+        <createTable tableName="poinspartneroformzadrug" remarks="Привязка сотрудника к партнеру ск, оформляющему за других">
             <column name="sotrudnik" type="bigint(20)"/>
             <column name="partner" type="bigint(20)"/>
         </createTable>
@@ -2268,7 +2268,7 @@
                 <tableExists tableName="poinsperehod"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsperehod">
+        <createTable tableName="poinsperehod" remarks="Переход из 1 состояния в другое">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2304,7 +2304,7 @@
                 <tableExists tableName="poinsplateg"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsplateg">
+        <createTable tableName="poinsplateg" remarks="Платеж">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2396,7 +2396,7 @@
                 <tableExists tableName="poinspodp2dov"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspodp2dov">
+        <createTable tableName="poinspodp2dov" remarks="Доверенность подписанта">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2420,7 +2420,7 @@
                 <tableExists tableName="poinspodpisant"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspodpisant">
+        <createTable tableName="poinspodpisant" remarks="Подписант доверенности">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2437,7 +2437,7 @@
                 <tableExists tableName="poinspost2scopl"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspost2scopl">
+        <createTable tableName="poinspost2scopl" remarks="Привязка поступлений к счету">
             <column name="scet" type="bigint(20)"/>
             <column name="postupl" type="bigint(20)"/>
         </createTable>
@@ -2455,7 +2455,7 @@
                 <tableExists tableName="poinspostp2scet"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspostp2scet">
+        <createTable tableName="poinspostp2scet" remarks="Привязка плановых поступлений к счету на оплату">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2476,7 +2476,7 @@
                 <tableExists tableName="poinspostuplenie"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspostuplenie">
+        <createTable tableName="poinspostuplenie" remarks="Поступление">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2517,7 +2517,7 @@
                 <tableExists tableName="poinspostupleniefact"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspostupleniefact">
+        <createTable tableName="poinspostupleniefact" remarks="Фактическое поступление">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2573,7 +2573,7 @@
                 <tableExists tableName="poinspozoplzak"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspozoplzak">
+        <createTable tableName="poinspozoplzak" remarks="Позиции оплаты заказа">
             <column name="oplata" type="bigint(20)"/>
             <column name="pozicia" type="bigint(20)"/>
         </createTable>
@@ -2591,7 +2591,7 @@
                 <tableExists tableName="poinspozzakazakl"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspozzakazakl">
+        <createTable tableName="poinspozzakazakl" remarks="Позиция заказа клиента">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2627,7 +2627,7 @@
                 <tableExists tableName="poinspravilask"/>
             </not>
         </preConditions>
-        <createTable tableName="poinspravilask">
+        <createTable tableName="poinspravilask" remarks="Правило для страховой компании">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -2645,7 +2645,7 @@
                 <tableExists tableName="poinsprichinazameni"/>
             </not>
         </preConditions>
-        <createTable tableName="poinsprichinazameni">
+        <createTable tableName="poinsprichinazameni" remarks="Причина замены">
             <column name="id" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
