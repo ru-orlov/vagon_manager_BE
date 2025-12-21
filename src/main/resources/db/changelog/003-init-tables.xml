@@ -13,14 +13,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinssynonymmodel" remarks="Привязка модели к синонимам марки">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="synonymMarka" type="bigint(20)"/>
-            <column name="model" type="bigint(20)"/>
+            <column name="synonymMarka" remarks="Ссылка на таблицу POINSSYNONYMMARKA" type="bigint(20)"/>
+            <column name="model" remarks="Ссылка на таблицу POINSMODELTS" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinssynonymmodel" indexName="FKPOINSSynonymModelSM">
             <column name="synonymMarka"/>
@@ -47,22 +47,22 @@
             </not>
         </preConditions>
         <createTable tableName="poinsterritoria" remarks="Территория">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="kod" type="varchar(64)"/>
-            <column name="tip" type="bigint(20)"/>
-            <column name="ci" type="bigint(20)"/>
-            <column name="centr" type="bigint(20)"/>
-            <column name="strana" type="bigint(20)"/>
-            <column name="kladrId" type="varchar(64)"/>
-            <column name="aktivno" type="bigint(20)">
+            <column name="kod" remarks="код" type="varchar(64)"/>
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPTERRITORII" type="bigint(20)"/>
+            <column name="ci" remarks="дискриминатор" type="bigint(20)"/>
+            <column name="centr" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
+            <column name="strana" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
+            <column name="kladrId" remarks="кладр" type="varchar(64)"/>
+            <column name="aktivno" remarks="активность" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="fiasId" type="varchar(64)"/>
+            <column name="fiasId" remarks="фиас" type="varchar(64)"/>
         </createTable>
         <createIndex tableName="poinsterritoria" indexName="FK0POINSTerritoria">
             <column name="tip"/>
@@ -106,12 +106,12 @@
             </not>
         </preConditions>
         <createTable tableName="poinsterritorianp" remarks="Населенный пункт">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="region" type="bigint(20)"/>
-            <column name="raion" type="bigint(20)"/>
-            <column name="gorod" type="bigint(20)"/>
+            <column name="region" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
+            <column name="raion" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
+            <column name="gorod" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsterritorianp" indexName="FKPOINSTerritoriaNPreg">
             <column name="region"/>
@@ -151,17 +151,17 @@
             </not>
         </preConditions>
         <createTable tableName="poinsterrstrah" remarks="Территория страхования">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ci" type="bigint(20)">
+            <column name="ci" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="nazvanieAngl" type="varchar(512)"/>
-            <column name="territoria" type="bigint(20)"/>
+            <column name="nazvanieAngl" remarks="название английское" type="varchar(512)"/>
+            <column name="territoria" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsterrstrah" indexName="FKPOINSTerrStrahTER">
             <column name="territoria"/>
@@ -183,13 +183,13 @@
             </not>
         </preConditions>
         <createTable tableName="poinsterrtz" remarks="Часовые пояса территорий">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="offshrs" type="bigint(20)">
+            <column name="offshrs" remarks="смещение" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="terr" type="bigint(20)"/>
+            <column name="terr" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsterrtz" indexName="FKPOINSTerrTZTER">
             <column name="terr"/>
@@ -208,21 +208,21 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipatributa" remarks="Тип атрибута">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(128)">
+            <column name="nazvanie" remarks="название" type="varchar(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tipObekta" type="bigint(20)"/>
-            <column name="associacia" type="bigint(20)"/>
-            <column name="classIndicator" type="bigint(20)">
+            <column name="tipObekta" remarks="Ссылка на таблицу POINSTIPOBEKTAIE" type="bigint(20)"/>
+            <column name="associacia" remarks="Ссылка на таблицу POINSTIPOBEKTAIE" type="bigint(20)"/>
+            <column name="classIndicator" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="poradok" type="bigint(20)">
+            <column name="poradok" remarks="порядок" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="sravnivatel" type="bigint(20)">
+            <column name="sravnivatel" remarks="сравниватель" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -257,19 +257,19 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipdostupa" remarks="Тип доступа">
-            <column name="pk" type="bigint(20)">
+            <column name="pk" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tipObektaDostupa" type="bigint(20)"/>
-            <column name="tipdeistvia" type="bigint(20)"/>
-            <column name="uslovie" type="bigint(20)"/>
-            <column name="ci" type="bigint(20)">
+            <column name="tipObektaDostupa" remarks="Ссылка на таблицу POINSTIPOBEKTADOSTUPA" type="bigint(20)"/>
+            <column name="tipdeistvia" remarks="Ссылка на таблицу POINSTIPDEISTVIA" type="bigint(20)"/>
+            <column name="uslovie" remarks="условие" type="bigint(20)"/>
+            <column name="ci" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="uslovieErd" type="bigint(20)"/>
+            <column name="uslovieErd" remarks="Ссылка на таблицу POINSUSLOVIEOTBORAERD" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipdostupa" indexName="FKPOINSTipDostupatipOD">
             <column name="tipObektaDostupa"/>
@@ -307,8 +307,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipgrelspravnsi" remarks="Привязка типа группы элементов к справочнику">
-            <column name="tip" type="bigint(20)"/>
-            <column name="spravocnik" type="bigint(20)"/>
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPGRELNSI" type="bigint(20)"/>
+            <column name="spravocnik" remarks="Ссылка на таблицу POINSSPRAVOCHNIKNSI" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipgrelspravnsi" indexName="FKPOINSTipGrelSpravNsiT">
             <column name="tip"/>
@@ -335,13 +335,13 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipkollekcia" remarks="Параметр коллекция">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="klass" type="bigint(20)">
+            <column name="klass" remarks="класс" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="maxSize" type="bigint(20)"/>
+            <column name="maxSize" remarks="максимальный размер" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipkollekcia" indexName="IDXPOINSTipKollekciaklass">
             <column name="klass"/>
@@ -360,10 +360,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipkollekciaobsparam" remarks="Привязка типа параметра к типу обьекта с параметрами">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tipObekta" type="bigint(20)"/>
+            <column name="tipObekta" remarks="Ссылка на таблицу POINSTIPOBEKTASPARAM" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipkollekciaobsparam" indexName="FK1POINSTipKollekciaObSparam">
             <column name="tipObekta"/>
@@ -387,13 +387,13 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipmodula" remarks="Тип модуля обьекта">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tipObekta" type="bigint(20)"/>
+            <column name="tipObekta" remarks="Ссылка на таблицу POINSTIPOBEKTASPARAM" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipmodula" indexName="FKPOINSTipModulatipob">
             <column name="tipObekta"/>
@@ -415,18 +415,18 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipms" remarks="Тип конечного автомата">
-            <column name="pk" type="bigint(20)">
+            <column name="pk" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="nacalnoeSostoanie" type="bigint(20)"/>
-            <column name="tipObekta" type="bigint(20)"/>
-            <column name="bazovaa" type="bigint(20)">
+            <column name="nacalnoeSostoanie" remarks="Ссылка на таблицу POINSTIPSOSTOANIA" type="bigint(20)"/>
+            <column name="tipObekta" remarks="Ссылка на таблицу POINSTIPOBEKTASOST" type="bigint(20)"/>
+            <column name="bazovaa" remarks="базовая" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="nastr" type="bigint(20)">
+            <column name="nastr" remarks="настраиваемая" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -461,8 +461,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipob2tipelnsi" remarks="Привязка типа обьекта системы к типу элемента нси">
-            <column name="tipObekta" type="bigint(20)"/>
-            <column name="tipElementaNSI" type="bigint(20)"/>
+            <column name="tipObekta" remarks="Ссылка на таблицу POINSOSPTIPOBEKTASISTEMI" type="bigint(20)"/>
+            <column name="tipElementaNSI" remarks="Ссылка на таблицу POINSOSPTIPELEMENTNSI" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipob2tipelnsi" indexName="FKPOINStipOb2tipelnsiob">
             <column name="tipObekta"/>
@@ -493,11 +493,11 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipobektsis2tipobekt" remarks="Привязка типа обьекта системы к типу обьекта с параметрами">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tipObekta" type="bigint(20)"/>
-            <column name="classTipa" type="bigint(20)"/>
+            <column name="tipObekta" remarks="Ссылка на таблицу POINSTIPOBEKTASPARAM" type="bigint(20)"/>
+            <column name="classTipa" remarks="класс типа" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipobektsis2tipobekt" indexName="FK1POINSTipObektSis2TipObekt">
             <column name="tipObekta"/>
@@ -521,10 +521,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipobektsis2tipparam" remarks="Привязка типа обьекта системы к типу параметра">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tipParametra" type="bigint(20)"/>
+            <column name="tipParametra" remarks="Ссылка на таблицу POINSTIPPARAMETRA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipobektsis2tipparam" indexName="FK1POINSTipObektSis2TipParam">
             <column name="tipParametra"/>
@@ -548,14 +548,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipobektstrah" remarks="Тип обьекта страхования">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tipobparam" type="bigint(20)"/>
-            <column name="klassOS" type="bigint(20)"/>
+            <column name="tipobparam" remarks="Ссылка на таблицу POINSTIPOBEKTASPARAM" type="bigint(20)"/>
+            <column name="klassOS" remarks="класс" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipobektstrah" indexName="FKPOINSTipObektStrahtipobpar">
             <column name="tipobparam"/>
@@ -577,10 +577,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipobsostrpd" remarks="Привязка типа обьекта состояния к типу обьекта доступа">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="TIP_OB_DOSTUP" type="bigint(20)"/>
+            <column name="TIP_OB_DOSTUP" remarks="Ссылка на таблицу POINSTIPOBEKTADOSTUPA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipobsostrpd" indexName="FK1POINSTipObSostRPD">
             <column name="TIP_OB_DOSTUP"/>
@@ -604,22 +604,22 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipperehoda" remarks="Тип перехода">
-            <column name="activity" type="bigint(20)">
+            <column name="activity" remarks="активность" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="izSost" type="bigint(20)"/>
-            <column name="vSost" type="bigint(20)"/>
-            <column name="tipSobitia" type="bigint(20)"/>
-            <column name="base" type="bigint(20)">
+            <column name="izSost" remarks="Ссылка на таблицу POINSTIPSOSTOANIA" type="bigint(20)"/>
+            <column name="vSost" remarks="Ссылка на таблицу POINSTIPSOSTOANIA" type="bigint(20)"/>
+            <column name="tipSobitia" remarks="Ссылка на таблицу POINSTIPSOBITIAMS" type="bigint(20)"/>
+            <column name="base" remarks="базовый" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="USLOVIE" type="bigint(20)">
+            <column name="USLOVIE" remarks="условие перехода" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="VOZVRAT" type="bigint(20)">
+            <column name="VOZVRAT" remarks="возможен возврат" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -662,8 +662,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipperehodatipams" remarks="Привязка типа конечного автомата к типу перехода">
-            <column name="TIP_MASINI" type="bigint(20)"/>
-            <column name="TIP_PEREHODA" type="bigint(20)"/>
+            <column name="TIP_MASINI" remarks="Ссылка на таблицу POINSTIPMS" type="bigint(20)"/>
+            <column name="TIP_PEREHODA" remarks="Ссылка на таблицу POINSTIPPEREHODA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipperehodatipams" indexName="FK0POINSTipPerehodaTipaMS">
             <column name="TIP_MASINI"/>
@@ -690,10 +690,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipsobitiarpd" remarks="Тип события доступа">
-            <column name="pk" type="bigint(20)">
+            <column name="pk" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="TIPDEISTVIA" type="bigint(20)"/>
+            <column name="TIPDEISTVIA" remarks="Ссылка на таблицу POINSTIPDEISTVIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipsobitiarpd" indexName="FK1POINSTipSobitiaRPD">
             <column name="TIPDEISTVIA"/>
@@ -717,13 +717,13 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipsobitiavms" remarks="Тип события в конечном автомате">
-            <column name="TIP_MASINI" type="bigint(20)">
+            <column name="TIP_MASINI" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="TIP_SOBITIA" type="bigint(20)">
+            <column name="TIP_SOBITIA" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="OGRANICHENIE" type="bigint(20)"/>
+            <column name="OGRANICHENIE" remarks="Ссылка на таблицу POINSOGRANICENIETIPSOBITIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipsobitiavms" indexName="FK0POINSTipSobitiaVMS">
             <column name="TIP_MASINI"/>
@@ -758,8 +758,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipsostvlogen" remarks="Тип состояния вложения">
-            <column name="konteiner" type="bigint(20)"/>
-            <column name="vlogen" type="bigint(20)"/>
+            <column name="konteiner" remarks="Ссылка на таблицу POINSTIPSOSTOANIA" type="bigint(20)"/>
+            <column name="vlogen" remarks="Ссылка на таблицу POINSTIPSOSTOANIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipsostvlogen" indexName="FKPOINSTipSostVlogenkonteiner">
             <column name="konteiner"/>
@@ -786,14 +786,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipssilka" remarks="Тип ссылка">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="klass" type="bigint(20)">
+            <column name="klass" remarks="класс" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tipObekta" type="bigint(20)"/>
-            <column name="sozdPustoiObekt" type="bigint(20)">
+            <column name="tipObekta" remarks="Ссылка на таблицу POINSTIPOBEKTASPARAM" type="bigint(20)"/>
+            <column name="sozdPustoiObekt" remarks="создавать пустой объект" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -822,14 +822,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinstiptocsist" remarks="Тип источник черных списков">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tip" type="bigint(20)">
+            <column name="tip" remarks="тип" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="istochnik" type="bigint(20)"/>
-            <column name="count" type="bigint(20)"/>
+            <column name="istochnik" remarks="Ссылка на таблицу POINSCSISTOCHNIKINFO" type="bigint(20)"/>
+            <column name="count" remarks="количество" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstiptocsist" indexName="FK0POINSTipToCSIst">
             <column name="istochnik"/>
@@ -852,8 +852,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipzaj2tipfaila" remarks="Привязка типа заявки и типов файла заявки">
-            <column name="tipZajavki" type="bigint(20)"/>
-            <column name="tipFaila" type="bigint(20)"/>
+            <column name="tipZajavki" remarks="Ссылка на таблицу POINSTIPZAJAVKI" type="bigint(20)"/>
+            <column name="tipFaila" remarks="Ссылка на таблицу POINSTIPFAILAZAJAVKI" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipzaj2tipfaila" indexName="FKPOINSTipZaj2TipFailazajavka">
             <column name="tipZajavki"/>
@@ -880,8 +880,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinstoddetaliz" remarks="Детализация типа обьекта доступа">
-            <column name="todmaster" type="bigint(20)"/>
-            <column name="toddetail" type="bigint(20)"/>
+            <column name="todmaster" remarks="Ссылка на таблицу POINSTIPOBEKTADOSTUPA" type="bigint(20)"/>
+            <column name="toddetail" remarks="Ссылка на таблицу POINSTIPOBEKTADOSTUPA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstoddetaliz" indexName="FKPOINSTODDetalizTM">
             <column name="todmaster"/>
@@ -908,14 +908,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinsuslovieotbora" remarks="Условие отбора типа обьекта">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tipobektadostupa" type="bigint(20)"/>
-            <column name="uslovie" type="bigint(20)">
+            <column name="tipobektadostupa" remarks="Ссылка на таблицу POINSTIPOBEKTADOSTUPA" type="bigint(20)"/>
+            <column name="uslovie" remarks="условие" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tipdeistvia" type="bigint(20)"/>
+            <column name="tipdeistvia" remarks="Ссылка на таблицу POINSTIPDEISTVIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsuslovieotbora" indexName="FKPOINSUslovieOtboratipOD">
             <column name="tipobektadostupa"/>
@@ -942,14 +942,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinsvidstrah" remarks="Вид страхования">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tiposp" type="bigint(20)"/>
-            <column name="icon" type="varchar(128)"/>
+            <column name="tiposp" remarks="Ссылка на таблицу POINSTIPOBEKTASPARAM" type="bigint(20)"/>
+            <column name="icon" remarks="иконка" type="varchar(128)"/>
         </createTable>
         <createIndex tableName="poinsvidstrah" indexName="IDXPOINSVidStrahnazv">
             <column name="nazvanie"/>
@@ -971,10 +971,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsvidstrahcfg" remarks="Конфигурация вида страхования">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="vidStrah" type="bigint(20)"/>
+            <column name="vidStrah" remarks="Ссылка на таблицу POINSVIDSTRAH" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsvidstrahcfg" indexName="FKPOINSVidStrahCfgVS">
             <column name="vidStrah"/>
@@ -993,10 +993,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsznacenieizspiskastr" remarks="Значение из списка(строка)">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="znacenie" type="varchar(1024)"/>
+            <column name="znacenie" remarks="значение" type="varchar(1024)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="poinsznacenieizspiskastr"
                                  baseColumnNames="id"
@@ -1012,12 +1012,12 @@
             </not>
         </preConditions>
         <createTable tableName="poinsznackonstspr" remarks="Значение-константа из справочника">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="kod" type="varchar(128)"/>
-            <column name="kodSP" type="varchar(128)"/>
-            <column name="znacenie" type="bigint(20)"/>
+            <column name="kod" remarks="код" type="varchar(128)"/>
+            <column name="kodSP" remarks="код справочника" type="varchar(128)"/>
+            <column name="znacenie" remarks="Ссылка на таблицу POINSZNACPARKONST" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsznackonstspr" indexName="FKPOINSZnacKonstSprZN">
             <column name="znacenie"/>
@@ -1041,40 +1041,40 @@
             </not>
         </preConditions>
         <createTable tableName="poinsadresn" remarks="Адрес">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="poselenie" type="bigint(20)"/>
-            <column name="raionRegiona" type="bigint(20)"/>
-            <column name="region" type="bigint(20)"/>
-            <column name="ulica" type="varchar(512)"/>
-            <column name="dom" type="varchar(128)"/>
-            <column name="korpus" type="varchar(128)"/>
-            <column name="stroenie" type="bigint(20)"/>
-            <column name="kvartira" type="varchar(128)"/>
-            <column name="raion" type="varchar(512)"/>
-            <column name="indeks" type="varchar(512)"/>
-            <column name="stroka" type="varchar(1024)"/>
-            <column name="strana" type="bigint(20)"/>
-            <column name="strokalat" type="varchar(1024)"/>
-            <column name="okato" type="varchar(30)"/>
-            <column name="geoLon" type="varchar(30)"/>
-            <column name="geoLat" type="varchar(30)"/>
-            <column name="kladrKvId" type="varchar(64)"/>
-            <column name="kladrHouseId" type="varchar(64)"/>
-            <column name="fiasHouseId" type="varchar(64)"/>
-            <column name="fiasStreetId" type="varchar(64)"/>
-            <column name="fiasId" type="varchar(64)"/>
-            <column name="fiasSettelmentId" type="varchar(64)"/>
-            <column name="settelment" type="varchar(512)"/>
-            <column name="fiasCityId" type="varchar(64)"/>
-            <column name="сity" type="varchar(64)"/>
-            <column name="resolvAdrString" type="bigint(20)">
+            <column name="poselenie" remarks="Ссылка на таблицу POINSTERRITORIANP" type="bigint(20)"/>
+            <column name="raionRegiona" remarks="Ссылка на таблицу POINSTERRITORIANP" type="bigint(20)"/>
+            <column name="region" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
+            <column name="ulica" remarks="улица" type="varchar(512)"/>
+            <column name="dom" remarks="дом" type="varchar(128)"/>
+            <column name="korpus" remarks="корпус" type="varchar(128)"/>
+            <column name="stroenie" remarks="строение" type="bigint(20)"/>
+            <column name="kvartira" remarks="квартира" type="varchar(128)"/>
+            <column name="raion" remarks="район" type="varchar(512)"/>
+            <column name="indeks" remarks="индекс" type="varchar(512)"/>
+            <column name="stroka" remarks="адрес строкой" type="varchar(1024)"/>
+            <column name="strana" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
+            <column name="strokalat" remarks="строкой транслитом" type="varchar(1024)"/>
+            <column name="okato" remarks="окато" type="varchar(30)"/>
+            <column name="geoLon" remarks="геокоординаты долгота" type="varchar(30)"/>
+            <column name="geoLat" remarks="геокоординаты широта" type="varchar(30)"/>
+            <column name="kladrKvId" remarks="кладр квартиры" type="varchar(64)"/>
+            <column name="kladrHouseId" remarks="клажр дома" type="varchar(64)"/>
+            <column name="fiasHouseId" remarks="фиас дома" type="varchar(64)"/>
+            <column name="fiasStreetId" remarks="фиас улицы" type="varchar(64)"/>
+            <column name="fiasId" remarks="фиас адреса" type="varchar(64)"/>
+            <column name="fiasSettelmentId" remarks="фиас нас пункта" type="varchar(64)"/>
+            <column name="settelment" remarks="поселение строкой" type="varchar(512)"/>
+            <column name="fiasCityId" remarks="фиас города" type="varchar(64)"/>
+            <column name="сity" remarks="город строкой" type="varchar(64)"/>
+            <column name="resolvAdrString" remarks="разрешен адрес строкой" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="fiasAreaId" type="varchar(38)"/>
-            <column name="fiasRegionId" type="varchar(38)"/>
-            <column name="streetType" type="varchar(38)"/>
+            <column name="fiasAreaId" remarks="фиас района" type="varchar(38)"/>
+            <column name="fiasRegionId" remarks="фиас региона" type="varchar(38)"/>
+            <column name="streetType" remarks="тип улицы" type="varchar(38)"/>
         </createTable>
         <createIndex tableName="poinsadresn" indexName="FK0POINSAdresN">
             <column name="poselenie"/>
@@ -1117,12 +1117,12 @@
             </not>
         </preConditions>
         <createTable tableName="poinsaktipatr" remarks="Тип атрибута альтернативного ключа">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ak" type="bigint(20)"/>
-            <column name="tip" type="bigint(20)"/>
-            <column name="poradok" type="bigint(20)">
+            <column name="ak" remarks="Ссылка на таблицу POINSAK" type="bigint(20)"/>
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPATRIBUTA" type="bigint(20)"/>
+            <column name="poradok" remarks="порядок" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -1154,14 +1154,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinsatribut" remarks="Атрибут">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tip" type="bigint(20)"/>
-            <column name="obekt" type="bigint(20)"/>
-            <column name="ssilka" type="bigint(20)"/>
-            <column name="znacenie" type="varchar(1024)"/>
-            <column name="classIndicator" type="bigint(20)">
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPATRIBUTA" type="bigint(20)"/>
+            <column name="obekt" remarks="Ссылка на таблицу POINSOBEKTIE" type="bigint(20)"/>
+            <column name="ssilka" remarks="Ссылка на таблицу POINSOBEKTIE" type="bigint(20)"/>
+            <column name="znacenie" remarks="значение" type="varchar(1024)"/>
+            <column name="classIndicator" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -1201,14 +1201,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinsbillingevent" remarks="Событие оплаты">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="obj" type="bigint(20)"/>
-            <column name="ima" type="varchar(80)"/>
-            <column name="data" type="datetime"/>
-            <column name="filereq" type="bigint(20)"/>
-            <column name="fileresp" type="bigint(20)"/>
+            <column name="obj" remarks="Ссылка на таблицу POINSOBEKTBILLING" type="bigint(20)"/>
+            <column name="ima" remarks="имя" type="varchar(80)"/>
+            <column name="data" remarks="дата" type="datetime"/>
+            <column name="filereq" remarks="Ссылка на таблицу POINSBILEVENTFILE" type="bigint(20)"/>
+            <column name="fileresp" remarks="Ссылка на таблицу POINSBILEVENTFILE" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsbillingevent" indexName="FKPOINSBillingEventobj">
             <column name="obj"/>
@@ -1243,21 +1243,21 @@
             </not>
         </preConditions>
         <createTable tableName="poinsdeistrpdlog" remarks="Лог действий пользователя">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ci" type="bigint(20)">
+            <column name="ci" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="data" type="datetime">
+            <column name="data" remarks="дата" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="tipdeist" type="bigint(20)"/>
-            <column name="obekt" type="bigint(20)"/>
-            <column name="polz" type="bigint(20)"/>
-            <column name="prim" type="longblob"/>
-            <column name="ip" type="varchar(512)"/>
-            <column name="status" type="varchar(1024)"/>
+            <column name="tipdeist" remarks="Ссылка на таблицу POINSTIPDEISTVIA" type="bigint(20)"/>
+            <column name="obekt" remarks="Ссылка на таблицу POINSOBDOSTUPA" type="bigint(20)"/>
+            <column name="polz" remarks="Ссылка на таблицу POINSPOLZOVRPD" type="bigint(20)"/>
+            <column name="prim" remarks="примечание" type="longblob"/>
+            <column name="ip" remarks="ip" type="varchar(512)"/>
+            <column name="status" remarks="статус" type="varchar(1024)"/>
         </createTable>
         <createIndex tableName="poinsdeistrpdlog" indexName="IDXPOINSDeistRpdLogCI">
             <column name="ci"/>
@@ -1298,14 +1298,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinsdeistvielog" remarks="Лог действия">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tip" type="bigint(20)"/>
-            <column name="obekt" type="bigint(20)"/>
-            <column name="soversil" type="bigint(20)"/>
-            <column name="data" type="datetime"/>
-            <column name="primec" type="longblob"/>
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPDEISTVIALOG" type="bigint(20)"/>
+            <column name="obekt" remarks="Ссылка на таблицу POINSOBEKTLOG" type="bigint(20)"/>
+            <column name="soversil" remarks="Ссылка на таблицу POINSPOLZOVRPD" type="bigint(20)"/>
+            <column name="data" remarks="дата" type="datetime"/>
+            <column name="primec" remarks="примечание" type="longblob"/>
         </createTable>
         <createIndex tableName="poinsdeistvielog" indexName="FKPOINSDeistvieLogtip">
             <column name="tip"/>
@@ -1340,11 +1340,11 @@
             </not>
         </preConditions>
         <createTable tableName="poinsdeistvierpdinfo" remarks="Информация о действии пользователя">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="deistvie" type="bigint(20)"/>
-            <column name="info" type="varchar(1024)"/>
+            <column name="deistvie" remarks="Ссылка на таблицу POINSDEISTRPDLOG" type="bigint(20)"/>
+            <column name="info" remarks="информация" type="varchar(1024)"/>
         </createTable>
         <createIndex tableName="poinsdeistvierpdinfo" indexName="FK0POINSDeistvieRpdInfo">
             <column name="deistvie"/>
@@ -1363,12 +1363,12 @@
             </not>
         </preConditions>
         <createTable tableName="poinselementierarhii" remarks="Элемент иерархии">
-            <column name="pk" type="bigint(20)">
+            <column name="pk" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ierarhia" type="bigint(20)"/>
-            <column name="obsee" type="bigint(20)"/>
-            <column name="cast" type="bigint(20)"/>
+            <column name="ierarhia" remarks="Ссылка на таблицу POINSIERARHIA" type="bigint(20)"/>
+            <column name="obsee" remarks="Ссылка на таблицу POINSOI" type="bigint(20)"/>
+            <column name="cast" remarks="Ссылка на таблицу POINSOI" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinselementierarhii" indexName="FKPOINSElementIerarhiiier">
             <column name="ierarhia"/>
@@ -1403,10 +1403,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinselemnsimodelpuu" remarks="Привязка модели противоугонной системы к элементу справочника">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="model" type="bigint(20)"/>
+            <column name="model" remarks="Ссылка на таблицу POINSMODELPUU" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinselemnsimodelpuu" indexName="FK1POINSelemNSIModelPUU">
             <column name="model"/>
@@ -1430,10 +1430,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinselemnsimodelts" remarks="Привязка модели тс к элементу справочника">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="model" type="bigint(20)"/>
+            <column name="model" remarks="Ссылка на таблицу POINSMODELTS" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinselemnsimodelts" indexName="FK1POINSelemNSIModelTS">
             <column name="model"/>
@@ -1457,12 +1457,12 @@
             </not>
         </preConditions>
         <createTable tableName="poinseswsasyncexchlog" remarks="Лог асинхронного обмена с внешними системами">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="respdeist" type="bigint(20)"/>
-            <column name="reqmessage" type="bigint(20)"/>
-            <column name="respmessage" type="bigint(20)"/>
+            <column name="respdeist" remarks="Ссылка на таблицу POINSDEISTRPDLOG" type="bigint(20)"/>
+            <column name="reqmessage" remarks="Ссылка на таблицу POINSWSEXCHANGEMESSAGE" type="bigint(20)"/>
+            <column name="respmessage" remarks="Ссылка на таблицу POINSWSEXCHANGEMESSAGE" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinseswsasyncexchlog" indexName="FK0POINSESWSASyncExchLog">
             <column name="respdeist"/>
@@ -1497,17 +1497,17 @@
             </not>
         </preConditions>
         <createTable tableName="poinseswssyncexchlog" remarks="Лог синхронного обмена с внешними системами">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="reqdeist" type="bigint(20)"/>
-            <column name="reqmessage" type="bigint(20)"/>
-            <column name="respmessage" type="bigint(20)"/>
-            <column name="resultstatus" type="bigint(20)"/>
-            <column name="respDateTime" type="datetime"/>
-            <column name="errkod" type="varchar(64)"/>
-            <column name="err" type="varchar(2000)"/>
-            <column name="ci" type="bigint(20)"/>
+            <column name="reqdeist" remarks="Ссылка на таблицу POINSDEISTRPDLOG" type="bigint(20)"/>
+            <column name="reqmessage" remarks="Ссылка на таблицу POINSWSEXCHANGEMESSAGE" type="bigint(20)"/>
+            <column name="respmessage" remarks="Ссылка на таблицу POINSWSEXCHANGEMESSAGE" type="bigint(20)"/>
+            <column name="resultstatus" remarks="статус завершения" type="bigint(20)"/>
+            <column name="respDateTime" remarks="дата время ответа" type="datetime"/>
+            <column name="errkod" remarks="код ошибки" type="varchar(64)"/>
+            <column name="err" remarks="текст ошибки" type="varchar(2000)"/>
+            <column name="ci" remarks="дискриминатор" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinseswssyncexchlog" indexName="FK0POINSESWSSyncExchLog">
             <column name="reqdeist"/>
@@ -1542,14 +1542,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinsfailimporta" remarks="Файл импорта">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="imaFajla" type="varchar(1024)">
+            <column name="imaFajla" remarks="имя файла" type="varchar(1024)">
                 <constraints nullable="false"/>
             </column>
-            <column name="seans" type="bigint(20)"/>
-            <column name="istocnik" type="varchar(1024)"/>
+            <column name="seans" remarks="Ссылка на таблицу POINSSEANSIE" type="bigint(20)"/>
+            <column name="istocnik" remarks="источник" type="varchar(1024)"/>
         </createTable>
         <createIndex tableName="poinsfailimporta" indexName="FK0POINSFailImporta">
             <column name="seans"/>
@@ -1568,17 +1568,17 @@
             </not>
         </preConditions>
         <createTable tableName="poinsgridpattern" remarks="Описание pattern сетки">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="gridID" type="varchar(256)">
+            <column name="gridID" remarks="ИД сетки" type="varchar(256)">
                 <constraints nullable="false"/>
             </column>
-            <column name="polzovatel" type="bigint(20)"/>
-            <column name="dateLastChange" type="datetime"/>
+            <column name="polzovatel" remarks="Ссылка на таблицу POINSPOLZOVRPD" type="bigint(20)"/>
+            <column name="dateLastChange" remarks="дата Последнего Изменения" type="datetime"/>
         </createTable>
         <createIndex tableName="poinsgridpattern" indexName="FKPOINSGridPatternPLZ">
             <column name="polzovatel"/>
@@ -1600,19 +1600,19 @@
             </not>
         </preConditions>
         <createTable tableName="poinsgridpatterncolumn" remarks="Описание колонок pattern grid">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="visible" type="bigint(20)"/>
-            <column name="numberColumn" type="bigint(20)">
+            <column name="visible" remarks="видимость" type="bigint(20)"/>
+            <column name="numberColumn" remarks="номерСтолбца" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="align" type="bigint(20)"/>
-            <column name="sortDirection" type="bigint(20)"/>
-            <column name="width" type="varchar(64)"/>
-            <column name="pattern" type="bigint(20)"/>
-            <column name="nazvanie" type="varchar(256)"/>
-            <column name="sortOrder" type="bigint(20)"/>
+            <column name="align" remarks="выравнивание" type="bigint(20)"/>
+            <column name="sortDirection" remarks="направление сортировки" type="bigint(20)"/>
+            <column name="width" remarks="ширина" type="varchar(64)"/>
+            <column name="pattern" remarks="Ссылка на таблицу POINSGRIDPATTERN" type="bigint(20)"/>
+            <column name="nazvanie" remarks="название" type="varchar(256)"/>
+            <column name="sortOrder" remarks="порядок сортировки" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsgridpatterncolumn" indexName="FKPOINSGridPatternColumnPTR">
             <column name="pattern"/>
@@ -1631,20 +1631,20 @@
             </not>
         </preConditions>
         <createTable tableName="poinsimportexport" remarks="Импорт/экспорт">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="data" type="datetime">
+            <column name="data" remarks="дата" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="tip" type="bigint(20)">
+            <column name="tip" remarks="тип" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="istocnik" type="bigint(20)"/>
-            <column name="obekt" type="bigint(20)"/>
-            <column name="dataS" type="datetime"/>
-            <column name="dataPo" type="datetime"/>
-            <column name="seans" type="bigint(20)"/>
+            <column name="istocnik" remarks="Ссылка на таблицу POINSISTOCNIK" type="bigint(20)"/>
+            <column name="obekt" remarks="Ссылка на таблицу POINSOBEKTIE" type="bigint(20)"/>
+            <column name="dataS" remarks="дата с" type="datetime"/>
+            <column name="dataPo" remarks="дата по" type="datetime"/>
+            <column name="seans" remarks="Ссылка на таблицу POINSSEANSIE" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsimportexport" indexName="FKPOINSImportExport_ist">
             <column name="istocnik"/>
@@ -1691,10 +1691,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinskladr2terr" remarks="Привязка территории к обьекту кладр">
-            <column name="territoria" type="bigint(20)">
+            <column name="territoria" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="obektkladr" type="bigint(20)"/>
+            <column name="obektkladr" remarks="Ссылка на таблицу POINSOBEKTKLADR" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinskladr2terr" indexName="FK1POINSkladr2terr">
             <column name="obektkladr"/>
@@ -1718,8 +1718,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinskollekciaobektov2obekt" remarks="привязка атрибутов к обьекту">
-            <column name="kollekcia" type="bigint(20)"/>
-            <column name="obekt" type="bigint(20)"/>
+            <column name="kollekcia" remarks="Ссылка на таблицу POINSATRIBUT" type="bigint(20)"/>
+            <column name="obekt" remarks="Ссылка на таблицу POINSOBEKTIE" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinskollekciaobektov2obekt" indexName="FK0POINSKollekciaObektov2Obekt">
             <column name="kollekcia"/>
@@ -1746,10 +1746,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinskorzinaklienta" remarks="Корзина клиента">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="polzovatel" type="bigint(20)"/>
+            <column name="polzovatel" remarks="Ссылка на таблицу POINSPOLZOVRPD" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinskorzinaklienta" indexName="FKPOINSKorzinaKlientaPLZV">
             <column name="polzovatel"/>
@@ -1768,10 +1768,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinskvartir" remarks="Квартира">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="adres" type="bigint(20)"/>
+            <column name="adres" remarks="Ссылка на таблицу POINSADRESN" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinskvartir" indexName="FK0POINSKvartir">
             <column name="adres"/>
@@ -1790,11 +1790,11 @@
             </not>
         </preConditions>
         <createTable tableName="poinsmarkamodelts" remarks="Привязка марки и модель">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="model" type="bigint(20)"/>
-            <column name="marka" type="bigint(20)"/>
+            <column name="model" remarks="Ссылка на таблицу POINSMODELTS" type="bigint(20)"/>
+            <column name="marka" remarks="Ссылка на таблицу POINSMARKATS" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsmarkamodelts" indexName="FK0POINSMarkaModelTS">
             <column name="model"/>
@@ -1821,11 +1821,11 @@
             </not>
         </preConditions>
         <createTable tableName="poinsmodulobekta" remarks="Модуль обьекта с параметрами">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="tip" type="bigint(20)"/>
-            <column name="obekt" type="bigint(20)"/>
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPMODULA" type="bigint(20)"/>
+            <column name="obekt" remarks="Ссылка на таблицу POINSOBEKTSPARAM" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsmodulobekta" indexName="FKPOINSModulObektatip">
             <column name="tip"/>
@@ -1852,22 +1852,22 @@
             </not>
         </preConditions>
         <createTable tableName="poinsobektnedvigmodern" remarks="Обьект недвижимости">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="klassON" type="bigint(20)"/>
-            <column name="adres" type="bigint(20)"/>
-            <column name="naimenovanie" type="varchar(64)"/>
-            <column name="rynStoim" type="decimal(38,2)"/>
-            <column name="valutaRynok" type="bigint(20)"/>
-            <column name="kadastrNum" type="varchar(64)"/>
-            <column name="uslovnNum" type="varchar(64)"/>
-            <column name="inventNum" type="varchar(64)"/>
-            <column name="razmer" type="decimal(38,2)"/>
-            <column name="edIzmerRazm" type="bigint(20)"/>
-            <column name="isArenda" type="bigint(20)"/>
-            <column name="infStroi" type="bigint(20)"/>
-            <column name="infChastStroi" type="bigint(20)"/>
+            <column name="klassON" remarks="класс обьекта недвижимости" type="bigint(20)"/>
+            <column name="adres" remarks="Ссылка на таблицу POINSADRESN" type="bigint(20)"/>
+            <column name="naimenovanie" remarks="наименование" type="varchar(64)"/>
+            <column name="rynStoim" remarks="рыночная стоимость" type="decimal(38,2)"/>
+            <column name="valutaRynok" remarks="Ссылка на таблицу POINSVALUTADEFDBS" type="bigint(20)"/>
+            <column name="kadastrNum" remarks="кадастровый номер" type="varchar(64)"/>
+            <column name="uslovnNum" remarks="условный номер" type="varchar(64)"/>
+            <column name="inventNum" remarks="инвентарный номер" type="varchar(64)"/>
+            <column name="razmer" remarks="размер" type="decimal(38,2)"/>
+            <column name="edIzmerRazm" remarks="единица измерения размера" type="bigint(20)"/>
+            <column name="isArenda" remarks="предоставляется в аренду" type="bigint(20)"/>
+            <column name="infStroi" remarks="Ссылка на таблицу POINSINFOSTROENIE" type="bigint(20)"/>
+            <column name="infChastStroi" remarks="Ссылка на таблицу POINSINFOCHASTSTROENIE" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsobektnedvigmodern" indexName="fkadres">
             <column name="adres"/>
@@ -1910,15 +1910,15 @@
             </not>
         </preConditions>
         <createTable tableName="poinsobektstrah" remarks="Обьект страхования">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ci" type="bigint(20)">
+            <column name="ci" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tip" type="bigint(20)"/>
-            <column name="objparams" type="bigint(20)"/>
-            <column name="nazvanieOS" type="varchar(256)"/>
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPOBEKTSTRAH" type="bigint(20)"/>
+            <column name="objparams" remarks="Ссылка на таблицу POINSOBEKTSPARAM" type="bigint(20)"/>
+            <column name="nazvanieOS" remarks="название обьекта страхования" type="varchar(256)"/>
         </createTable>
         <createIndex tableName="poinsobektstrah" indexName="IDXPOINSObektStrahCI">
             <column name="ci"/>
@@ -1948,12 +1948,12 @@
             </not>
         </preConditions>
         <createTable tableName="poinsopavtobj" remarks="Автоматическая операция с обьектом">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tipObekta" type="bigint(20)"/>
-            <column name="raspisanie" type="bigint(20)"/>
-            <column name="oper" type="bigint(20)"/>
+            <column name="tipObekta" remarks="Ссылка на таблицу POINSTIPOBEKTADOSTUPA" type="bigint(20)"/>
+            <column name="raspisanie" remarks="Ссылка на таблицу POINSOPERAVTO" type="bigint(20)"/>
+            <column name="oper" remarks="операция" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsopavtobj" indexName="FKPOINSOpAvtObjOBJ">
             <column name="tipObekta"/>
@@ -1980,16 +1980,16 @@
             </not>
         </preConditions>
         <createTable tableName="poinsparamobekta" remarks="Параметр обьекта">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="modul" type="bigint(20)"/>
-            <column name="tip" type="bigint(20)"/>
-            <column name="ci" type="bigint(20)">
+            <column name="modul" remarks="Ссылка на таблицу POINSMODULOBEKTA" type="bigint(20)"/>
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPPARAMETRA" type="bigint(20)"/>
+            <column name="ci" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="primecanie" type="varchar(128)"/>
-            <column name="valueCode" type="varchar(128)"/>
+            <column name="primecanie" remarks="примечание" type="varchar(128)"/>
+            <column name="valueCode" remarks="код-значение" type="varchar(128)"/>
         </createTable>
         <createIndex tableName="poinsparamobekta" indexName="FKPOINSParamObektamodul">
             <column name="modul"/>
@@ -2019,10 +2019,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsparamobektizspiska" remarks="Параметр обьект из списка">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="znacenie" type="bigint(20)"/>
+            <column name="znacenie" remarks="Ссылка на таблицу POINSZNACENIEIZSPISKA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsparamobektizspiska" indexName="FKPOINSParamObektIzSpiskaznac">
             <column name="znacenie"/>
@@ -2046,10 +2046,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsparamobektnedvig" remarks="Параметр обьекта недвижимости">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="obNedv" type="bigint(20)"/>
+            <column name="obNedv" remarks="Ссылка на таблицу POINSOBEKTNEDVIGMODERN" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsparamobektnedvig" indexName="FKPOINSParamObektNedvigOBNEDV">
             <column name="obNedv"/>
@@ -2073,10 +2073,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsparamperecisl" remarks="Параметр элемента перечисления">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="element" type="bigint(20)"/>
+            <column name="element" remarks="элемент" type="bigint(20)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="poinsparamperecisl"
                                  baseColumnNames="id"
@@ -2092,10 +2092,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsparamstring" remarks="Параметр строка">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="znacenie" type="varchar(2000)"/>
+            <column name="znacenie" remarks="значение" type="varchar(2000)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="poinsparamstring"
                                  baseColumnNames="id"
@@ -2111,10 +2111,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsparamstrskodom" remarks="Параметр строка с кодом">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="kod" type="varchar(128)"/>
+            <column name="kod" remarks="код" type="varchar(128)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="poinsparamstrskodom"
                                  baseColumnNames="id"
@@ -2130,10 +2130,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsparprofessia" remarks="Параметр профессия">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="prof" type="bigint(20)"/>
+            <column name="prof" remarks="Ссылка на таблицу POINSPROFESSIASUBEKTA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsparprofessia" indexName="FK1POINSParProfessia">
             <column name="prof"/>
@@ -2157,12 +2157,12 @@
             </not>
         </preConditions>
         <createTable tableName="poinspartnereidcfg" remarks="Конфигурация входа партнера">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="partnerName" type="varchar(256)"/>
-            <column name="clientHost" type="varchar(256)"/>
-            <column name="userRpd" type="bigint(20)"/>
+            <column name="partnerName" remarks="Наименование партнера" type="varchar(256)"/>
+            <column name="clientHost" remarks="компьютер клиента" type="varchar(256)"/>
+            <column name="userRpd" remarks="Ссылка на таблицу POINSPOLZOVRPD" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinspartnereidcfg" indexName="USR">
             <column name="userRpd"/>
@@ -2181,14 +2181,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinspaycfgprop" remarks="Свойство конфигурации настройки платежной системы">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="config" type="bigint(20)"/>
-            <column name="propName" type="varchar(128)">
+            <column name="config" remarks="Ссылка на таблицу POINSPAYMENTCONFIG" type="bigint(20)"/>
+            <column name="propName" remarks="наименование" type="varchar(128)">
                 <constraints nullable="false"/>
             </column>
-            <column name="propValue" type="varchar(1024)"/>
+            <column name="propValue" remarks="значение" type="varchar(1024)"/>
         </createTable>
         <createIndex tableName="poinspaycfgprop" indexName="FK0POINSPayCfgProp">
             <column name="config"/>
@@ -2207,8 +2207,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinspolzovrolrpd" remarks="Роль пользователя">
-            <column name="polzovatel" type="bigint(20)"/>
-            <column name="rol" type="bigint(20)"/>
+            <column name="polzovatel" remarks="Ссылка на таблицу POINSPOLZOVRPD" type="bigint(20)"/>
+            <column name="rol" remarks="Ссылка на таблицу POINSSUBEKTDOSTUPA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinspolzovrolrpd" indexName="FKPOINSPolzovRolRPDpolz">
             <column name="polzovatel"/>
@@ -2235,14 +2235,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinspscheckposition" remarks="Позиция в чеке">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="scetNaOplatu" type="bigint(20)"/>
-            <column name="opisanie" type="varchar(2048)"/>
-            <column name="idPosition" type="varchar(512)"/>
-            <column name="stoimost" type="decimal(38,4)"/>
-            <column name="kolvo" type="bigint(20)"/>
+            <column name="scetNaOplatu" remarks="Ссылка на таблицу POINSPSSCETNAOPLATU" type="bigint(20)"/>
+            <column name="opisanie" remarks="описание" type="varchar(2048)"/>
+            <column name="idPosition" remarks="id позиции" type="varchar(512)"/>
+            <column name="stoimost" remarks="стоимость позиции" type="decimal(38,4)"/>
+            <column name="kolvo" remarks="количество" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinspscheckposition" indexName="FK0POINSPSCheckPosition">
             <column name="scetNaOplatu"/>
@@ -2261,16 +2261,16 @@
             </not>
         </preConditions>
         <createTable tableName="poinspsplateg" remarks="Платеж">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="scetNaOplatu" type="bigint(20)"/>
-            <column name="classIndicator" type="bigint(20)">
+            <column name="scetNaOplatu" remarks="Ссылка на таблицу POINSPSSCETNAOPLATU" type="bigint(20)"/>
+            <column name="classIndicator" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="data" type="datetime"/>
-            <column name="summa" type="decimal(38,4)"/>
-            <column name="valuta" type="bigint(20)"/>
+            <column name="data" remarks="дата" type="datetime"/>
+            <column name="summa" remarks="сумма" type="decimal(38,4)"/>
+            <column name="valuta" remarks="Ссылка на таблицу POINSVALUTADEFDBS" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinspsplateg" indexName="FK0POINSPSPlateg">
             <column name="scetNaOplatu"/>
@@ -2297,10 +2297,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsrpditable5044" remarks="Таблица интеграции объектов доступа с типом 'Логирование'">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="obektdostupa" type="bigint(20)"/>
+            <column name="obektdostupa" remarks="Ссылка на таблицу POINSOBDOSTUPA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsrpditable5044" indexName="FK1POINSrpditable5044">
             <column name="obektdostupa"/>
@@ -2324,11 +2324,11 @@
             </not>
         </preConditions>
         <createTable tableName="poinsrpdlogdeistvie" remarks="Привязка сеанса импорта-экспорта к журналу действий пользователя">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="seans" type="bigint(20)"/>
-            <column name="deistvie" type="bigint(20)"/>
+            <column name="seans" remarks="Ссылка на таблицу POINSSEANSIEHRAN" type="bigint(20)"/>
+            <column name="deistvie" remarks="Ссылка на таблицу POINSDEISTRPDLOG" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsrpdlogdeistvie" indexName="FKPOINSRPDLogDeistvIEseans">
             <column name="seans"/>
@@ -2355,8 +2355,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinsseans2filelog" remarks="Привязка сеанса импорта-экспорта к логу асинхронного обмена с внешними системами">
-            <column name="seans" type="bigint(20)"/>
-            <column name="extlog" type="bigint(20)"/>
+            <column name="seans" remarks="Ссылка на таблицу POINSSEANSIEHRAN" type="bigint(20)"/>
+            <column name="extlog" remarks="Ссылка на таблицу POINSESWSASYNCEXCHLOG" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsseans2filelog" indexName="FKPOINSseans2filelogfksn">
             <column name="seans"/>
@@ -2383,14 +2383,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinsstrana" remarks="Страна">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="polnoeNazvanie" type="varchar(256)"/>
-            <column name="kod2" type="varchar(2)"/>
-            <column name="kod3" type="varchar(3)"/>
-            <column name="nazvinostr" type="varchar(256)"/>
-            <column name="phoneCode" type="varchar(10)"/>
+            <column name="polnoeNazvanie" remarks="полное название" type="varchar(256)"/>
+            <column name="kod2" remarks="код 2 буквы" type="varchar(2)"/>
+            <column name="kod3" remarks="код 3 буквы" type="varchar(3)"/>
+            <column name="nazvinostr" remarks="название иностранное" type="varchar(256)"/>
+            <column name="phoneCode" remarks="телефонный код" type="varchar(10)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="poinsstrana"
                                  baseColumnNames="id"
@@ -2406,8 +2406,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinssubektdostupatipdostupa" remarks="Привязка субьекта доступа к типу доступа">
-            <column name="subektDostupa" type="bigint(20)"/>
-            <column name="tipDostupa" type="bigint(20)"/>
+            <column name="subektDostupa" remarks="Ссылка на таблицу POINSSUBEKTDOSTUPA" type="bigint(20)"/>
+            <column name="tipDostupa" remarks="Ссылка на таблицу POINSTIPDOSTUPA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinssubektdostupatipdostupa" indexName="FKPOINSSUBDOSTTDSUB">
             <column name="subektDostupa"/>
@@ -2434,59 +2434,59 @@
             </not>
         </preConditions>
         <createTable tableName="poinssubektn" remarks="Субъект">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(2048)"/>
-            <column name="CI" type="bigint(20)">
+            <column name="nazvanie" remarks="Название" type="varchar(2048)"/>
+            <column name="CI" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="inn" type="varchar(128)"/>
-            <column name="kodNalogovoi" type="varchar(512)"/>
-            <column name="adres" type="bigint(20)"/>
-            <column name="telefon" type="varchar(128)"/>
-            <column name="telefonNumeric" type="varchar(128)"/>
-            <column name="email" type="varchar(512)"/>
-            <column name="mobile" type="varchar(128)"/>
-            <column name="fax" type="varchar(512)"/>
-            <column name="rabtel" type="varchar(512)"/>
-            <column name="rezident" type="bigint(20)"/>
-            <column name="adresfakt" type="bigint(20)"/>
-            <column name="adresfaktstr" type="varchar(4000)"/>
-            <column name="adrespoststr" type="varchar(4000)"/>
-            <column name="site" type="varchar(512)"/>
-            <column name="primecanie" type="varchar(4000)"/>
-            <column name="indexpoststr" type="varchar(64)"/>
-            <column name="adresSovpadaet" type="bigint(20)"/>
-            <column name="adresSovpadaetPreb" type="bigint(20)"/>
-            <column name="bankreq" type="bigint(20)"/>
-            <column name="viddeat" type="bigint(20)"/>
-            <column name="okpo" type="varchar(256)"/>
-            <column name="okved" type="varchar(1024)"/>
-            <column name="email2" type="varchar(512)"/>
-            <column name="sisNalog" type="bigint(20)"/>
-            <column name="activity" type="bigint(20)">
+            <column name="inn" remarks="инн" type="varchar(128)"/>
+            <column name="kodNalogovoi" remarks="код налоговой инспекции" type="varchar(512)"/>
+            <column name="adres" remarks="Ссылка на таблицу POINSADRESN" type="bigint(20)"/>
+            <column name="telefon" remarks="телефон" type="varchar(128)"/>
+            <column name="telefonNumeric" remarks="телефон только цифры" type="varchar(128)"/>
+            <column name="email" remarks="email" type="varchar(512)"/>
+            <column name="mobile" remarks="мобильный" type="varchar(128)"/>
+            <column name="fax" remarks="факс" type="varchar(512)"/>
+            <column name="rabtel" remarks="рабочий телефон" type="varchar(512)"/>
+            <column name="rezident" remarks="резидент" type="bigint(20)"/>
+            <column name="adresfakt" remarks="Ссылка на таблицу POINSADRESN" type="bigint(20)"/>
+            <column name="adresfaktstr" remarks="адрес фактический строкой" type="varchar(4000)"/>
+            <column name="adrespoststr" remarks="адрес почтовый строкой" type="varchar(4000)"/>
+            <column name="site" remarks="сайт" type="varchar(512)"/>
+            <column name="primecanie" remarks="примечание" type="varchar(4000)"/>
+            <column name="indexpoststr" remarks="индекс почтовый строкой" type="varchar(64)"/>
+            <column name="adresSovpadaet" remarks="фактический адрес совпадает с почтовым адресом" type="bigint(20)"/>
+            <column name="adresSovpadaetPreb" remarks="фактический адрес совпадает с адресом пребывания" type="bigint(20)"/>
+            <column name="bankreq" remarks="Ссылка на таблицу POINSBANKREQUISITES" type="bigint(20)"/>
+            <column name="viddeat" remarks="Ссылка на таблицу POINSVIDDEATELNOSTI" type="bigint(20)"/>
+            <column name="okpo" remarks="окпо" type="varchar(256)"/>
+            <column name="okved" remarks="оквэд" type="varchar(1024)"/>
+            <column name="email2" remarks="email 2" type="varchar(512)"/>
+            <column name="sisNalog" remarks="система налогообложения" type="bigint(20)"/>
+            <column name="activity" remarks="активность" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="versia" type="bigint(20)"/>
-            <column name="datapostuchvnal" type="datetime"/>
-            <column name="predstfio" type="varchar(256)"/>
-            <column name="predstdolzhn" type="varchar(256)"/>
-            <column name="predstdokosn" type="varchar(256)"/>
-            <column name="addrRegDate" type="datetime"/>
-            <column name="otozvan" type="bigint(20)">
+            <column name="versia" remarks="версия" type="bigint(20)"/>
+            <column name="datapostuchvnal" remarks="дата постановки на учет в налоговую" type="datetime"/>
+            <column name="predstfio" remarks="фио представителя" type="varchar(256)"/>
+            <column name="predstdolzhn" remarks="должность представителя" type="varchar(256)"/>
+            <column name="predstdokosn" remarks="документ-основание представителя" type="varchar(256)"/>
+            <column name="addrRegDate" remarks="дата регистарции по адресу" type="datetime"/>
+            <column name="otozvan" remarks="отозвана лицензия" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="idendata" type="bigint(20)"/>
-            <column name="adrespreb" type="bigint(20)"/>
-            <column name="adresprebstr" type="varchar(1000)"/>
-            <column name="notChange" type="bigint(20)"/>
-            <column name="certificate" type="bigint(20)"/>
-            <column name="identFz115" type="bigint(20)"/>
-            <column name="adresvremr" type="bigint(20)"/>
-            <column name="adresvremrstr" type="varchar(1000)"/>
-            <column name="rezidentsvto" type="bigint(20)"/>
-            <column name="stranaTel" type="bigint(20)"/>
+            <column name="idendata" remarks="Ссылка на таблицу POINSIDENDATA" type="bigint(20)"/>
+            <column name="adrespreb" remarks="Ссылка на таблицу POINSADRESN" type="bigint(20)"/>
+            <column name="adresprebstr" remarks="адрес пребывания строкой" type="varchar(1000)"/>
+            <column name="notChange" remarks="Состояние субъекта не изменилось" type="bigint(20)"/>
+            <column name="certificate" remarks="Ссылка на таблицу POINSCERTINFO" type="bigint(20)"/>
+            <column name="identFz115" remarks="идентифицирован по 115 фз" type="bigint(20)"/>
+            <column name="adresvremr" remarks="Ссылка на таблицу POINSADRESN" type="bigint(20)"/>
+            <column name="adresvremrstr" remarks="адрес временной регистрации строкой" type="varchar(1000)"/>
+            <column name="rezidentsvto" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
+            <column name="stranaTel" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinssubektn" indexName="FKPOINSSubektNadres">
             <column name="adres"/>
@@ -2586,11 +2586,11 @@
             </not>
         </preConditions>
         <createTable tableName="poinssubektstipomdoka" remarks="Привязка субъекта к типу документа">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tipDok" type="bigint(20)"/>
-            <column name="subekt" type="bigint(20)"/>
+            <column name="tipDok" remarks="тип документа" type="bigint(20)"/>
+            <column name="subekt" remarks="Ссылка на таблицу POINSSUBEKTN" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinssubektstipomdoka" indexName="FK0POINSSubektSTipomDoka">
             <column name="subekt"/>
@@ -2609,14 +2609,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinssummavpaketens" remarks="Сумма в пакете несчастных случаев">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="summa" type="decimal(31,2)"/>
-            <column name="nomer" type="decimal(32,2)">
+            <column name="summa" remarks="сумма" type="decimal(31,2)"/>
+            <column name="nomer" remarks="номер" type="decimal(32,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="obekt" type="bigint(20)"/>
+            <column name="obekt" remarks="Ссылка на таблицу POINSOBEKTSTRAH" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinssummavpaketens" indexName="FK0POINSsummaVPaketeNS">
             <column name="obekt"/>
@@ -2635,8 +2635,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinsterr2strana" remarks="Привязка территории страхования к стране">
-            <column name="terr" type="bigint(20)"/>
-            <column name="strana" type="bigint(20)"/>
+            <column name="terr" remarks="Ссылка на таблицу POINSTERRVZR" type="bigint(20)"/>
+            <column name="strana" remarks="Ссылка на таблицу POINSSTRANA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsterr2strana" indexName="FK0POINSTerr2Strana">
             <column name="terr"/>
@@ -2663,19 +2663,19 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipdeistsost" remarks="Тип действия при переходе в состояние">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="PORYDOK" type="bigint(20)">
+            <column name="PORYDOK" remarks="порядок" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="DEISTVIE" type="bigint(20)">
+            <column name="DEISTVIE" remarks="действие" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TIPSOSTOYANIA" type="bigint(20)"/>
-            <column name="TIP" type="bigint(20)"/>
-            <column name="TIPMS" type="bigint(20)"/>
-            <column name="TIPPEREHODA" type="bigint(20)"/>
+            <column name="TIPSOSTOYANIA" remarks="Ссылка на таблицу POINSTIPSOSTOANIA" type="bigint(20)"/>
+            <column name="TIP" remarks="тип" type="bigint(20)"/>
+            <column name="TIPMS" remarks="Ссылка на таблицу POINSTIPMS" type="bigint(20)"/>
+            <column name="TIPPEREHODA" remarks="Ссылка на таблицу POINSTIPPEREHODA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipdeistsost" indexName="FOPOINSTipDeistSosttip">
             <column name="TIPSOSTOYANIA"/>
@@ -2710,8 +2710,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipmasinitipsost" remarks="Привязка типа конечного автомата к типу состояния">
-            <column name="tipMS" type="bigint(20)"/>
-            <column name="tipSostoania" type="bigint(20)"/>
+            <column name="tipMS" remarks="Ссылка на таблицу POINSTIPMS" type="bigint(20)"/>
+            <column name="tipSostoania" remarks="Ссылка на таблицу POINSTIPSOSTOANIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipmasinitipsost" indexName="FKPOINSTipMasiniTipSosttipMS">
             <column name="tipMS"/>
@@ -2738,8 +2738,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipmodiltippar" remarks="Привязка типа модуля к типу параметра">
-            <column name="tipModula" type="bigint(20)"/>
-            <column name="tipParametra" type="bigint(20)"/>
+            <column name="tipModula" remarks="Ссылка на таблицу POINSTIPMODULA" type="bigint(20)"/>
+            <column name="tipParametra" remarks="Ссылка на таблицу POINSTIPPARAMETRA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipmodiltippar" indexName="FKPOINSTipModilTipPartipModula">
             <column name="tipModula"/>
@@ -2770,14 +2770,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipparvidstrah" remarks="Тип параметра вид страхования">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tippar" type="bigint(20)"/>
-            <column name="vidstrah" type="bigint(20)"/>
+            <column name="tippar" remarks="Ссылка на таблицу POINSTIPPARAMETRA" type="bigint(20)"/>
+            <column name="vidstrah" remarks="Ссылка на таблицу POINSVIDSTRAH" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipparvidstrah" indexName="IDXPOINSTipParVidStrahnazv">
             <column name="nazvanie"/>
@@ -2807,13 +2807,13 @@
             </not>
         </preConditions>
         <createTable tableName="poinstipprodukta" remarks="Тип страхового продукта">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="nazvanie" type="varchar(512)">
+            <column name="nazvanie" remarks="Наименование" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="vidStrahovania" type="bigint(20)"/>
+            <column name="vidStrahovania" remarks="Ссылка на таблицу POINSVIDSTRAH" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinstipprodukta" indexName="FKPOINSTipProduktaVS">
             <column name="vidStrahovania"/>
@@ -2835,20 +2835,20 @@
             </not>
         </preConditions>
         <createTable tableName="poinsurlicon" remarks="Юридическое лицо">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="polnima" type="varchar(512)"/>
-            <column name="kpp" type="varchar(256)"/>
-            <column name="opf" type="bigint(20)"/>
-            <column name="ogrn" type="varchar(32)"/>
-            <column name="data_gosreg" type="datetime"/>
-            <column name="parent" type="bigint(20)"/>
-            <column name="samoeKrIma" type="varchar(256)"/>
-            <column name="nazvanieLat" type="varchar(256)"/>
-            <column name="kio" type="varchar(256)"/>
-            <column name="data_ogrn" type="datetime"/>
-            <column name="samoeKrImaTrans" type="varchar(64)"/>
+            <column name="polnima" remarks="полное Наименование" type="varchar(512)"/>
+            <column name="kpp" remarks="кпп" type="varchar(256)"/>
+            <column name="opf" remarks="Ссылка на таблицу POINSORGPF" type="bigint(20)"/>
+            <column name="ogrn" remarks="огрн" type="varchar(32)"/>
+            <column name="data_gosreg" remarks="дата Государственной Регистрации" type="datetime"/>
+            <column name="parent" remarks="головная Организация" type="bigint(20)"/>
+            <column name="samoeKrIma" remarks="самое Краткое Название" type="varchar(256)"/>
+            <column name="nazvanieLat" remarks="наименование Латиницей" type="varchar(256)"/>
+            <column name="kio" remarks="кио" type="varchar(256)"/>
+            <column name="data_ogrn" remarks="дата Огрн" type="datetime"/>
+            <column name="samoeKrImaTrans" remarks="самое Краткое Название Транслит" type="varchar(64)"/>
         </createTable>
         <createIndex tableName="poinsurlicon" indexName="FK1POINSUrLicoN">
             <column name="opf"/>
@@ -2872,11 +2872,11 @@
             </not>
         </preConditions>
         <createTable tableName="poinsurlicostipomdoka" remarks="Привязки юрлица к типу документа">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tipDok" type="bigint(20)"/>
-            <column name="ul" type="bigint(20)"/>
+            <column name="tipDok" remarks="тип документа юридического лица" type="bigint(20)"/>
+            <column name="ul" remarks="Ссылка на таблицу POINSURLICON" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsurlicostipomdoka" indexName="FK0POINSUrLicoSTipomDoka">
             <column name="ul"/>
@@ -2895,50 +2895,50 @@
             </not>
         </preConditions>
         <createTable tableName="poinsversiadog" remarks="Версия договора">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="dogovor" type="bigint(20)"/>
-            <column name="ci" type="bigint(20)">
+            <column name="dogovor" remarks="договор" type="bigint(20)"/>
+            <column name="ci" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="nomer" type="varchar(64)"/>
-            <column name="data" type="datetime"/>
-            <column name="zakazcik" type="bigint(20)"/>
-            <column name="ispolnitel" type="bigint(20)"/>
-            <column name="dataS" type="datetime"/>
-            <column name="dataPo" type="datetime"/>
-            <column name="sostoanie" type="bigint(20)"/>
-            <column name="nomerForSearch" type="varchar(64)"/>
-            <column name="PARAM" type="bigint(20)"/>
-            <column name="isprolongacia" type="bigint(20)">
+            <column name="nomer" remarks="номер" type="varchar(64)"/>
+            <column name="data" remarks="дата" type="datetime"/>
+            <column name="zakazcik" remarks="Ссылка на таблицу POINSSUBEKTN" type="bigint(20)"/>
+            <column name="ispolnitel" remarks="Ссылка на таблицу POINSSUBEKTN" type="bigint(20)"/>
+            <column name="dataS" remarks="null" type="datetime"/>
+            <column name="dataPo" remarks="null" type="datetime"/>
+            <column name="sostoanie" remarks="состояние" type="bigint(20)"/>
+            <column name="nomerForSearch" remarks="номер для поиска" type="varchar(64)"/>
+            <column name="PARAM" remarks="Ссылка на таблицу POINSOBEKTSPARAM" type="bigint(20)"/>
+            <column name="isprolongacia" remarks="пролонгация" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="prolongDogNomer" type="varchar(64)"/>
-            <column name="prolongDogSeria" type="varchar(32)"/>
-            <column name="prolongDogData" type="datetime"/>
-            <column name="kommentarii" type="varchar(4000)"/>
-            <column name="osobieUslovia" type="varchar(4000)"/>
-            <column name="dataZaklucenia" type="datetime"/>
-            <column name="dataSProlong" type="datetime"/>
-            <column name="dataPoProlong" type="datetime"/>
-            <column name="gosTaina" type="bigint(20)">
+            <column name="prolongDogNomer" remarks="номер пролонгируемого" type="varchar(64)"/>
+            <column name="prolongDogSeria" remarks="серия пролонгируемого" type="varchar(32)"/>
+            <column name="prolongDogData" remarks="дата пролонгируемого" type="datetime"/>
+            <column name="kommentarii" remarks="комментарий" type="varchar(4000)"/>
+            <column name="osobieUslovia" remarks="особые условия" type="varchar(4000)"/>
+            <column name="dataZaklucenia" remarks="дата заключения" type="datetime"/>
+            <column name="dataSProlong" remarks="дата с на пролонгации" type="datetime"/>
+            <column name="dataPoProlong" remarks="дата по на пролонгации" type="datetime"/>
+            <column name="gosTaina" remarks="государственная тайна" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="dataVnesIzm" type="datetime"/>
-            <column name="dataRascet" type="datetime"/>
-            <column name="dannieStrahNaBlanke" type="bigint(20)">
+            <column name="dataVnesIzm" remarks="дата внесения изменений" type="datetime"/>
+            <column name="dataRascet" remarks="дата расчета" type="datetime"/>
+            <column name="dannieStrahNaBlanke" remarks="данные заказчика указаны на бланке" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="tipDokZakazcik" type="bigint(20)"/>
-            <column name="dataZakDopSogl" type="datetime"/>
-            <column name="osobieUsloviaAuto" type="varchar(4000)"/>
-            <column name="PARAM_LINKS" type="bigint(20)"/>
-            <column name="nomerBlanka" type="varchar(64)"/>
-            <column name="seriaBlanka" type="varchar(64)"/>
-            <column name="osobieUsloviaAnder" type="varchar(4000)"/>
-            <column name="tzOffset" type="bigint(20)"/>
-            <column name="fastprolong" type="bigint(20)">
+            <column name="tipDokZakazcik" remarks="тип документа заказчика" type="bigint(20)"/>
+            <column name="dataZakDopSogl" remarks="дата заключения дополнительного соглашения" type="datetime"/>
+            <column name="osobieUsloviaAuto" remarks="особые условия автоматически" type="varchar(4000)"/>
+            <column name="PARAM_LINKS" remarks="Ссылка на таблицу POINSOBEKTSPARAM" type="bigint(20)"/>
+            <column name="nomerBlanka" remarks="бланк полиса номер" type="varchar(64)"/>
+            <column name="seriaBlanka" remarks="бланк полиса серия" type="varchar(64)"/>
+            <column name="osobieUsloviaAnder" remarks="особые условия андеррайтер" type="varchar(4000)"/>
+            <column name="tzOffset" remarks="Смещение часовой зоны" type="bigint(20)"/>
+            <column name="fastprolong" remarks="быстрая пролонгация" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -3011,18 +3011,18 @@
             </not>
         </preConditions>
         <createTable tableName="poinsvhodasaazapis" remarks="входящая запись">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="raznesena" type="bigint(20)">
+            <column name="raznesena" remarks="разнесена" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="dataVersii" type="datetime">
+            <column name="dataVersii" remarks="дата версии" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="FAIL" type="longblob"/>
-            <column name="failImporta" type="bigint(20)"/>
-            <column name="idVIstocnike" type="bigint(20)"/>
+            <column name="FAIL" remarks="файл" type="longblob"/>
+            <column name="failImporta" remarks="Ссылка на таблицу POINSFAILIMPORTA" type="bigint(20)"/>
+            <column name="idVIstocnike" remarks="id в источнике" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsvhodasaazapis" indexName="FK0POINSVhodasaaZapis">
             <column name="failImporta"/>
@@ -3041,11 +3041,11 @@
             </not>
         </preConditions>
         <createTable tableName="poinsvladelecnsi" remarks="Описание владельца справочника">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="subekt" type="bigint(20)"/>
-            <column name="itsme" type="bigint(20)">
+            <column name="subekt" remarks="Ссылка на таблицу POINSSUBEKTN" type="bigint(20)"/>
+            <column name="itsme" remarks="мы" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -3066,10 +3066,10 @@
             </not>
         </preConditions>
         <createTable tableName="poinsvlnsi2elnsi" remarks="Привязка владельца справочника к элементу справочнику">
-            <column name="vlnsi" type="bigint(20)">
+            <column name="vlnsi" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="elnsi" type="bigint(20)">
+            <column name="elnsi" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
         </createTable>
@@ -3098,10 +3098,10 @@
             </not>
         </preConditions>
         <createTable tableName="parelnsi" remarks="Привязка параметра обьекта к элементу справочника">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="elnsi" type="bigint(20)"/>
+            <column name="elnsi" remarks="Ссылка на таблицу POINSELEMENTNSI" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="parelnsi" indexName="FKParElNsiEL">
             <column name="elnsi"/>
@@ -3125,8 +3125,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinsaffurlico" remarks="Аффилированное юридическое лицо">
-            <column name="chei" type="bigint(20)"/>
-            <column name="ul" type="bigint(20)"/>
+            <column name="chei" remarks="Ссылка на таблицу POINSURLICON" type="bigint(20)"/>
+            <column name="ul" remarks="Ссылка на таблицу POINSURLICON" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsaffurlico" indexName="FKPOINSaffurlicochei">
             <column name="chei"/>
@@ -3157,20 +3157,20 @@
             </not>
         </preConditions>
         <createTable tableName="poinsagent" remarks="Страховой агент">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="subekt" type="bigint(20)"/>
-            <column name="predstavitel" type="varchar(512)"/>
-            <column name="predstAgenta" type="bigint(20)"/>
-            <column name="activity" type="bigint(20)">
+            <column name="subekt" remarks="Ссылка на таблицу POINSSUBEKTN" type="bigint(20)"/>
+            <column name="predstavitel" remarks="представитель" type="varchar(512)"/>
+            <column name="predstAgenta" remarks="Ссылка на таблицу POINSPREDAGENT" type="bigint(20)"/>
+            <column name="activity" remarks="активность" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="kod" type="varchar(128)"/>
-            <column name="deistvuet" type="bigint(20)">
+            <column name="kod" remarks="код" type="varchar(128)"/>
+            <column name="deistvuet" remarks="действующий" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="naimOtcet" type="varchar(256)"/>
+            <column name="naimOtcet" remarks="наименование для отчетности" type="varchar(256)"/>
         </createTable>
         <createIndex tableName="poinsagent" indexName="FKPOINSAgentsubekt">
             <column name="subekt"/>
@@ -3197,16 +3197,16 @@
             </not>
         </preConditions>
         <createTable tableName="poinsbank" remarks="Банк">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="kodirovka" type="varchar(64)"/>
-            <column name="subekt" type="bigint(20)"/>
-            <column name="bik" type="varchar(20)"/>
-            <column name="activity" type="bigint(20)">
+            <column name="kodirovka" remarks="кодировка" type="varchar(64)"/>
+            <column name="subekt" remarks="Ссылка на таблицу POINSURLICON" type="bigint(20)"/>
+            <column name="bik" remarks="бик" type="varchar(20)"/>
+            <column name="activity" remarks="активность" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="dobavlenVrucnuu" type="bigint(20)"/>
+            <column name="dobavlenVrucnuu" remarks="добавлен вручную" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsbank" indexName="FKPOINSBanksub">
             <column name="subekt"/>
@@ -3228,24 +3228,24 @@
             </not>
         </preConditions>
         <createTable tableName="poinsbankkarta" remarks="Банковская карта">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="kategoria" type="bigint(20)"/>
-            <column name="valuta" type="bigint(20)"/>
-            <column name="emitent" type="bigint(20)"/>
-            <column name="dergatel" type="bigint(20)"/>
-            <column name="tip" type="bigint(20)"/>
-            <column name="nomer" type="varchar(64)"/>
-            <column name="dataVip" type="datetime"/>
-            <column name="deistvuetDo" type="datetime"/>
-            <column name="nomerDergVSistBanka" type="varchar(64)"/>
-            <column name="scet_karti" type="varchar(64)"/>
-            <column name="nomVSpiske" type="bigint(20)"/>
-            <column name="dogOVidacheNomer" type="varchar(64)"/>
-            <column name="dogOVidacheData" type="datetime"/>
-            <column name="ostatok" type="decimal(38,2)"/>
-            <column name="maxLimit" type="decimal(38,2)"/>
+            <column name="kategoria" remarks="категория" type="bigint(20)"/>
+            <column name="valuta" remarks="Ссылка на таблицу POINSVALUTADEFDBS" type="bigint(20)"/>
+            <column name="emitent" remarks="Ссылка на таблицу POINSBANK" type="bigint(20)"/>
+            <column name="dergatel" remarks="Ссылка на таблицу POINSSUBEKTN" type="bigint(20)"/>
+            <column name="tip" remarks="Ссылка на таблицу POINSTIPBANKKARTI" type="bigint(20)"/>
+            <column name="nomer" remarks="номер" type="varchar(64)"/>
+            <column name="dataVip" remarks="дата Выпуска" type="datetime"/>
+            <column name="deistvuetDo" remarks="действует До" type="datetime"/>
+            <column name="nomerDergVSistBanka" remarks="номер Держателя В Системах Банка" type="varchar(64)"/>
+            <column name="scet_karti" remarks="счет Карты" type="varchar(64)"/>
+            <column name="nomVSpiske" remarks="номер В Списке" type="bigint(20)"/>
+            <column name="dogOVidacheNomer" remarks="договор О Выдаче Номер" type="varchar(64)"/>
+            <column name="dogOVidacheData" remarks="договор О Выдаче Дата" type="datetime"/>
+            <column name="ostatok" remarks="остаток" type="decimal(38,2)"/>
+            <column name="maxLimit" remarks="лимит" type="decimal(38,2)"/>
         </createTable>
         <createIndex tableName="poinsbankkarta" indexName="FKPOINSBankKartaval">
             <column name="valuta"/>
@@ -3291,8 +3291,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinsbanktipkarti" remarks="Привязка типа карты к банку">
-            <column name="bank" type="bigint(20)"/>
-            <column name="tipKarti" type="bigint(20)"/>
+            <column name="bank" remarks="Ссылка на таблицу POINSBANK" type="bigint(20)"/>
+            <column name="tipKarti" remarks="Ссылка на таблицу POINSTIPBANKKARTI" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsbanktipkarti" indexName="FKPOINSBankTipKartibnk">
             <column name="bank"/>
@@ -3319,8 +3319,8 @@
             </not>
         </preConditions>
         <createTable tableName="poinsbilleventtobillobekt" remarks="Привязка событий оплаты к обьектам оплаты">
-            <column name="event" type="bigint(20)"/>
-            <column name="obj" type="bigint(20)"/>
+            <column name="event" remarks="Ссылка на таблицу POINSBILLINGEVENT" type="bigint(20)"/>
+            <column name="obj" remarks="Ссылка на таблицу POINSOBEKTBILLING" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsbilleventtobillobekt" indexName="FK0POINSBillEventToBillObekt">
             <column name="event"/>
@@ -3347,23 +3347,23 @@
             </not>
         </preConditions>
         <createTable tableName="poinsdogovor" remarks="Договор">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="aktualnaaVersia" type="bigint(20)"/>
-            <column name="ci" type="bigint(20)">
+            <column name="aktualnaaVersia" remarks="актуальная версия" type="bigint(20)"/>
+            <column name="ci" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="activity" type="bigint(20)">
+            <column name="activity" remarks="активность" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="isHidden" type="bigint(20)">
+            <column name="isHidden" remarks="скрывать при поиске" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="fiktivnii" type="bigint(20)">
+            <column name="fiktivnii" remarks="фиктивный" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="versia" type="bigint(20)"/>
+            <column name="versia" remarks="версия договора" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsdogovor" indexName="IDXPOINSDogovorCI">
             <column name="ci"/>
@@ -3385,14 +3385,14 @@
             </not>
         </preConditions>
         <createTable tableName="poinsdogposredn" remarks="Договор посредника">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ci" type="bigint(20)">
+            <column name="ci" remarks="дискриминатор" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="dog" type="bigint(20)"/>
-            <column name="activity" type="bigint(20)">
+            <column name="dog" remarks="Ссылка на таблицу POINSDOGOVOR" type="bigint(20)"/>
+            <column name="activity" remarks="активность" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -3416,22 +3416,22 @@
             </not>
         </preConditions>
         <createTable tableName="poinsdokument" remarks="Документ">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="tip" type="bigint(20)"/>
-            <column name="vladelec" type="bigint(20)"/>
-            <column name="seria" type="varchar(256)"/>
-            <column name="nomer" type="varchar(256)"/>
-            <column name="kemvidan" type="varchar(256)"/>
-            <column name="datavidaci" type="datetime"/>
-            <column name="dataokoncania" type="datetime"/>
-            <column name="vid" type="varchar(100)"/>
-            <column name="svedeniyaORegistracii" type="bigint(20)"/>
-            <column name="kodPodrazdelenia" type="varchar(256)"/>
-            <column name="datanacala" type="datetime"/>
-            <column name="zamenenniy" type="bigint(20)"/>
-            <column name="strana" type="bigint(20)"/>
+            <column name="tip" remarks="тип" type="bigint(20)"/>
+            <column name="vladelec" remarks="Ссылка на таблицу POINSSUBEKTN" type="bigint(20)"/>
+            <column name="seria" remarks="серия" type="varchar(256)"/>
+            <column name="nomer" remarks="номер" type="varchar(256)"/>
+            <column name="kemvidan" remarks="кем выдан" type="varchar(256)"/>
+            <column name="datavidaci" remarks="когда выдан" type="datetime"/>
+            <column name="dataokoncania" remarks="дата окончания срока" type="datetime"/>
+            <column name="vid" remarks="вид документа" type="varchar(100)"/>
+            <column name="svedeniyaORegistracii" remarks="Ссылка на таблицу POINSSVEDENIYAOREGISTRACII" type="bigint(20)"/>
+            <column name="kodPodrazdelenia" remarks="код подразделения" type="varchar(256)"/>
+            <column name="datanacala" remarks="дата начала срока" type="datetime"/>
+            <column name="zamenenniy" remarks="ссылка на замененный документ" type="bigint(20)"/>
+            <column name="strana" remarks="Ссылка на таблицу POINSTERRITORIA" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsdokument" indexName="FK0POINSDokument">
             <column name="vladelec"/>
@@ -3484,13 +3484,13 @@
             </not>
         </preConditions>
         <createTable tableName="poinsdopinfofaila" remarks="Дополнительная информация файла">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="data" type="datetime"/>
-            <column name="failImporta" type="bigint(20)"/>
-            <column name="FAIL" type="longblob"/>
-            <column name="istocnik" type="varchar(1024)"/>
+            <column name="data" remarks="дата" type="datetime"/>
+            <column name="failImporta" remarks="Ссылка на таблицу POINSFAILIMPORTA" type="bigint(20)"/>
+            <column name="FAIL" remarks="файл" type="longblob"/>
+            <column name="istocnik" remarks="источник" type="varchar(1024)"/>
         </createTable>
         <createIndex tableName="poinsdopinfofaila" indexName="FK0POINSDopInfoFaila">
             <column name="failImporta"/>
@@ -3509,16 +3509,16 @@
             </not>
         </preConditions>
         <createTable tableName="poinsdoplatavozvratdog" remarks="Доплата/Возврат по договору">
-            <column name="id" type="bigint(20)">
+            <column name="id" remarks="Идентификатор" type="bigint(20)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="dogovor" type="bigint(20)"/>
-            <column name="tip" type="bigint(20)"/>
-            <column name="summa" type="decimal(38,4)"/>
-            <column name="sposob" type="bigint(20)"/>
-            <column name="polucatel" type="bigint(20)"/>
-            <column name="tipDokumenta" type="bigint(20)"/>
-            <column name="recipientInsurer" type="bigint(20)"/>
+            <column name="dogovor" remarks="Ссылка на таблицу POINSDOGOVOR" type="bigint(20)"/>
+            <column name="tip" remarks="тип" type="bigint(20)"/>
+            <column name="summa" remarks="сумма" type="decimal(38,4)"/>
+            <column name="sposob" remarks="способ возврата" type="bigint(20)"/>
+            <column name="polucatel" remarks="Ссылка на таблицу POINSSUBEKTN" type="bigint(20)"/>
+            <column name="tipDokumenta" remarks="тип документа" type="bigint(20)"/>
+            <column name="recipientInsurer" remarks="получатель является страхователем" type="bigint(20)"/>
         </createTable>
         <createIndex tableName="poinsdoplatavozvratdog" indexName="FK0POINSdoplataVozvratDog">
             <column name="dogovor"/>
