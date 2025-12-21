@@ -1,0 +1,2799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+       http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="0101-create-table-poinstipbankkarti" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipbankkarti"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipbankkarti">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="platSys" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinstipbankkarti" indexName="IDXPOINSTipBankKartinazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0102-create-table-poinstipdeistvia" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipdeistvia"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipdeistvia">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GRUPPA" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0103-create-table-poinstipdeistvialog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipdeistvialog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipdeistvialog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0104-create-table-poinstipfailazajavki" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipfailazajavki"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipfailazajavki">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maxkolvofailov" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0105-create-table-poinstipgrelnsi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipgrelnsi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipgrelnsi">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="krnazv" type="varchar(128)"/>
+        </createTable>
+        <createIndex tableName="poinstipgrelnsi" indexName="IDXPOINSTipGrElNsinazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0106-create-table-poinstipierarhii" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipierarhii"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipierarhii">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0107-create-table-poinstipobektadostupa" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipobektadostupa"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipobektadostupa">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0108-create-table-poinstipobektaie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipobektaie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipobektaie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="toStringMetod" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinstipobektaie" indexName="IDX_POINSTipObektaIEnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0109-create-table-poinstipobektakladr" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipobektakladr"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipobektakladr">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shortname" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objlevel" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0110-create-table-poinstipobektalog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipobektalog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipobektalog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0111-create-table-poinstipobektasost" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipobektasost"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipobektasost">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinstipobektasost" indexName="IDXPOINSTipObektaSostCI">
+            <column name="ci"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0112-create-table-poinstipobektasparam" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipobektasparam"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipobektasparam">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(64)"/>
+        </createTable>
+        <createIndex tableName="poinstipobektasparam" indexName="IDXPOINSTipObektaSParamnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0113-create-table-poinstipparametra" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipparametra"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipparametra">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(3999)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="obazat" type="bigint(20)"/>
+            <column name="PORADOK" type="bigint(20)"/>
+            <column name="redaktiruemii" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="primecanie" type="varchar(1024)"/>
+            <column name="kod" type="varchar(512)"/>
+            <column name="polniikod" type="varchar(3999)"/>
+        </createTable>
+        <createIndex tableName="poinstipparametra" indexName="IDXPOINSTipParametraCI">
+            <column name="ci"/>
+        </createIndex>
+        <createIndex tableName="poinstipparametra" indexName="IDXPOINSTipParametranazv">
+            <column name="nazvanie"/>
+        </createIndex>
+        <createIndex tableName="poinstipparametra" indexName="IDXPOINSTipParametraKOD">
+            <column name="kod"/>
+        </createIndex>
+        <createIndex tableName="poinstipparametra" indexName="IDXPOINSTipParametraFKOD">
+            <column name="polniikod"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0114-create-table-poinstippodrazdelenia" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstippodrazdelenia"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstippodrazdelenia">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0115-create-table-poinstipriska" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipriska"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipriska">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(128)"/>
+        </createTable>
+        <createIndex tableName="poinstipriska" indexName="IDXPOINSTipRiskanazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0116-create-table-poinstipsobitiams" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipsobitiams"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipsobitiams">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinstipsobitiams" indexName="IDXPOINSTipSobitiaMSAKTIVITY">
+            <column name="activity"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0117-create-table-poinstipsost2tipms" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipsost2tipms"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipsost2tipms">
+            <column name="TIP_SOST" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="TIP_MS" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinstipsost2tipms" indexName="FK0POINSTipSost2TipMs">
+            <column name="TIP_SOST"/>
+        </createIndex>
+        <createIndex tableName="poinstipsost2tipms" indexName="FK1POINSTipSost2TipMs">
+            <column name="TIP_MS"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0118-create-table-poinstipsostoania" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipsostoania"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipsostoania">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="base" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="poradok" type="varchar(64)"/>
+            <column name="KONEC" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinstipsostoania" indexName="IDXPOINSTipSostoaniaBAZ">
+            <column name="base"/>
+        </createIndex>
+        <createIndex tableName="poinstipsostoania" indexName="IDXPOINSTipSostoaniaAKTIVITY">
+            <column name="activity"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0119-create-table-poinstipterritorii" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipterritorii"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipterritorii">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="abbrev" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0120-create-table-poinstiptopliva" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstiptopliva"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstiptopliva">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinstiptopliva" indexName="IDXPOINSTipToplivanazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0121-create-table-poinstipzajavki" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstipzajavki"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstipzajavki">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinstipzajavki" indexName="IDXPOINSTipZajavkinazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0122-create-table-poinstopobsostdog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstopobsostdog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstopobsostdog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinstopobsostdog" indexName="IDXPOINSTopObSostDognazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0123-create-table-poinstotcetdesc" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstotcetdesc"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstotcetdesc">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="xmlima" type="varchar(128)"/>
+        </createTable>
+        <createIndex tableName="poinstotcetdesc" indexName="IDXPOINSTOtcetDescnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0124-create-table-poinstransdekra" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstransdekra"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstransdekra">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="carcode" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tdcode" type="varchar(10)"/>
+            <column name="rsacode" type="varchar(10)"/>
+            <column name="makerkey" type="varchar(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modelkey" type="varchar(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="markaName" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modelName" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="typekey" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="typeName" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="engvol" type="decimal(10,4)"/>
+            <column name="engpwr" type="decimal(10,4)"/>
+            <column name="carseats" type="bigint(20)"/>
+            <column name="maxweight" type="decimal(10,4)"/>
+            <column name="kategoriakey" type="varchar(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kategoria" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity" type="bigint(20)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dateFrom" type="datetime"/>
+            <column name="dateTo" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0125-create-table-poinstransdekraversion" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstransdekraversion"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstransdekraversion">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="version" type="varchar(128)"/>
+            <column name="data" type="datetime"/>
+            <column name="dicType" type="varchar(128)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0126-create-table-poinsuserext" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsuserext"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsuserext">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="usrlogin" type="varchar(128)"/>
+            <column name="fio" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinsuserext" indexName="IDXPOINSUserExtLGN">
+            <column name="usrlogin"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0127-create-table-poinsuslovieotboraerd" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsuslovieotboraerd"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsuslovieotboraerd">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsuslovieotboraerd" indexName="IDXPOINSUslovieOtboraErdCI">
+            <column name="ci"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0128-create-table-poinsvalidatorzagruzki" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsvalidatorzagruzki"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsvalidatorzagruzki">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0129-create-table-poinsvalutadefdbs" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsvalutadefdbs"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsvalutadefdbs">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="KOD" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0130-create-table-poinsviddeatelnosti" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsviddeatelnosti"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsviddeatelnosti">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinsviddeatelnosti" indexName="IDXPOINSVidDeatelnostinazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0131-create-table-poinsvidplatega" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsvidplatega"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsvidplatega">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0132-create-table-poinsvolvosecurity" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsvolvosecurity"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsvolvosecurity">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsvolvosecurity" indexName="IDXPOINSVolvoSecuritynazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0133-create-table-poinswrongbank" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinswrongbank"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinswrongbank">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="bik" type="varchar(20)"/>
+            <column name="nazvanie" type="varchar(256)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0134-create-table-poinswsexchangemessage" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinswsexchangemessage"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinswsexchangemessage">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="imaFile" type="varchar(64)"/>
+            <column name="filecont" type="longblob"/>
+            <column name="zipFile" type="bigint(20)"/>
+            <column name="dlinaDoZip" type="bigint(20)"/>
+            <column name="dlinaPosleZip" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0135-create-table-poinsznacenieizspiska" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsznacenieizspiska"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsznacenieizspiska">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsznacenieizspiska" indexName="IDXPOINSZnacenieIzSpiskaCI">
+            <column name="ci"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0136-create-table-poinsznacparkonst" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsznacparkonst"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsznacparkonst">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="stroka" type="varchar(4000)"/>
+            <column name="chislodecimal" type="decimal(38,10)"/>
+            <column name="chislointeger" type="bigint(20)"/>
+            <column name="bulev" type="bigint(20)"/>
+            <column name="datapar" type="datetime"/>
+            <column name="kod" type="varchar(128)"/>
+            <column name="kodSP" type="varchar(128)"/>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0137-create-table-sequence" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="sequence"/>
+            </not>
+        </preConditions>
+        <createTable tableName="sequence">
+            <column name="SEQ_NAME" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEQ_COUNT" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="sequence" indexName="IDXSEQUENCEname">
+            <column name="SEQ_NAME"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0138-create-table-versiasistemi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="versiasistemi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="versiasistemi">
+            <column name="sistema" type="varchar(30)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="versia" type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0139-create-table-zajavkanom" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="zajavkanom"/>
+            </not>
+        </preConditions>
+        <createTable tableName="zajavkanom">
+            <column name="mesac" type="bigint(20)"/>
+            <column name="god" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0140-create-table-loadresultcell" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="loadresultcell"/>
+            </not>
+        </preConditions>
+        <createTable tableName="loadresultcell">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="row_no" type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="column_no" type="int(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message" type="varchar(200)"/>
+            <column name="result_id" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="loadresultcell" indexName="FKloadresultcellres">
+            <column name="result_id"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="loadresultcell"
+                                 baseColumnNames="result_id"
+                                 referencedTableName="loadresult"
+                                 referencedColumnNames="id"
+                                 constraintName="FKloadresultcellres"/>
+    </changeSet>
+
+    <changeSet id="0141-create-table-poinsak" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsak"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsak">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipObekta" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsak" indexName="FKPOINSAKtipObj">
+            <column name="tipObekta"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsak"
+                                 baseColumnNames="tipObekta"
+                                 referencedTableName="poinstipobektaie"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSAKtipObj"/>
+    </changeSet>
+
+    <changeSet id="0142-create-table-poinsconfig2pravilo" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsconfig2pravilo"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsconfig2pravilo">
+            <column name="config" type="bigint(20)"/>
+            <column name="pavilo" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsconfig2pravilo" indexName="FKPOINSConfig2Praviloconfig">
+            <column name="config"/>
+        </createIndex>
+        <createIndex tableName="poinsconfig2pravilo" indexName="FKPOINSConfig2Pravilopavilo">
+            <column name="pavilo"/>
+        </createIndex>
+        <createIndex tableName="poinsconfig2pravilo" indexName="A0POINSConfig2Pravilo">
+            <column name="config"/>
+            <column name="pavilo"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsconfig2pravilo"
+                                 baseColumnNames="config"
+                                 referencedTableName="poinsconfigproverkaprodukta"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSConfig2Praviloconfig"/>
+        <addForeignKeyConstraint baseTableName="poinsconfig2pravilo"
+                                 baseColumnNames="pavilo"
+                                 referencedTableName="poinspraviloproverki"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSConfig2Pravilopavilo"/>
+    </changeSet>
+
+    <changeSet id="0143-create-table-poinsdbprefs" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsdbprefs"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsdbprefs">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_path" type="varchar(1024)"/>
+            <column name="p_name" type="varchar(128)"/>
+            <column name="parent_pref" type="bigint(20)"/>
+            <column name="system_root" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsdbprefs" indexName="FK0POINSdbprefs">
+            <column name="parent_pref"/>
+        </createIndex>
+        <createIndex tableName="poinsdbprefs" indexName="F1POINSdbprefs">
+            <column name="full_path"/>
+            <column name="system_root"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsdbprefs"
+                                 baseColumnNames="parent_pref"
+                                 referencedTableName="poinsdbprefs"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSdbprefs"/>
+    </changeSet>
+
+    <changeSet id="0144-create-table-poinsdbprefsprop" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsdbprefsprop"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsdbprefsprop">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="prefs" type="bigint(20)"/>
+            <column name="p_name" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="p_value" type="varchar(1024)"/>
+        </createTable>
+        <createIndex tableName="poinsdbprefsprop" indexName="FK0POINSdbprefsprop">
+            <column name="prefs"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsdbprefsprop"
+                                 baseColumnNames="prefs"
+                                 referencedTableName="poinsdbprefs"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSdbprefsprop"/>
+    </changeSet>
+
+    <changeSet id="0145-create-table-poinsdsallianz" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsdsallianz"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsdsallianz">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ikp" type="varchar(80)"/>
+            <column name="ikpkur" type="varchar(80)"/>
+            <column name="kodpodr" type="varchar(64)"/>
+            <column name="kp" type="bigint(20)"/>
+            <column name="multiIKP" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsdsallianz" indexName="FKPOINSDSAllianzKANAL">
+            <column name="kp"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsdsallianz"
+                                 baseColumnNames="kp"
+                                 referencedTableName="poinskanalprodag"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSDSAllianzKANAL"/>
+        <addForeignKeyConstraint baseTableName="poinsdsallianz"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinsanalitikadog"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSDSAllianzid"/>
+    </changeSet>
+
+    <changeSet id="0146-create-table-poinselementnsi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinselementnsi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinselementnsi">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="CI" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="toelem" type="bigint(20)"/>
+            <column name="spr" type="bigint(20)"/>
+            <column name="activity" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinselementnsi" indexName="FK0POINSElementNSI">
+            <column name="toelem"/>
+        </createIndex>
+        <createIndex tableName="poinselementnsi" indexName="FK1POINSElementNSI">
+            <column name="spr"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinselementnsi"
+                                 baseColumnNames="toelem"
+                                 referencedTableName="poinselementnsi"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSElementNSI"/>
+        <addForeignKeyConstraint baseTableName="poinselementnsi"
+                                 baseColumnNames="spr"
+                                 referencedTableName="poinsspravochniknsi"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSElementNSI"/>
+    </changeSet>
+
+    <changeSet id="0147-create-table-poinselemnsimarkats" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinselemnsimarkats"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinselemnsimarkats">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="marka" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinselemnsimarkats" indexName="FK1POINSelemNSIMarkaTS">
+            <column name="marka"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinselemnsimarkats"
+                                 baseColumnNames="marka"
+                                 referencedTableName="poinsmarkats"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSelemNSIMarkaTS"/>
+        <addForeignKeyConstraint baseTableName="poinselemnsimarkats"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinselementnsi"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSelemNSIMarkaTSid"/>
+    </changeSet>
+
+    <changeSet id="0148-create-table-poinselemnsiprost" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinselemnsiprost"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinselemnsiprost">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nazvaniepoisk" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinselemnsiprost" indexName="IDXPOINSElemNSIProstPN">
+            <column name="nazvaniepoisk"/>
+        </createIndex>
+        <createIndex tableName="poinselemnsiprost" indexName="IDXPOINSElemNSIProstNZV">
+            <column name="nazvanie"/>
+        </createIndex>
+        <createIndex tableName="poinselemnsiprost" indexName="IDXPOINSElemNSIProstKOD">
+            <column name="kod"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinselemnsiprost"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinselementnsi"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSElemNSIProstid"/>
+    </changeSet>
+
+    <changeSet id="0149-create-table-poinsfailistcs" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsfailistcs"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsfailistcs">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dataZagr" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="istochnik" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsfailistcs" indexName="FK0POINSFailIstCS">
+            <column name="istochnik"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsfailistcs"
+                                 baseColumnNames="istochnik"
+                                 referencedTableName="poinscsistochnikinfo"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSFailIstCS"/>
+    </changeSet>
+
+    <changeSet id="0150-create-table-poinsglobalpwdktrl" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsglobalpwdktrl"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsglobalpwdktrl">
+            <column name="Ktrl" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsglobalpwdktrl" indexName="FK0POINSGlobalPwdKtrl">
+            <column name="Ktrl"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsglobalpwdktrl"
+                                 baseColumnNames="Ktrl"
+                                 referencedTableName="poinsparolktrl"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSGlobalPwdKtrl"/>
+    </changeSet>
+
+    <changeSet id="0151-create-table-poinsiddata2istdensr" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsiddata2istdensr"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsiddata2istdensr">
+            <column name="identData" type="bigint(20)"/>
+            <column name="istDenSredstv" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsiddata2istdensr" indexName="FKPOINSIdData2IstDenSridData">
+            <column name="identData"/>
+        </createIndex>
+        <createIndex tableName="poinsiddata2istdensr" indexName="FKPOINSIdData2IstDenSristDenSr">
+            <column name="istDenSredstv"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsiddata2istdensr"
+                                 baseColumnNames="identData"
+                                 referencedTableName="poinsidendata"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSIdData2IstDenSridData"/>
+        <addForeignKeyConstraint baseTableName="poinsiddata2istdensr"
+                                 baseColumnNames="istDenSredstv"
+                                 referencedTableName="poinsistdensredstv"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSIdData2IstDenSristDenSr"/>
+    </changeSet>
+
+    <changeSet id="0152-create-table-poinsiddata2istdensrpdl" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsiddata2istdensrpdl"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsiddata2istdensrpdl">
+            <column name="identData" type="bigint(20)"/>
+            <column name="istDenSredstv" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsiddata2istdensrpdl" indexName="FKPOINSIdData2IstDenSrPdlIDD">
+            <column name="identData"/>
+        </createIndex>
+        <createIndex tableName="poinsiddata2istdensrpdl" indexName="FKPOINSIdData2IstDenSrPdlIDS">
+            <column name="istDenSredstv"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsiddata2istdensrpdl"
+                                 baseColumnNames="identData"
+                                 referencedTableName="poinsidendata"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSIdData2IstDenSrPdlIDD"/>
+        <addForeignKeyConstraint baseTableName="poinsiddata2istdensrpdl"
+                                 baseColumnNames="istDenSredstv"
+                                 referencedTableName="poinsistdensredstv"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSIdData2IstDenSrPdlIDS"/>
+    </changeSet>
+
+    <changeSet id="0153-create-table-poinsierarhia" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsierarhia"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsierarhia">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tip" type="bigint(20)"/>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsierarhia" indexName="FKPOINSIerarhiatip">
+            <column name="tip"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsierarhia"
+                                 baseColumnNames="tip"
+                                 referencedTableName="poinstipierarhii"
+                                 referencedColumnNames="pk"
+                                 constraintName="FKPOINSIerarhiatip"/>
+    </changeSet>
+
+    <changeSet id="0154-create-table-poinsktrlparolimpl" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsktrlparolimpl"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsktrlparolimpl">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ChangeOnEnter" type="bigint(20)"/>
+            <column name="PwdComplex" type="bigint(20)"/>
+            <column name="PwdExpir" type="bigint(20)"/>
+            <column name="PwdDays" type="bigint(20)"/>
+            <column name="WarnExpir" type="bigint(20)"/>
+            <column name="WarnDays" type="bigint(20)"/>
+            <column name="PwdDiff" type="bigint(20)"/>
+            <column name="DiffCount" type="bigint(20)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="poinsktrlparolimpl"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinsparolktrl"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSKtrlParolImpl"/>
+    </changeSet>
+
+    <changeSet id="0155-create-table-poinskursval" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinskursval"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinskursval">
+            <column name="PK" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="valutato" type="bigint(20)"/>
+            <column name="valutafrom" type="bigint(20)"/>
+            <column name="znacenie" type="decimal(31,4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinskursval" indexName="FK0POINSKURSVAL">
+            <column name="valutato"/>
+        </createIndex>
+        <createIndex tableName="poinskursval" indexName="FK1POINSKURSVAL">
+            <column name="valutafrom"/>
+        </createIndex>
+        <createIndex tableName="poinskursval" indexName="IDXPOINSKURSVALRQ">
+            <column name="data"/>
+            <column name="valutafrom"/>
+            <column name="valutato"/>
+        </createIndex>
+        <createIndex tableName="poinskursval" indexName="A0POINSKURSVAL">
+            <column name="valutafrom"/>
+            <column name="valutato"/>
+            <column name="data"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinskursval"
+                                 baseColumnNames="valutato"
+                                 referencedTableName="poinsvalutadefdbs"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSKURSVAL"/>
+        <addForeignKeyConstraint baseTableName="poinskursval"
+                                 baseColumnNames="valutafrom"
+                                 referencedTableName="poinsvalutadefdbs"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSKURSVAL"/>
+    </changeSet>
+
+    <changeSet id="0156-create-table-poinslogopobj" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinslogopobj"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinslogopobj">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="idObj" type="bigint(20)"/>
+            <column name="dataOp" type="datetime"/>
+            <column name="tipObekta" type="bigint(20)"/>
+            <column name="oper" type="bigint(20)"/>
+            <column name="soobsenie" type="varchar(4000)"/>
+        </createTable>
+        <createIndex tableName="poinslogopobj" indexName="FKPOINSLogOpObjTOB">
+            <column name="tipObekta"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinslogopobj"
+                                 baseColumnNames="tipObekta"
+                                 referencedTableName="poinstipobektadostupa"
+                                 referencedColumnNames="pk"
+                                 constraintName="FKPOINSLogOpObjTOB"/>
+    </changeSet>
+
+    <changeSet id="0157-create-table-poinsmetainfodocument" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmetainfodocument"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmetainfodocument">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="entityType" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entityId" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fileId" type="bigint(20)"/>
+            <column name="fileName" type="varchar(256)"/>
+            <column name="fileSize" type="bigint(20)"/>
+            <column name="lastActivityDate" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exported" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="storagePath" type="varchar(512)"/>
+            <column name="partInfo" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="bigint(20)"/>
+            <column name="markAsDeleted" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="legacy" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="markAsReadyToExport" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tryCount" type="bigint(20)" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsmetainfodocument" indexName="FK0POINSMetaInfoDocument">
+            <column name="content"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumenteType">
+            <column name="entityType"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumenteId">
+            <column name="entityId"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentdId">
+            <column name="fileId"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentfName">
+            <column name="fileName"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentlaDate">
+            <column name="lastActivityDate"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentexp">
+            <column name="exported"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentpath">
+            <column name="storagePath"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentpart">
+            <column name="partInfo"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentmDel">
+            <column name="markAsDeleted"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentdel">
+            <column name="deleted"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentleg">
+            <column name="legacy"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumentrexp">
+            <column name="markAsReadyToExport"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumenttExpDel">
+            <column name="entityType"/>
+            <column name="partInfo"/>
+            <column name="exported"/>
+            <column name="markAsDeleted"/>
+            <column name="deleted"/>
+        </createIndex>
+        <createIndex tableName="poinsmetainfodocument" indexName="IDXPOINSMetaInfoDocumenttCnt">
+            <column name="tryCount"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsmetainfodocument"
+                                 baseColumnNames="content"
+                                 referencedTableName="poinsdoccontent"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSMetaInfoDocument"/>
+    </changeSet>
+
+    <changeSet id="0158-create-table-poinsmodelpuu" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmodelpuu"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmodelpuu">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tip" type="bigint(20)"/>
+            <column name="marka" type="bigint(20)"/>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsmodelpuu" indexName="FKPOINSModelPUUMRK">
+            <column name="marka"/>
+        </createIndex>
+        <createIndex tableName="poinsmodelpuu" indexName="IDXPOINSModelPUUTIP">
+            <column name="tip"/>
+        </createIndex>
+        <createIndex tableName="poinsmodelpuu" indexName="IDXPOINSModelPUUnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsmodelpuu"
+                                 baseColumnNames="marka"
+                                 referencedTableName="poinsmarkapuu"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSModelPUUMRK"/>
+    </changeSet>
+
+    <changeSet id="0159-create-table-poinsmodelts" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmodelts"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmodelts">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="inomarka" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tip" type="bigint(20)"/>
+            <column name="marka" type="bigint(20)"/>
+            <column name="podkateg" type="bigint(20)"/>
+            <column name="drugaa" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsmodelts" indexName="FKPOINSModelTSMDL">
+            <column name="marka"/>
+        </createIndex>
+        <createIndex tableName="poinsmodelts" indexName="FKPOINSModelTSKTG">
+            <column name="podkateg"/>
+        </createIndex>
+        <createIndex tableName="poinsmodelts" indexName="IDXPOINSModelTSnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+        <createIndex tableName="poinsmodelts" indexName="IDXPOINSModelTSINSTR">
+            <column name="inomarka"/>
+        </createIndex>
+        <createIndex tableName="poinsmodelts" indexName="IDXPOINSModelTSTIP">
+            <column name="tip"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsmodelts"
+                                 baseColumnNames="podkateg"
+                                 referencedTableName="poinspodkategts"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSModelTSKTG"/>
+        <addForeignKeyConstraint baseTableName="poinsmodelts"
+                                 baseColumnNames="marka"
+                                 referencedTableName="poinsmarkats"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSModelTSMDL"/>
+    </changeSet>
+
+    <changeSet id="0160-create-table-poinsmodificationts" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmodificationts"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmodificationts">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+            <column name="model" type="bigint(20)"/>
+            <column name="tipKuzova" type="bigint(20)"/>
+            <column name="tipKpp" type="bigint(20)"/>
+            <column name="tipPrivoda" type="bigint(20)"/>
+            <column name="kategoriaTS" type="bigint(20)"/>
+            <column name="kodRSA" type="varchar(64)"/>
+            <column name="kodTD" type="varchar(64)"/>
+            <column name="obemDvigatela" type="decimal(10,3)"/>
+            <column name="mosnost" type="decimal(10,2)"/>
+            <column name="razMaxMassa" type="decimal(10,2)"/>
+            <column name="kolvoDverei" type="bigint(20)"/>
+            <column name="kolvoMest" type="bigint(20)"/>
+            <column name="nachaloVipuska" type="bigint(20)"/>
+            <column name="konecVipuska" type="bigint(20)"/>
+            <column name="tipTopliva" type="bigint(20)"/>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsmodificationts" indexName="FKPOINSModificationTSmdl">
+            <column name="model"/>
+        </createIndex>
+        <createIndex tableName="poinsmodificationts" indexName="FKPOINSModificationTSTOPLV">
+            <column name="tipTopliva"/>
+        </createIndex>
+        <createIndex tableName="poinsmodificationts" indexName="IDXPOINSModificationTSnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+        <createIndex tableName="poinsmodificationts" indexName="IDXPOINSModificationTSKOD">
+            <column name="kod"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsmodificationts"
+                                 baseColumnNames="tipTopliva"
+                                 referencedTableName="poinstiptopliva"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSModificationTSTOPLV"/>
+        <addForeignKeyConstraint baseTableName="poinsmodificationts"
+                                 baseColumnNames="model"
+                                 referencedTableName="poinsmodelts"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSModificationTSmdl"/>
+    </changeSet>
+
+    <changeSet id="0161-create-table-poinsobdostupa" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobdostupa"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobdostupa">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazv" type="varchar(512)"/>
+            <column name="tip" type="bigint(20)"/>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsobdostupa" indexName="FK0POINSobdostupa">
+            <column name="tip"/>
+        </createIndex>
+        <createIndex tableName="poinsobdostupa" indexName="IDXPOINSobdostupaCI">
+            <column name="ci"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobdostupa"
+                                 baseColumnNames="tip"
+                                 referencedTableName="poinstipobektadostupa"
+                                 referencedColumnNames="pk"
+                                 constraintName="FK0POINSobdostupa"/>
+    </changeSet>
+
+    <changeSet id="0162-create-table-poinsobektbilling" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektbilling"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektbilling">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nomerZakaza" type="varchar(200)"/>
+            <column name="summa" type="decimal(38,4)"/>
+            <column name="valuta" type="bigint(20)"/>
+            <column name="system" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsobektbilling" indexName="FKPOINSObektBillingval">
+            <column name="valuta"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektbilling"
+                                 baseColumnNames="valuta"
+                                 referencedTableName="poinsvalutadefdbs"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSObektBillingval"/>
+    </changeSet>
+
+    <changeSet id="0163-create-table-poinsobektie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="status" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="idVPriemn" type="bigint(20)"/>
+            <column name="tip" type="bigint(20)"/>
+            <column name="znacenieAK" type="varchar(3200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsobektie" indexName="FKPOINSObektIEtip">
+            <column name="tip"/>
+        </createIndex>
+        <createIndex tableName="poinsobektie" indexName="IDX_POINSObektIEstatus">
+            <column name="status"/>
+        </createIndex>
+        <createIndex tableName="poinsobektie" indexName="IDX_POINSObektIEidVPriemn">
+            <column name="idVPriemn"/>
+        </createIndex>
+        <createIndex tableName="poinsobektie" indexName="IDX_POINSObektIEznacenieAK">
+            <column name="znacenieAK"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektie"
+                                 baseColumnNames="tip"
+                                 referencedTableName="poinstipobektaie"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSObektIEtip"/>
+    </changeSet>
+
+    <changeSet id="0164-create-table-poinsobektieistocnik" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektieistocnik"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektieistocnik">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="obekt" type="bigint(20)"/>
+            <column name="istocnik" type="bigint(20)"/>
+            <column name="idVIstocnike" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsobektieistocnik" indexName="FKPOINSObektIEIstocnikObj">
+            <column name="obekt"/>
+        </createIndex>
+        <createIndex tableName="poinsobektieistocnik" indexName="FKPOINSObektIEIstocnikIst">
+            <column name="istocnik"/>
+        </createIndex>
+        <createIndex tableName="poinsobektieistocnik" indexName="IDXPOINSObektIEIstocnikid">
+            <column name="idVIstocnike"/>
+        </createIndex>
+        <createIndex tableName="poinsobektieistocnik" indexName="A0POINSObektIEIstocnik">
+            <column name="obekt"/>
+            <column name="istocnik"/>
+            <column name="idVIstocnike"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektieistocnik"
+                                 baseColumnNames="istocnik"
+                                 referencedTableName="poinsistocnik"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSObektIEIstocnikIst"/>
+        <addForeignKeyConstraint baseTableName="poinsobektieistocnik"
+                                 baseColumnNames="obekt"
+                                 referencedTableName="poinsobektie"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSObektIEIstocnikObj"/>
+    </changeSet>
+
+    <changeSet id="0165-create-table-poinsobektkladr" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektkladr"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektkladr">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="fullCode" type="varchar(13)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="okatoCode" type="varchar(11)"/>
+            <column name="selfCode" type="varchar(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objlevel" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ifnsCode" type="varchar(4)"/>
+            <column name="status" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="bigint(20)"/>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="indeks" type="varchar(20)"/>
+        </createTable>
+        <createIndex tableName="poinsobektkladr" indexName="FK1POINSObektKLADR">
+            <column name="type"/>
+        </createIndex>
+        <createIndex tableName="poinsobektkladr" indexName="F1POINSObektKLADR">
+            <column name="fullCode"/>
+        </createIndex>
+        <createIndex tableName="poinsobektkladr" indexName="F2POINSObektKLADR">
+            <column name="okatoCode"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektkladr"
+                                 baseColumnNames="pk"
+                                 referencedTableName="poinsoi"
+                                 referencedColumnNames="pk"
+                                 constraintName="FK0POINSObektKLADR"/>
+        <addForeignKeyConstraint baseTableName="poinsobektkladr"
+                                 baseColumnNames="type"
+                                 referencedTableName="poinstipobektakladr"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSObektKLADR"/>
+    </changeSet>
+
+    <changeSet id="0166-create-table-poinsobektlog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektlog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektlog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tip" type="bigint(20)"/>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsobektlog" indexName="FKPOINSObektLogtip">
+            <column name="tip"/>
+        </createIndex>
+        <createIndex tableName="poinsobektlog" indexName="IDXPOINSObektLogCI">
+            <column name="ci"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektlog"
+                                 baseColumnNames="tip"
+                                 referencedTableName="poinstipobektalog"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSObektLogtip"/>
+    </changeSet>
+
+    <changeSet id="0167-create-table-poinsobektsistemi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektsistemi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektsistemi">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sinhr" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="udalen" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dateizm" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ak" type="varchar(256)"/>
+            <column name="obektDostupa" type="bigint(20)"/>
+            <column name="idVSisteme" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsobektsistemi" indexName="FKPOINSObektSistemiobdost">
+            <column name="obektDostupa"/>
+        </createIndex>
+        <createIndex tableName="poinsobektsistemi" indexName="IDPOINSObektSistemisinhr">
+            <column name="sinhr"/>
+        </createIndex>
+        <createIndex tableName="poinsobektsistemi" indexName="IDPOINSObektSistemiudal">
+            <column name="udalen"/>
+        </createIndex>
+        <createIndex tableName="poinsobektsistemi" indexName="IDPOINSObektSistemiAK">
+            <column name="ak"/>
+        </createIndex>
+        <createIndex tableName="poinsobektsistemi" indexName="IDPOINSObektSistemidateIzm">
+            <column name="dateizm"/>
+        </createIndex>
+        <createIndex tableName="poinsobektsistemi" indexName="IDXPOINSObektSistemiIDS">
+            <column name="idVSisteme"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektsistemi"
+                                 baseColumnNames="obektDostupa"
+                                 referencedTableName="poinsobdostupa"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSObektSistemiobdost"/>
+    </changeSet>
+
+    <changeSet id="0168-create-table-poinsobektsost" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektsost"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektsost">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tip" type="bigint(20)"/>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAZVANIE" type="varchar(512)"/>
+        </createTable>
+        <createIndex tableName="poinsobektsost" indexName="FKPOINSObektSosttip">
+            <column name="tip"/>
+        </createIndex>
+        <createIndex tableName="poinsobektsost" indexName="IDXPOINSObektSostci">
+            <column name="ci"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektsost"
+                                 baseColumnNames="tip"
+                                 referencedTableName="poinstipobektasost"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSObektSosttip"/>
+    </changeSet>
+
+    <changeSet id="0169-create-table-poinsobektsostlog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektsostlog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektsostlog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="OS" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsobektsostlog" indexName="FK1POINSObektSostLog">
+            <column name="OS"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektsostlog"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinsobdostupa"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSObektSostLog"/>
+        <addForeignKeyConstraint baseTableName="poinsobektsostlog"
+                                 baseColumnNames="OS"
+                                 referencedTableName="poinsobektsost"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSObektSostLog"/>
+    </changeSet>
+
+    <changeSet id="0170-create-table-poinsobektsparam" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektsparam"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektsparam">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tip" type="bigint(20)"/>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="oldType" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsobektsparam" indexName="FKPOINSObektSParamtip">
+            <column name="tip"/>
+        </createIndex>
+        <createIndex tableName="poinsobektsparam" indexName="IDXPOINSObektSParamCI">
+            <column name="ci"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsobektsparam"
+                                 baseColumnNames="tip"
+                                 referencedTableName="poinstipobektasparam"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSObektSParamtip"/>
+    </changeSet>
+
+    <changeSet id="0171-create-table-poinsoperavto" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsoperavto"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsoperavto">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="period" type="bigint(20)"/>
+            <column name="otklucena" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsoperavto" indexName="FKPOINSOperAvtoprd">
+            <column name="period"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsoperavto"
+                                 baseColumnNames="period"
+                                 referencedTableName="poinsperiodoper"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSOperAvtoprd"/>
+    </changeSet>
+
+    <changeSet id="0172-create-table-poinsoperavtoie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsoperavtoie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsoperavtoie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sistema" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vidobekta" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operacia" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="raspisanie" type="bigint(20)"/>
+            <column name="manual" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsoperavtoie" indexName="FK0POINSOperAvtoIE">
+            <column name="raspisanie"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsoperavtoie"
+                                 baseColumnNames="raspisanie"
+                                 referencedTableName="poinsoperavto"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSOperAvtoIE"/>
+    </changeSet>
+
+    <changeSet id="0173-create-table-poinsospnsi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsospnsi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsospnsi">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="vladelec" type="bigint(20)"/>
+            <column name="nazvanie" type="varchar(512)"/>
+        </createTable>
+        <createIndex tableName="poinsospnsi" indexName="FK0POINSospnsi">
+            <column name="vladelec"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsospnsi"
+                                 baseColumnNames="vladelec"
+                                 referencedTableName="poinsospvladelecnsi"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSospnsi"/>
+    </changeSet>
+
+    <changeSet id="0174-create-table-poinsosptipelementnsi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsosptipelementnsi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsosptipelementnsi">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nsi" type="bigint(20)"/>
+            <column name="alias" type="varchar(512)"/>
+        </createTable>
+        <createIndex tableName="poinsosptipelementnsi" indexName="FK0POINSosptipElementNSI">
+            <column name="nsi"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsosptipelementnsi"
+                                 baseColumnNames="nsi"
+                                 referencedTableName="poinsospnsi"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSosptipElementNSI"/>
+    </changeSet>
+
+    <changeSet id="0175-create-table-poinsosptipobektasistemi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsosptipobektasistemi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsosptipobektasistemi">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tipnsi" type="bigint(20)"/>
+            <column name="CI" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsosptipobektasistemi" indexName="FK0POINSosptipObektaSistemi">
+            <column name="tipnsi"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsosptipobektasistemi"
+                                 baseColumnNames="tipnsi"
+                                 referencedTableName="poinsosptipelementnsi"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSosptipObektaSistemi"/>
+    </changeSet>
+
+    <changeSet id="0176-create-table-poinsotcetdesc" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsotcetdesc"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsotcetdesc">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="xlsname" type="varchar(128)"/>
+            <column name="tip" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsotcetdesc" indexName="IDXPOINSOtcetDescCI">
+            <column name="ci"/>
+        </createIndex>
+        <createIndex tableName="poinsotcetdesc" indexName="FKPOINSOtcetDescTIP">
+            <column name="tip"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsotcetdesc"
+                                 baseColumnNames="tip"
+                                 referencedTableName="poinstotcetdesc"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSOtcetDescTIP"/>
+    </changeSet>
+
+    <changeSet id="0177-create-table-poinspaymentconfig" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspaymentconfig"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspaymentconfig">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url" type="varchar(2048)"/>
+            <column name="login" type="varchar(512)"/>
+            <column name="password" type="varchar(1024)"/>
+            <column name="enabled" type="bigint(20)"/>
+            <column name="icon" type="varchar(256)"/>
+            <column name="plategSystem" type="bigint(20)"/>
+            <column name="fiskalniy" type="bigint(20)"/>
+            <column name="timeoutSeconds" type="bigint(20)"/>
+            <column name="taxSystem" type="bigint(20)"/>
+            <column name="taxType" type="bigint(20)"/>
+            <column name="taxSum" type="bigint(20)"/>
+            <column name="transaction_suff" type="varchar(128)"/>
+            <column name="bezUvedoml" type="bigint(20)"/>
+            <column name="availableDecline" type="bigint(20)"/>
+            <column name="emailBezUvedoml" type="bigint(20)"/>
+            <column name="bloackEmail" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinspaymentconfig" indexName="FK0POINSPaymentConfig">
+            <column name="plategSystem"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinspaymentconfig"
+                                 baseColumnNames="plategSystem"
+                                 referencedTableName="poinsplategnaasistema"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSPaymentConfig"/>
+    </changeSet>
+
+    <changeSet id="0178-create-table-poinspolzovrpd" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspolzovrpd"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspolzovrpd">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="parol" type="varchar(64)"/>
+            <column name="Passw" type="bigint(20)"/>
+            <column name="PasswKtrl" type="bigint(20)"/>
+            <column name="estdostup" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FIO" type="varchar(192)"/>
+            <column name="EMAIL" type="varchar(64)"/>
+            <column name="FAMILIA" type="varchar(64)"/>
+            <column name="IMA" type="varchar(64)"/>
+            <column name="OTCHESTVO" type="varchar(64)"/>
+            <column name="errenter" type="bigint(20)"/>
+            <column name="chgpwdreq" type="bigint(20)"/>
+            <column name="dontBlock" type="bigint(20)"/>
+            <column name="dateLastAct" type="datetime"/>
+            <column name="sellerCode" type="varchar(64)"/>
+            <column name="tempBlock" type="bigint(20)"/>
+            <column name="dateTempBlock" type="datetime"/>
+            <column name="pricinaBlock" type="bigint(20)"/>
+            <column name="kommBlock" type="varchar(256)"/>
+            <column name="sendAuth" type="bigint(20)"/>
+            <column name="ikpCuratora" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinspolzovrpd" indexName="FK1POINSPolzovRPD">
+            <column name="PasswKtrl"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinspolzovrpd"
+                                 baseColumnNames="PasswKtrl"
+                                 referencedTableName="poinsparolktrl"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSPolzovRPD"/>
+        <addForeignKeyConstraint baseTableName="poinspolzovrpd"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinssubektdostupa"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSPolzovRPDpk"/>
+    </changeSet>
+
+    <changeSet id="0179-create-table-poinsprostoitip" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsprostoitip"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsprostoitip">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="klassParametra" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsprostoitip" indexName="IDXPOINSProstoiTipklass">
+            <column name="klassParametra"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsprostoitip"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinstipparametra"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSProstoiTipid"/>
+    </changeSet>
+
+    <changeSet id="0180-create-table-poinspsscetnaoplatu" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspsscetnaoplatu"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspsscetnaoplatu">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="data" type="datetime"/>
+            <column name="summa" type="decimal(38,4)"/>
+            <column name="valuta" type="bigint(20)"/>
+            <column name="callback" type="bigint(20)"/>
+            <column name="fiskalniy" type="bigint(20)"/>
+            <column name="phonePokupatel" type="varchar(128)"/>
+            <column name="emailPokupatel" type="varchar(512)"/>
+            <column name="sposobSvazi" type="varchar(512)"/>
+            <column name="valutaOpl" type="bigint(20)"/>
+            <column name="kursOpl" type="decimal(38,4)"/>
+            <column name="summaVValuteOpl" type="decimal(38,4)"/>
+            <column name="scetnumber" type="varchar(512)"/>
+            <column name="plategnaaSistema" type="bigint(20)"/>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fioPokupatel" type="varchar(512)"/>
+            <column name="innPokupatel" type="varchar(128)"/>
+            <column name="passportPokupatel" type="varchar(128)"/>
+            <column name="autoPayment" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinspsscetnaoplatu" indexName="FK0POINSPSScetNaOplatu">
+            <column name="valuta"/>
+        </createIndex>
+        <createIndex tableName="poinspsscetnaoplatu" indexName="FKPOINSPSScetNaOplatuVALOPL">
+            <column name="valutaOpl"/>
+        </createIndex>
+        <createIndex tableName="poinspsscetnaoplatu" indexName="FK2POINSPSScetNaOplatu">
+            <column name="plategnaaSistema"/>
+        </createIndex>
+        <createIndex tableName="poinspsscetnaoplatu" indexName="IDXnumPSscet">
+            <column name="scetnumber"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinspsscetnaoplatu"
+                                 baseColumnNames="valuta"
+                                 referencedTableName="poinsvalutadefdbs"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSPSScetNaOplatu"/>
+        <addForeignKeyConstraint baseTableName="poinspsscetnaoplatu"
+                                 baseColumnNames="plategnaaSistema"
+                                 referencedTableName="poinsplategnaasistema"
+                                 referencedColumnNames="id"
+                                 constraintName="FK2POINSPSScetNaOplatu"/>
+        <addForeignKeyConstraint baseTableName="poinspsscetnaoplatu"
+                                 baseColumnNames="valutaOpl"
+                                 referencedTableName="poinsvalutadefdbs"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSPSScetNaOplatuVALOPL"/>
+    </changeSet>
+
+    <changeSet id="0181-create-table-poinsrezultatvalidacii" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrezultatvalidacii"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrezultatvalidacii">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="status" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opisanie" type="longblob"/>
+            <column name="gurnal" type="bigint(20)"/>
+            <column name="validator" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsrezultatvalidacii" indexName="FKPOINSRezultatValidaciiGur">
+            <column name="gurnal"/>
+        </createIndex>
+        <createIndex tableName="poinsrezultatvalidacii" indexName="FKPOINSRezultatValidaciiVal">
+            <column name="validator"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsrezultatvalidacii"
+                                 baseColumnNames="gurnal"
+                                 referencedTableName="poinsgurnalvalidacii"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSRezultatValidaciiGur"/>
+        <addForeignKeyConstraint baseTableName="poinsrezultatvalidacii"
+                                 baseColumnNames="validator"
+                                 referencedTableName="poinsvalidatorzagruzki"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSRezultatValidaciiVal"/>
+    </changeSet>
+
+    <changeSet id="0182-create-table-poinsriskvidstrahcfg" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsriskvidstrahcfg"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsriskvidstrahcfg">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="risk" type="bigint(20)"/>
+            <column name="kod" type="varchar(128)"/>
+        </createTable>
+        <createIndex tableName="poinsriskvidstrahcfg" indexName="FKPOINSRiskVidStrahCfgRSK">
+            <column name="risk"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsriskvidstrahcfg"
+                                 baseColumnNames="risk"
+                                 referencedTableName="poinstipriska"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSRiskVidStrahCfgRSK"/>
+    </changeSet>
+
+    <changeSet id="0183-create-table-poinsrpddomain" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrpddomain"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrpddomain">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="politika" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsrpddomain" indexName="FKPOINSrpddomainbezoppolitic">
+            <column name="politika"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsrpddomain"
+                                 baseColumnNames="politika"
+                                 referencedTableName="poinsbezoppolitic"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSrpddomainbezoppolitic"/>
+    </changeSet>
+
+    <changeSet id="0184-create-table-poinsrpdidescriptor" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrpdidescriptor"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrpdidescriptor">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="poinsrpdidescriptor"
+                                 baseColumnNames="pk"
+                                 referencedTableName="poinstipobektadostupa"
+                                 referencedColumnNames="pk"
+                                 constraintName="FK0POINSRPDIDescriptor"/>
+    </changeSet>
+
+    <changeSet id="0185-create-table-poinsrpditable5006" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrpditable5006"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrpditable5006">
+            <column name="PK" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="obektdostupa" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsrpditable5006" indexName="FK1POINSrpditable5006">
+            <column name="obektdostupa"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsrpditable5006"
+                                 baseColumnNames="PK"
+                                 referencedTableName="poinskursval"
+                                 referencedColumnNames="PK"
+                                 constraintName="FK0POINSrpditable5006"/>
+        <addForeignKeyConstraint baseTableName="poinsrpditable5006"
+                                 baseColumnNames="obektdostupa"
+                                 referencedTableName="poinsobdostupa"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSrpditable5006"/>
+    </changeSet>
+
+    <changeSet id="0186-create-table-poinsrpditable5011" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrpditable5011"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrpditable5011">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="obektdostupa" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsrpditable5011" indexName="FK1POINSrpditable5011">
+            <column name="obektdostupa"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsrpditable5011"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinswrongbank"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSrpditable5011"/>
+        <addForeignKeyConstraint baseTableName="poinsrpditable5011"
+                                 baseColumnNames="obektdostupa"
+                                 referencedTableName="poinsobdostupa"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSrpditable5011"/>
+    </changeSet>
+
+    <changeSet id="0187-create-table-poinsrpditable5083" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrpditable5083"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrpditable5083">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="obektdostupa" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsrpditable5083" indexName="FK1POINSrpditable5083">
+            <column name="obektdostupa"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsrpditable5083"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinskhdspisokdog"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSrpditable5083"/>
+        <addForeignKeyConstraint baseTableName="poinsrpditable5083"
+                                 baseColumnNames="obektdostupa"
+                                 referencedTableName="poinsobdostupa"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSrpditable5083"/>
+    </changeSet>
+
+    <changeSet id="0188-create-table-poinsrpditable9" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrpditable9"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrpditable9">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="obektdostupa" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsrpditable9" indexName="FK1POINSrpditable9">
+            <column name="obektdostupa"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsrpditable9"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinspolzovrpd"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSrpditable9"/>
+        <addForeignKeyConstraint baseTableName="poinsrpditable9"
+                                 baseColumnNames="obektdostupa"
+                                 referencedTableName="poinsobdostupa"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSrpditable9"/>
+    </changeSet>
+
+    <changeSet id="0189-create-table-poinsrpdparol" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrpdparol"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrpdparol">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="Polz" type="bigint(20)"/>
+            <column name="Parol" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="StartData" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsrpdparol" indexName="FK0POINSRpdParol">
+            <column name="Polz"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsrpdparol"
+                                 baseColumnNames="Polz"
+                                 referencedTableName="poinspolzovrpd"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSRpdParol"/>
+    </changeSet>
+
+    <changeSet id="0190-create-table-poinsscetnaoplatu" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsscetnaoplatu"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsscetnaoplatu">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="naznacenie" type="varchar(128)"/>
+            <column name="dokumenti" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsscetnaoplatu" indexName="FKPOINSSCETNAOPLATUdoc">
+            <column name="dokumenti"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsscetnaoplatu"
+                                 baseColumnNames="dokumenti"
+                                 referencedTableName="poinsplategniidokument"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSSCETNAOPLATUdoc"/>
+    </changeSet>
+
+    <changeSet id="0191-create-table-poinsscetnaoplatu2dok" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsscetnaoplatu2dok"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsscetnaoplatu2dok">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sceta" type="bigint(20)"/>
+            <column name="documenti" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsscetnaoplatu2dok" indexName="FKPOINSSCETNAOPLATU2dokscet">
+            <column name="sceta"/>
+        </createIndex>
+        <createIndex tableName="poinsscetnaoplatu2dok" indexName="FK1POINSSCETNAOPLATU2dok">
+            <column name="documenti"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsscetnaoplatu2dok"
+                                 baseColumnNames="documenti"
+                                 referencedTableName="poinsplategniidokument"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSSCETNAOPLATU2dok"/>
+        <addForeignKeyConstraint baseTableName="poinsscetnaoplatu2dok"
+                                 baseColumnNames="sceta"
+                                 referencedTableName="poinsscetnaoplatu"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSSCETNAOPLATU2dokscet"/>
+    </changeSet>
+
+    <changeSet id="0192-create-table-poinsseansie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsseansie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsseansie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="data" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="polzov" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gurnal" type="bigint(20)"/>
+            <column name="status" type="varchar(512)"/>
+            <column name="prim" type="longblob"/>
+            <column name="napravlenie" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsseansie" indexName="FKPOINSSeansIEGur">
+            <column name="gurnal"/>
+        </createIndex>
+        <createIndex tableName="poinsseansie" indexName="IDXPOINSSeansIEdata">
+            <column name="data"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsseansie"
+                                 baseColumnNames="gurnal"
+                                 referencedTableName="poinsgurnalvalidacii"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSSeansIEGur"/>
+    </changeSet>
+
+    <changeSet id="0193-create-table-poinsseansiehran" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsseansiehran"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsseansiehran">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="seans" type="bigint(20)"/>
+            <column name="hranilise" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsseansiehran" indexName="FKPOINSSeansIEHranseans">
+            <column name="seans"/>
+        </createIndex>
+        <createIndex tableName="poinsseansiehran" indexName="FKPOINSSeansIEHranhran">
+            <column name="hranilise"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsseansiehran"
+                                 baseColumnNames="hranilise"
+                                 referencedTableName="poinshranilise"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSSeansIEHranhran"/>
+        <addForeignKeyConstraint baseTableName="poinsseansiehran"
+                                 baseColumnNames="seans"
+                                 referencedTableName="poinsseansie"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSSeansIEHranseans"/>
+    </changeSet>
+
+    <changeSet id="0194-create-table-poinssmtmstatetip" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssmtmstatetip"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssmtmstatetip">
+            <column name="statemachinetip" type="bigint(20)"/>
+            <column name="statetip" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinssmtmstatetip" indexName="FK0POINSSMTMStateTip">
+            <column name="statemachinetip"/>
+        </createIndex>
+        <createIndex tableName="poinssmtmstatetip" indexName="FK1POINSSMTMStateTip">
+            <column name="statetip"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinssmtmstatetip"
+                                 baseColumnNames="statemachinetip"
+                                 referencedTableName="poinsstatemachinetip"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSSMTMStateTip"/>
+        <addForeignKeyConstraint baseTableName="poinssmtmstatetip"
+                                 baseColumnNames="statetip"
+                                 referencedTableName="poinsmstatetip"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSSMTMStateTip"/>
+    </changeSet>
+
+    <changeSet id="0195-create-table-poinssobitiems" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssobitiems"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssobitiems">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="data" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipSobitia" type="bigint(20)"/>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="primecanie" type="varchar(4000)"/>
+        </createTable>
+        <createIndex tableName="poinssobitiems" indexName="FKPOINSSobitieMStipSob">
+            <column name="tipSobitia"/>
+        </createIndex>
+        <createIndex tableName="poinssobitiems" indexName="IDXPOINSSobitieMSdata">
+            <column name="data"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinssobitiems"
+                                 baseColumnNames="tipSobitia"
+                                 referencedTableName="poinstipsobitiams"
+                                 referencedColumnNames="pk"
+                                 constraintName="FKPOINSSobitieMStipSob"/>
+    </changeSet>
+
+    <changeSet id="0196-create-table-poinssobitienaznacenia" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssobitienaznacenia"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssobitienaznacenia">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="KTO_ISP" type="bigint(20)"/>
+            <column name="NAZNAC" type="bigint(20)"/>
+            <column name="OSNOV" type="varchar(4000)"/>
+        </createTable>
+        <createIndex tableName="poinssobitienaznacenia" indexName="FK1POINSSobitieNaznacenia">
+            <column name="KTO_ISP"/>
+        </createIndex>
+        <createIndex tableName="poinssobitienaznacenia" indexName="FK2POINSSobitieNaznacenia">
+            <column name="NAZNAC"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinssobitienaznacenia"
+                                 baseColumnNames="id"
+                                 referencedTableName="poinssobitiems"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSSobitieNaznacenia"/>
+        <addForeignKeyConstraint baseTableName="poinssobitienaznacenia"
+                                 baseColumnNames="KTO_ISP"
+                                 referencedTableName="poinspolzovrpd"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSSobitieNaznacenia"/>
+        <addForeignKeyConstraint baseTableName="poinssobitienaznacenia"
+                                 baseColumnNames="NAZNAC"
+                                 referencedTableName="poinssubektdostupa"
+                                 referencedColumnNames="id"
+                                 constraintName="FK2POINSSobitieNaznacenia"/>
+    </changeSet>
+
+    <changeSet id="0197-create-table-poinsspisokznacenie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsspisokznacenie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsspisokznacenie">
+            <column name="tipParametra" type="bigint(20)"/>
+            <column name="znacenie" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsspisokznacenie" indexName="FKPOINSSpisokZnacenietipP">
+            <column name="tipParametra"/>
+        </createIndex>
+        <createIndex tableName="poinsspisokznacenie" indexName="FKPOINSSpisokZnacenieznac">
+            <column name="znacenie"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsspisokznacenie"
+                                 baseColumnNames="tipParametra"
+                                 referencedTableName="poinstipparametra"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSSpisokZnacenietipP"/>
+        <addForeignKeyConstraint baseTableName="poinsspisokznacenie"
+                                 baseColumnNames="znacenie"
+                                 referencedTableName="poinsznacenieizspiska"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSSpisokZnacenieznac"/>
+    </changeSet>
+
+    <changeSet id="0198-create-table-poinssslpayconfig" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssslpayconfig"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssslpayconfig">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="payconf" type="bigint(20)"/>
+            <column name="keystorefile" type="bigint(20)"/>
+            <column name="useFile" type="bigint(20)"/>
+            <column name="keystorepath" type="varchar(2048)"/>
+            <column name="keyStorePassword" type="varchar(1024)"/>
+            <column name="keyPairPassword" type="varchar(1024)"/>
+        </createTable>
+        <createIndex tableName="poinssslpayconfig" indexName="cf">
+            <column name="payconf"/>
+        </createIndex>
+        <createIndex tableName="poinssslpayconfig" indexName="fl">
+            <column name="keystorefile"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinssslpayconfig"
+                                 baseColumnNames="payconf"
+                                 referencedTableName="poinspaymentconfig"
+                                 referencedColumnNames="id"
+                                 constraintName="cf"/>
+    </changeSet>
+
+    <changeSet id="0199-create-table-poinsstroka2razn" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsstroka2razn"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsstroka2razn">
+            <column name="stroka" type="bigint(20)"/>
+            <column name="raznoglasie" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsstroka2razn" indexName="FK0POINSstroka2razn">
+            <column name="stroka"/>
+        </createIndex>
+        <createIndex tableName="poinsstroka2razn" indexName="FK1POINSstroka2razn">
+            <column name="raznoglasie"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinsstroka2razn"
+                                 baseColumnNames="stroka"
+                                 referencedTableName="poinsstrokaavr"
+                                 referencedColumnNames="id"
+                                 constraintName="FK0POINSstroka2razn"/>
+        <addForeignKeyConstraint baseTableName="poinsstroka2razn"
+                                 baseColumnNames="raznoglasie"
+                                 referencedTableName="poinsraznoglasie"
+                                 referencedColumnNames="id"
+                                 constraintName="FK1POINSstroka2razn"/>
+    </changeSet>
+
+    <changeSet id="0200-create-table-poinssynonymmarka" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssynonymmarka"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssynonymmarka">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="marka" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinssynonymmarka" indexName="FKPOINSSynonymMarkaM">
+            <column name="marka"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableName="poinssynonymmarka"
+                                 baseColumnNames="marka"
+                                 referencedTableName="poinsmarkats"
+                                 referencedColumnNames="id"
+                                 constraintName="FKPOINSSynonymMarkaM"/>
+    </changeSet>
+</databaseChangeLog>

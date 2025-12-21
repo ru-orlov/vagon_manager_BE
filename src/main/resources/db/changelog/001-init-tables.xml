@@ -1,279 +1,2035 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+       http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="001-create-tables" author="rorlov">
-        <createTable tableName="wagon">
-            <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="uuid" type="uuid">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="number" type="VARCHAR(32)">
+    <changeSet id="0001-create-table-dog2otprav" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="dog2otprav"/>
+            </not>
+        </preConditions>
+        <createTable tableName="dog2otprav">
+            <column name="idDog" type="bigint(20)"/>
+            <column name="obrabotan" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="type" type="VARCHAR(32)">
+            <column name="otpravlen" type="bigint(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_at" type="TIMESTAMP"/>
-            <column name="updated_at" type="TIMESTAMP"/>
-            <column name="sync_status" type="VARCHAR(32)"/>
-            <column name="username" type="VARCHAR(32)"/>
         </createTable>
-
-        <createIndex tableName="wagon" indexName="idx_wagon_uuid_unique" unique="true">
-            <column name="uuid"/>
-        </createIndex>
-<!--        <createIndex tableName="wagon" indexName="idx_wagon_number_unique" unique="true">
-            <column name="number"/>
-        </createIndex>-->
-
-        <createTable tableName="wagon_audit">
-            <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="wagon_uuid" type="uuid"/>
-            <column name="number" type="VARCHAR(32)"/>
-            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
-            <column name="username" type="VARCHAR(32)"/>
-            <column name="operation" type="VARCHAR(16)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="old_data" type="JSONB"/>
-            <column name="new_data" type="JSONB"/>
-        </createTable>
-
-        <createIndex tableName="wagon_audit" indexName="idx_wagon_audit_wagon_uuid" unique="false">
-            <column name="wagon_uuid"/>
-        </createIndex>
-
-        <createIndex tableName="wagon_audit" indexName="idx_wagon_audit_wagon_number" unique="false">
-            <column name="number"/>
-        </createIndex>
-
-        <createProcedure>
-        CREATE OR REPLACE FUNCTION public.wagon_audit_trigger_fn() RETURNS trigger LANGUAGE plpgsql AS $$
-        BEGIN
-            IF TG_OP = 'INSERT' THEN
-                INSERT INTO wagon_audit(
-                    wagon_uuid, number, updated_at, username, operation, old_data, new_data
-                ) VALUES (
-                    NEW.uuid, NEW.number, now(), NEW.username, TG_OP, NULL, row_to_json(NEW)::jsonb
-                );
-                RETURN NEW;
-            ELSIF TG_OP = 'UPDATE' THEN
-                INSERT INTO wagon_audit(
-                    wagon_uuid, number, updated_at, username, operation, old_data, new_data
-                ) VALUES (
-                    NEW.uuid, NEW.number, now(), NEW.username, TG_OP, row_to_json(OLD)::jsonb, row_to_json(NEW)::jsonb
-                );
-                RETURN NEW;
-            ELSIF TG_OP = 'DELETE' THEN
-                INSERT INTO wagon_audit(
-                    wagon_uuid, number, updated_at, username, operation, old_data, new_data
-                ) VALUES (
-                    OLD.uuid, OLD.number, now(), OLD.username, TG_OP, current_user, now(), row_to_json(OLD)::jsonb, NULL
-                );
-                RETURN OLD;
-            END IF;
-            RETURN NULL;
-        END;
-        $$;
-        </createProcedure>
-
-        <sql>
-            DROP TRIGGER IF EXISTS trg_wagon_audit ON wagon;
-            CREATE TRIGGER trg_wagon_audit
-            AFTER INSERT OR UPDATE OR DELETE ON wagon
-            FOR EACH ROW EXECUTE FUNCTION public.wagon_audit_trigger_fn();
-        </sql>
-
-        <createTable tableName="inventory_group">
-            <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="uuid" type="uuid">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="wagon_uuid" type="uuid">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="VARCHAR(128)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="description" type="TEXT"/>
-            <column name="username" type="VARCHAR(32)"/>
-            <column name="created_at" type="TIMESTAMP"/>
-            <column name="updated_at" type="TIMESTAMP"/>
-            <column name="sync_status" type="VARCHAR(32)"/>
-        </createTable>
-        <createIndex tableName="inventory_group" indexName="idx_inventory_group_uuid_unique" unique="true">
-            <column name="uuid"/>
-        </createIndex>
-        <createIndex tableName="inventory_group" indexName="idx_inventory_group_wagon_uuid" unique="false">
-            <column name="wagon_uuid"/>
-        </createIndex>
-
-        <createTable tableName="inventory_group_audit">
-            <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="inventory_group_id" type="BIGINT"/>
-            <column name="inventory_group_uuid" type="uuid"/>
-            <column name="wagon_uuid" type="uuid"/>
-            <column name="operation" type="VARCHAR(16)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="username" type="VARCHAR(32)"/>
-            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
-            <column name="old_data" type="JSONB"/>
-            <column name="new_data" type="JSONB"/>
-        </createTable>
-
-        <createIndex tableName="inventory_group_audit" indexName="idx_inventory_group_audit_inventory_group_uuid" unique="false">
-            <column name="inventory_group_uuid"/>
-        </createIndex>
-        <createIndex tableName="inventory_group_audit" indexName="idx_inventory_group_audit_wagon_uuid" unique="false">
-            <column name="wagon_uuid"/>
-        </createIndex>
-
-        <createProcedure>
-        CREATE OR REPLACE FUNCTION public.inventory_group_audit_trigger_fn() RETURNS trigger LANGUAGE plpgsql AS $body$
-        BEGIN
-            IF TG_OP = 'INSERT' THEN
-                INSERT INTO inventory_group_audit(
-                    inventory_group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
-                ) VALUES (
-                    new.uuid, new.wagon_uuid, new.username, TG_OP, now(), null, row_to_json(new)::jsonb
-                );
-                RETURN NEW;
-            ELSIF TG_OP = 'UPDATE' THEN
-                INSERT INTO inventory_group_audit(
-                    inventory_group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
-                ) VALUES (
-                    new.uuid, new.wagon_uuid, new.username, TG_OP, now(), row_to_json(old)::jsonb, row_to_json(new)::jsonb
-                );
-                RETURN NEW;
-            ELSIF TG_OP = 'DELETE' THEN
-                INSERT INTO inventory_group_audit(
-                    inventory_group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
-                ) VALUES (
-                    old.uuid, old.wagon_uuid, old.username, TG_OP, now(), row_to_json(old)::jsonb, null
-                );
-                RETURN OLD;
-            END IF;
-            RETURN NULL;
-        END;
-        $body$;
-        </createProcedure>
-
-        <sql>
-        DROP TRIGGER IF EXISTS trg_inventory_group_audit ON inventory_group;
-        CREATE TRIGGER trg_inventory_group_audit
-        AFTER INSERT OR UPDATE OR DELETE ON inventory_group
-        FOR EACH ROW EXECUTE FUNCTION public.inventory_group_audit_trigger_fn();
-        </sql>
-
-
-        <createTable tableName="inventory_item">
-            <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="uuid" type="uuid">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="group_uuid" type="uuid">
-                <constraints nullable="false"/>
-            </column>
-            <column name="wagon_uuid" type="uuid">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="VARCHAR(128)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="description" type="TEXT"/>
-            <column name="quantity" type="INTEGER" defaultValueNumeric="0">
-                <constraints nullable="false"/>
-            </column>
-            <column name="photos" type="VARCHAR(1028)"/>
-            <column name="created_at" type="TIMESTAMP"/>
-            <column name="updated_at" type="TIMESTAMP"/>
-            <column name="sync_status" type="VARCHAR(32)"/>
-            <column name="photo_sync_status" type="VARCHAR(32)"/>
-            <column name="username" type="VARCHAR(32)"/>
-        </createTable>
-        <createIndex tableName="inventory_item" indexName="idx_inventory_item_uuid_unique" unique="true">
-            <column name="uuid"/>
-        </createIndex>
-        <createIndex tableName="inventory_item" indexName="idx_inventory_item_group_uuid" unique="false">
-            <column name="group_uuid"/>
-        </createIndex>
-        <createIndex tableName="inventory_item" indexName="idx_inventory_item_wagon_uuid" unique="false">
-            <column name="wagon_uuid"/>
-        </createIndex>
-
-        <createTable tableName="inventory_item_audit">
-            <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="inventory_item_uuid" type="uuid"/>
-            <column name="group_uuid" type="uuid"/>
-            <column name="wagon_uuid" type="uuid"/>
-            <column name="username" type="VARCHAR(32)"/>
-            <column name="operation" type="VARCHAR(16)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()"/>
-            <column name="old_data" type="JSONB"/>
-            <column name="new_data" type="JSONB"/>
-        </createTable>
-        <createIndex tableName="inventory_item_audit" indexName="idx_inventory_item_audit_inventory_item_uuid" unique="false">
-            <column name="inventory_item_uuid"/>
-        </createIndex>
-        <createIndex tableName="inventory_item_audit" indexName="idx_inventory_item_audit_group_uuid" unique="false">
-            <column name="group_uuid"/>
-        </createIndex>
-        <createIndex tableName="inventory_item_audit" indexName="idx_inventory_item_audit_wagon_uuid" unique="false">
-            <column name="wagon_uuid"/>
-        </createIndex>
-
-        <createProcedure>
-        CREATE OR REPLACE FUNCTION public.inventory_item_audit_trigger_fn() RETURNS trigger LANGUAGE plpgsql AS $body$
-        BEGIN
-            IF TG_OP = 'INSERT' THEN
-                INSERT INTO inventory_item_audit(
-                    inventory_item_uuid, group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
-                ) VALUES (
-                    new.uuid, new.group_uuid, new.wagon_uuid, new.username, tg_op, now(), null, row_to_json(new)::jsonb
-                );
-                return new;
-            ELSIF TG_OP = 'UPDATE' THEN
-                INSERT INTO inventory_item_audit(
-                    inventory_item_uuid, group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
-                ) VALUES (
-                    new.uuid, new.group_uuid, new.wagon_uuid, new.username, tg_op, now(), row_to_json(old)::jsonb, row_to_json(new)::jsonb
-                );
-                return new;
-            ELSIF TG_OP = 'DELETE' THEN
-                INSERT INTO inventory_item_audit(
-                    inventory_item_uuid, group_uuid, wagon_uuid, username, operation, updated_at, old_data, new_data
-                ) VALUES (
-                    old.uuid, old.group_uuid, old.wagon_uuid, old.username, tg_op, now(), row_to_json(old)::jsonb, null
-                );
-                RETURN OLD;
-            END IF;
-            RETURN NULL;
-        END;
-        $body$;
-        </createProcedure>
-        <sql>
-        DROP TRIGGER IF EXISTS trg_inventory_item_audit ON inventory_item;
-        CREATE TRIGGER trg_inventory_item_audit
-        AFTER INSERT OR UPDATE OR DELETE ON inventory_item
-        FOR EACH ROW EXECUTE FUNCTION public.inventory_item_audit_trigger_fn();
-        </sql>
     </changeSet>
+
+    <changeSet id="0002-create-index-IDXDog2OtpravID" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="IDXDog2OtpravID" tableName="dog2otprav"/>
+            </not>
+        </preConditions>
+        <createIndex indexName="IDXDog2OtpravID" tableName="dog2otprav">
+            <column name="idDog"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0003-create-table-lastdatereportolap" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="lastdatereportolap"/>
+            </not>
+        </preConditions>
+        <createTable tableName="lastdatereportolap">
+            <column name="lastUpdate" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0004-create-table-loadresult" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="loadresult"/>
+            </not>
+        </preConditions>
+        <createTable tableName="loadresult">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="error_flag" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fileName" type="varchar(512)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0005-create-table-lockinstall" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="lockinstall"/>
+            </not>
+        </preConditions>
+        <createTable tableName="lockinstall">
+            <column name="ident" type="varchar(30)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="islocked" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lockDate" type="datetime"/>
+            <column name="appVersion" type="varchar(512)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0006-create-table-object_lock" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="object_lock"/>
+            </not>
+        </preConditions>
+        <createTable tableName="object_lock">
+            <column name="object_name" type="varchar(128)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0007-create-table-poinsakciapoproduktu" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsakciapoproduktu"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsakciapoproduktu">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="dataS" type="datetime"/>
+            <column name="dataPo" type="datetime"/>
+            <column name="nazvanie" type="varchar(512)"/>
+            <column name="opisanie" type="longblob"/>
+            <column name="bg" type="varchar(512)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0008-create-table-poinsalcohol" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsalcohol"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsalcohol">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="status" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0009-create-table-poinsanalitikadog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsanalitikadog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsanalitikadog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="procav" type="decimal(38,4)"/>
+            <column name="procskidka" type="decimal(38,4)"/>
+            <column name="variant" type="bigint(20)"/>
+            <column name="procdopav" type="decimal(38,4)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0010-create-index-IDXPOINSAnalitikaDogCI" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="IDXPOINSAnalitikaDogCI" tableName="poinsanalitikadog"/>
+            </not>
+        </preConditions>
+        <createIndex indexName="IDXPOINSAnalitikaDogCI" tableName="poinsanalitikadog">
+            <column name="ci"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0011-create-table-poinsanderraitingcfg" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsanderraitingcfg"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsanderraitingcfg">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sklonenie" type="bigint(20)"/>
+            <column name="nujPecatStrahDoc" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="soobsCSAnder" type="varchar(512)"/>
+            <column name="dobrOtprKAnder" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vnesAnder" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0012-create-table-poinsattachdoccontent" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsattachdoccontent"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsattachdoccontent">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="data" type="longblob"/>
+            <column name="partInfo" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0013-create-index-INDPOINSattachDocContent" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="INDPOINSattachDocContent" tableName="poinsattachdoccontent"/>
+            </not>
+        </preConditions>
+        <createIndex indexName="INDPOINSattachDocContent" tableName="poinsattachdoccontent">
+            <column name="id"/>
+            <column name="partInfo"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0014-create-table-poinsattachmentds" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsattachmentds"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsattachmentds">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="filecont" type="longblob"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0015-create-table-poinsavtomattest" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsavtomattest"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsavtomattest">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0016-create-table-poinsbankrequisites" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsbankrequisites"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsbankrequisites">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="bank" type="varchar(256)"/>
+            <column name="rasc" type="varchar(30)"/>
+            <column name="licevoy" type="varchar(30)"/>
+            <column name="korrsc" type="varchar(30)"/>
+            <column name="gdekorrsc" type="varchar(256)"/>
+            <column name="bik" type="varchar(20)"/>
+            <column name="kpp" type="varchar(30)"/>
+            <column name="tel" type="varchar(20)"/>
+            <column name="inn" type="varchar(128)"/>
+            <column name="cardnum" type="varchar(128)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0017-create-table-poinsbezoppolitic" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsbezoppolitic"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsbezoppolitic">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="org_srok_deistvia" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="srok_parola" type="bigint(20)"/>
+            <column name="zaranee_predup" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="srok_predup" type="bigint(20)"/>
+            <column name="sloznost_parola" type="bigint(20)"/>
+            <column name="parol_length" type="bigint(20)"/>
+            <column name="check_regist" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="check_numbers" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="check_special" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kolvo_popytok" type="bigint(20)"/>
+            <column name="vosstan_parol" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enter_pass" type="bigint(20)"/>
+            <column name="change_al" type="bigint(20)"/>
+            <column name="send_al" type="bigint(20)"/>
+            <column name="srok_neaktpolz" type="bigint(20)"/>
+            <column name="checklocaldatetm" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mailblock_act" type="bigint(20)"/>
+            <column name="mailblock_pwd" type="bigint(20)"/>
+            <column name="mailblock_adm" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_search_hist" type="bigint(20)"/>
+            <column name="login_mustnotequals_password" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0018-create-table-poinsbileventfile" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsbileventfile"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsbileventfile">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="imaFile" type="varchar(64)"/>
+            <column name="filecont" type="longblob"/>
+            <column name="zipFile" type="bigint(20)"/>
+            <column name="dlinaDoZip" type="bigint(20)"/>
+            <column name="dlinaPosleZip" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0019-create-table-poinscertinfo" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinscertinfo"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinscertinfo">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="serialnumber" type="varchar(128)"/>
+            <column name="issuerCN" type="varchar(128)"/>
+            <column name="issuerO" type="varchar(128)"/>
+            <column name="issuerOU" type="varchar(128)"/>
+            <column name="issuerL" type="varchar(128)"/>
+            <column name="issuerS" type="varchar(128)"/>
+            <column name="issuerC" type="varchar(128)"/>
+            <column name="issuerName" type="varchar(512)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0020-create-table-poinsconfigproverkaprodukta" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsconfigproverkaprodukta"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsconfigproverkaprodukta">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="delay" type="bigint(20)"/>
+            <column name="tip" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="disabledAvtoCheck" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="soglOtprTolkoVKIS" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0021-create-table-poinsconnectconfig" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsconnectconfig"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsconnectconfig">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="cfgId" type="bigint(20)"/>
+            <column name="url" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="varchar(512)"/>
+            <column name="password" type="varchar(512)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0022-create-table-poinscsistochnikinfo" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinscsistochnikinfo"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinscsistochnikinfo">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="users" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0023-create-index-A0POINSCSIstochnikInfo" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="A0POINSCSIstochnikInfo" tableName="poinscsistochnikinfo"/>
+            </not>
+        </preConditions>
+        <createIndex indexName="A0POINSCSIstochnikInfo" tableName="poinscsistochnikinfo">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0024-create-table-poinscssabluved" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinscssabluved"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinscssabluved">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="zagolovok" type="varchar(512)"/>
+            <column name="krText" type="varchar(4000)"/>
+            <column name="podrText" type="varchar(4000)"/>
+            <column name="mailText" type="varchar(4000)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0025-create-table-poinsdanniecs" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsdanniecs"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsdanniecs">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="varchar(200)"/>
+            <column name="ispLichEmail" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0026-create-table-poinsdigitaldoccontent" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsdigitaldoccontent"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsdigitaldoccontent">
+            <column name="id" type="bigint(20)"/>
+            <column name="data" type="longblob"/>
+            <column name="partInfo" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsdigitaldoccontent" indexName="INDPOINSdigitalDocContent">
+            <column name="id"/>
+            <column name="partInfo"/>
+        </createIndex>
+        <!-- NOTE: original DDL included PARTITION BY LIST (partInfo). Liquibase createTable doesn't support engine-specific partitioning. -->
+    </changeSet>
+
+    <changeSet id="0027-create-table-poinsdoccontent" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsdoccontent"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsdoccontent">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsdoccontent" indexName="IDXPOINSDocContentci">
+            <column name="ci"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0028-create-table-poinsfilent" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsfilent"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsfilent">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="imaFile" type="varchar(64)"/>
+            <column name="filecont" type="longblob"/>
+            <column name="zipFile" type="bigint(20)"/>
+            <column name="dlinaDoZip" type="bigint(20)"/>
+            <column name="dlinaPosleZip" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0029-create-table-poinsfilepreview" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsfilepreview"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsfilepreview">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="file_name" type="varchar(512)"/>
+            <column name="lastUseDate" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0030-create-table-poinsfileverstarif" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsfileverstarif"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsfileverstarif">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="imaFile" type="varchar(64)"/>
+            <column name="filecont" type="longblob"/>
+            <column name="zipFile" type="bigint(20)"/>
+            <column name="dlinaDoZip" type="bigint(20)"/>
+            <column name="dlinaPosleZip" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0031-create-table-poinsfz115cfg" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsfz115cfg"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsfz115cfg">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="needFz115" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enableKis" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="printInPDF" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="predstaviteli" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="beneficiari" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opisatel" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pecatki" type="varchar(4000)"/>
+            <column name="kriterii" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="terrorism_block" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needRevenueDefault" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needGoingBankrupt" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needForeignerInRf" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needBenefBasis" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needPractitionerPb" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needPublicOfficPb" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needCreditOrg" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needFlIsIpInRepr" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needReputationUlIp" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needPostAddress" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needResident" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needForeignName" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needShortName" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needFinancialInfoUl" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needSkRelationsUlIp" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needAdminDetails" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needSingleFinstateIp" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="questnrDateShift" type="int(11)"/>
+            <column name="needBizIncomeDefaultIp" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needGoodRepDefault" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needBenefEqPred" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="setHighRisk" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needLicensia" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needDolgnost" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needOnlyOnePr" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needOnlyRF" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needOnlyResident" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="disableKrim" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="needBenefNotIdent" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0032-create-table-poinsgroupident" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsgroupident"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsgroupident">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0033-create-table-poinsgruppastrahprodukta" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsgruppastrahprodukta"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsgruppastrahprodukta">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0034-create-table-poinsgurnalvalidacii" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsgurnalvalidacii"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsgurnalvalidacii">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0035-create-table-poinshranilise" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinshranilise"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinshranilise">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tip" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinshranilise" indexName="IDXPOINSHranilisenazv">
+            <column name="nazvanie"/>
+        </createIndex>
+        <createIndex tableName="poinshranilise" indexName="IDXPOINSHraniliseKOD">
+            <column name="kod"/>
+        </createIndex>
+        <createIndex tableName="poinshranilise" indexName="IDXPOINSHraniliseTIP">
+            <column name="tip"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0036-create-table-poinsidendata" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsidendata"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsidendata">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)"/>
+            <column name="CI" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sved" type="bigint(20)"/>
+            <column name="svedfin" type="bigint(20)"/>
+            <column name="obosnovanie" type="bigint(20)"/>
+            <column name="osneidbv" type="bigint(20)"/>
+            <column name="osneidvig" type="bigint(20)"/>
+            <column name="kopigodbuh" type="bigint(20)"/>
+            <column name="kopigodnal" type="bigint(20)"/>
+            <column name="kopaudit" type="bigint(20)"/>
+            <column name="spravka" type="bigint(20)"/>
+            <column name="doknemo" type="bigint(20)"/>
+            <column name="ustoich" type="bigint(20)"/>
+            <column name="neustoich" type="bigint(20)"/>
+            <column name="stepenris" type="bigint(20)"/>
+            <column name="bvneid" type="bigint(20)"/>
+            <column name="vigneid" type="bigint(20)"/>
+            <column name="dokben1" type="bigint(20)"/>
+            <column name="dokben2" type="bigint(20)"/>
+            <column name="dokben3" type="bigint(20)"/>
+            <column name="dokben4" type="bigint(20)"/>
+            <column name="dokpred1" type="bigint(20)"/>
+            <column name="dokpred2" type="bigint(20)"/>
+            <column name="inoidokn" type="varchar(256)"/>
+            <column name="inoiosneidvig" type="varchar(1024)"/>
+            <column name="inoiosneidbv" type="varchar(1024)"/>
+            <column name="fioZapolnivshego" type="varchar(256)"/>
+            <column name="dolgnostZapolnivshego" type="varchar(256)"/>
+            <column name="fioOtvetstvennogo" type="varchar(256)"/>
+            <column name="dolgnostOtvetstvennogo" type="varchar(256)"/>
+            <column name="dateZapolnenia" type="datetime"/>
+            <column name="dateObnovlenia" type="datetime"/>
+            <column name="dateNachalaOtnoshenii" type="datetime"/>
+            <column name="inTerror" type="bigint(20)"/>
+            <column name="notInTerror" type="bigint(20)"/>
+            <column name="dateTerror" type="datetime"/>
+            <column name="fioTerror" type="varchar(256)"/>
+            <column name="dataPrekOtn" type="datetime"/>
+            <column name="istDenSredstvStr" type="varchar(256)"/>
+            <column name="nomerReshPriznTer" type="varchar(256)"/>
+            <column name="dataReshPriznTer" type="datetime"/>
+            <column name="harakterDelOtn" type="bigint(20)"/>
+            <column name="celifinhozdeatelnosti" type="varchar(4000)"/>
+            <column name="vedetsaDeloObankrotstve" type="bigint(20)"/>
+            <column name="naOsnUstava" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bv1sovpPred1" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deatNoLic" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0037-create-table-poinsinfochaststroenie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsinfochaststroenie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsinfochaststroenie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="bytGazOborud" type="bigint(20)"/>
+            <column name="otkrytOgon" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0038-create-table-poinsinfostroenie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsinfostroenie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsinfostroenie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="godPostroi" type="bigint(20)"/>
+            <column name="grupMaterSten" type="bigint(20)"/>
+            <column name="materPerek" type="bigint(20)"/>
+            <column name="inoiMatSten" type="varchar(64)"/>
+            <column name="inoiMatPerek" type="varchar(64)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0039-create-table-poinsinscomp" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsinscomp"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsinscomp">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(10)"/>
+            <column name="altnames" type="varchar(3000)"/>
+            <column name="kodrsa" type="varchar(100)"/>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsinscomp" indexName="IDXPOINSInsCompnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+        <createIndex tableName="poinsinscomp" indexName="IDXPOINSInsCompKOD">
+            <column name="kod"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0040-create-table-poinsispolzts" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsispolzts"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsispolzts">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsispolzts" indexName="IDXPOINSIspolzTSnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0041-create-table-poinsistdensredstv" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsistdensredstv"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsistdensredstv">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0042-create-table-poinsistocnik" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsistocnik"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsistocnik">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0043-create-table-poinsitarifikator" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsitarifikator"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsitarifikator">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(128)"/>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opisatel" type="varchar(128)"/>
+            <column name="excelfile" type="varchar(128)"/>
+            <column name="builder" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinsitarifikator" indexName="IDXPOINSITarifikatorCI">
+            <column name="ci"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0044-create-table-poinskanalprodag" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinskanalprodag"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinskanalprodag">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(128)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0045-create-table-poinskhdspisokdog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinskhdspisokdog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinskhdspisokdog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="komment" type="varchar(1024)"/>
+            <column name="kolvo" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0046-create-table-poinskltizdrugsk" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinskltizdrugsk"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinskltizdrugsk">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sk" type="varchar(128)"/>
+            <column name="seriyaDog" type="varchar(64)"/>
+            <column name="nomerDog" type="varchar(64)"/>
+            <column name="dataDog" type="datetime"/>
+            <column name="kolvoUbitkov" type="bigint(20)"/>
+            <column name="ubitkovPoVineDrugih" type="bigint(20)"/>
+            <column name="isKlientIzDrSK" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0047-create-table-poinskurenie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinskurenie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinskurenie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="staj" type="bigint(20)"/>
+            <column name="stajOtkaza" type="bigint(20)"/>
+            <column name="status" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0048-create-table-poinslfile" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinslfile"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinslfile">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="imaFile" type="varchar(64)"/>
+            <column name="filecont" type="longblob"/>
+            <column name="zipFile" type="bigint(20)"/>
+            <column name="dlinaDoZip" type="bigint(20)"/>
+            <column name="dlinaPosleZip" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0049-create-table-poinsmarkakcia" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmarkakcia"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmarkakcia">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsmarkakcia" indexName="IDXPOINSMarkAkcianazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0050-create-table-poinsmarkapuu" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmarkapuu"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmarkapuu">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsmarkapuu" indexName="IDXPOINSMarkaPUUnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0051-create-table-poinsmarkats" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmarkats"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmarkats">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="drugaa" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsmarkats" indexName="IDXPOINSMarkaTSnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0052-create-table-poinsmarkprog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmarkprog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmarkprog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsmarkprog" indexName="IDXPOINSMarkPrognazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0053-create-table-poinsmedpokazateli" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmedpokazateli"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmedpokazateli">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rost" type="decimal(20,2)"/>
+            <column name="ves" type="decimal(20,2)"/>
+            <column name="imt" type="decimal(20,2)"/>
+            <column name="verhnDavlen" type="bigint(20)"/>
+            <column name="nignDavlen" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0054-create-table-poinsmessageconfig" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmessageconfig"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmessageconfig">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="peredOform" type="varchar(3000)"/>
+            <column name="peredPechat" type="varchar(3000)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0055-create-table-poinsmstatetip" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsmstatetip"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsmstatetip">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0056-create-table-poinsnumberingruledbs" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsnumberingruledbs"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsnumberingruledbs">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(32)"/>
+            <column name="algorithmGen" type="bigint(20)"/>
+            <column name="CI" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0057-create-table-poinsnumrulesimple" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsnumrulesimple"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsnumrulesimple">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="настройки" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0058-create-table-poinsnumrulesimpleprefix" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsnumrulesimpleprefix"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsnumrulesimpleprefix">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="prefix" type="varchar(64)"/>
+            <column name="digitsCount" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0059-create-table-poinsobektzakaza" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobektzakaza"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobektzakaza">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0060-create-table-poinsobrazovanie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsobrazovanie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsobrazovanie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsobrazovanie" indexName="IDXPOINSObrazovanienazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0061-create-table-poinsogranicenietipsobitia" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsogranicenietipsobitia"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsogranicenietipsobitia">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAIM" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0062-create-table-poinsoi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsoi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsoi">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsoi" indexName="IDXPOINSOICI">
+            <column name="ci"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0063-create-table-poinsorgpf" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsorgpf"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsorgpf">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0064-create-table-poinsosnskidki" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsosnskidki"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsosnskidki">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsosnskidki" indexName="IDXPOINSOsnSkidkinazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0065-create-table-poinsospvladelecnsi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsospvladelecnsi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsospvladelecnsi">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CI" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0066-create-table-poinsparolktrl" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsparolktrl"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsparolktrl">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0067-create-table-poinsperiodoper" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsperiodoper"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsperiodoper">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dni" type="bigint(20)"/>
+            <column name="casi" type="bigint(20)"/>
+            <column name="minuti" type="bigint(20)"/>
+            <column name="sekundi" type="bigint(20)"/>
+            <column name="intervalVrem" type="bigint(20)"/>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsperiodoper" indexName="IDXPOINSPeriodOperCI">
+            <column name="ci"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0068-create-table-poinspgtransneftkasko" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspgtransneftkasko"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspgtransneftkasko">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="настройки" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0069-create-table-poinsplategnaasistema" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsplategnaasistema"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsplategnaasistema">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="controller" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0070-create-table-poinsplategniidokument" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsplategniidokument"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsplategniidokument">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nomer" type="varchar(128)"/>
+            <column name="data" type="datetime"/>
+            <column name="beznal" type="bigint(20)"/>
+            <column name="tip" type="bigint(20)"/>
+            <column name="seria" type="varchar(128)"/>
+            <column name="chemPlatili" type="bigint(20)"/>
+            <column name="nomerAuto" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0071-create-table-poinspodkategts" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspodkategts"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspodkategts">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+            <column name="tip" type="bigint(20)"/>
+        </createTable>
+        <createIndex tableName="poinspodkategts" indexName="IDXPOINSPodKategTSnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0072-create-table-poinspravilogeneraciivzr" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspravilogeneraciivzr"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspravilogeneraciivzr">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="настройки" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0073-create-table-poinspraviloproverki" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspraviloproverki"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspraviloproverki">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="classIndicator" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0074-create-table-poinspredagent" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspredagent"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspredagent">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="fio" type="varchar(1024)"/>
+            <column name="fioRod" type="varchar(1024)"/>
+            <column name="doljnost" type="varchar(1024)"/>
+            <column name="doljnostRod" type="varchar(1024)"/>
+            <column name="tipDok" type="bigint(20)"/>
+            <column name="dokseria" type="varchar(32)"/>
+            <column name="doknomer" type="varchar(128)"/>
+            <column name="dokdata" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0075-create-table-poinspredmdog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspredmdog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspredmdog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0076-create-table-poinspreviewdoccontent" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinspreviewdoccontent"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinspreviewdoccontent">
+            <column name="id" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="longblob"/>
+            <column name="partInfo" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinspreviewdoccontent" indexName="IDXPOINSpreviewDocContentpart">
+            <column name="partInfo"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0077-create-table-poinsprinudsoglssbcfg" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsprinudsoglssbcfg"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsprinudsoglssbcfg">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0078-create-table-poinsprocess2etapdeat" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsprocess2etapdeat"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsprocess2etapdeat">
+            <column name="PROCESS" type="bigint(20)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="ETAPDEAT" type="bigint(20)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsprocess2etapdeat" indexName="FK0POINSProcess2EtapDeat">
+            <column name="PROCESS"/>
+        </createIndex>
+        <createIndex tableName="poinsprocess2etapdeat" indexName="FK1POINSProcess2EtapDeat">
+            <column name="ETAPDEAT"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0079-create-table-poinsprofessiasubekta" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsprofessiasubekta"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsprofessiasubekta">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="klass" type="varchar(256)"/>
+            <column name="otrasl" type="varchar(1024)"/>
+        </createTable>
+        <createIndex tableName="poinsprofessiasubekta" indexName="IDXPOINSProfessiaSubektanazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0080-create-table-poinsraznoglasie" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsraznoglasie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsraznoglasie">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsraznoglasie" indexName="IDXPOINSraznoglasienazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0081-create-table-poinsrepolap_ce14c7cb" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrepolap_ce14c7cb"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrepolap_ce14c7cb">
+            <column name="id" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="actual" type="bigint(20)"/>
+            <column name="upd" type="datetime"/>
+            <column name="col_7e2d6cba" type="varchar(256)"/>
+            <column name="col_bdc06f89" type="varchar(256)"/>
+            <column name="col_d19b51fc" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinsrepolap_ce14c7cb" indexName="POINSrepOlap_ce14c7cbind">
+            <column name="id"/>
+        </createIndex>
+        <createIndex tableName="poinsrepolap_ce14c7cb" indexName="POINSrepOlap_ce14c7cbact">
+            <column name="actual"/>
+        </createIndex>
+        <createIndex tableName="poinsrepolap_ce14c7cb" indexName="POINSrepOlap_ce14c7cbupd">
+            <column name="upd"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0082-create-table-poinsreqhashservice" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsreqhashservice"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsreqhashservice">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="hashCode" type="varchar(256)"/>
+            <column name="calc_id" type="varchar(256)"/>
+            <column name="enabled" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_end" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0083-create-table-poinsresprovcs" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsresprovcs"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsresprovcs">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="factSrab" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0084-create-table-poinsrolblankabso" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsrolblankabso"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsrolblankabso">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0085-create-table-poinsscetplat" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsscetplat"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsscetplat">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0086-create-table-poinsserviceclientcfg" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsserviceclientcfg"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsserviceclientcfg">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+            <column name="url" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userlogin" type="varchar(256)"/>
+            <column name="pswd" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinsserviceclientcfg" indexName="IDXPOINSserviceclientcfgKOD">
+            <column name="kod"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0087-create-table-poinsservispaket" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsservispaket"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsservispaket">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsservispaket" indexName="IDXPOINSServisPaketnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0088-create-table-poinssferadeatel" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssferadeatel"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssferadeatel">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinssferadeatel" indexName="IDXPOINSSferaDeatelnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0089-create-table-poinssostorg" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssostorg"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssostorg">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rost" type="decimal(20,2)"/>
+            <column name="ves" type="decimal(20,2)"/>
+            <column name="imt" type="decimal(20,2)"/>
+            <column name="verhnDavlen" type="bigint(20)"/>
+            <column name="nignDavlen" type="bigint(20)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0090-create-table-poinssposoboplatiplat" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssposoboplatiplat"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssposoboplatiplat">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(128)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0091-create-table-poinsspravochniknsi" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsspravochniknsi"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsspravochniknsi">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinsspravochniknsi" indexName="IDXPOINSSpravochnikNSInazv">
+            <column name="nazvanie"/>
+        </createIndex>
+        <createIndex tableName="poinsspravochniknsi" indexName="IDXPOINSSpravochnikNSIkod">
+            <column name="kod"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0092-create-table-poinsstatemachinetip" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsstatemachinetip"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsstatemachinetip">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0093-create-table-poinsstrahprog" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsstrahprog"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsstrahprog">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinsstrahprog" indexName="IDXPOINSStrahPrognazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0094-create-table-poinsstrokaavr" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsstrokaavr"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsstrokaavr">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="procav" type="decimal(38,4)"/>
+            <column name="procavbase" type="decimal(38,4)"/>
+            <column name="procskidki" type="decimal(38,4)"/>
+            <column name="avrubkorr" type="decimal(38,4)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0095-create-table-poinssubektdostupa" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssubektdostupa"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssubektdostupa">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ci" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="primecanie" type="varchar(512)"/>
+            <column name="activity" type="bigint(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinssubektdostupa" indexName="IDXPOINSSubektDostupaci">
+            <column name="ci"/>
+        </createIndex>
+        <createIndex tableName="poinssubektdostupa" indexName="IDXPOINSSubektDostupaactiv">
+            <column name="activity"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0096-create-table-poinssvedeniyaoregistracii" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinssvedeniyaoregistracii"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinssvedeniyaoregistracii">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="kemVidan" type="varchar(100)"/>
+            <column name="nomer" type="varchar(50)"/>
+            <column name="data" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0097-create-table-poinstelematic" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstelematic"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstelematic">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="polnoeNazvanie" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="poinstelematic" indexName="IDXPOINSTeleMaticPN">
+            <column name="polnoeNazvanie"/>
+        </createIndex>
+        <createIndex tableName="poinstelematic" indexName="IDXPOINSTeleMaticnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0098-create-table-poinsterrvzr" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinsterrvzr"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinsterrvzr">
+            <column name="pk" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="varchar(256)"/>
+            <column name="nazvanieIno" type="varchar(256)"/>
+        </createTable>
+        <createIndex tableName="poinsterrvzr" indexName="IDXPOINSTerrVZRnazv">
+            <column name="nazvanie"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="0099-create-table-poinstestcodifyobject" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstestcodifyobject"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstestcodifyobject">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(64)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="0100-create-table-poinstestrefobject" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="poinstestrefobject"/>
+            </not>
+        </preConditions>
+        <createTable tableName="poinstestrefobject">
+            <column name="id" type="bigint(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nazvanie" type="varchar(64)"/>
+            <column name="summa" type="decimal(2,2)"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
