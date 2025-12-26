@@ -183,34 +183,112 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="0012-create-table-poinsattachdoccontent" author="ru-orlov">
+    <changeSet id="0012-create-table-poinsattachdoccontent-mysql" author="ru-orlov">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="poinsattachdoccontent"/>
-            </not>
+            <and>
+                <dbms type="mysql"/>
+                <not>
+                    <tableExists tableName="poinsattachdoccontent"/>
+                </not>
+            </and>
         </preConditions>
-        <createTable tableName="poinsattachdoccontent">
-            <column name="id" type="BIGINT">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="data" type="BLOB"/>
-            <column name="partInfo" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
+        <sql>
+            CREATE TABLE poinsattachdoccontent (
+            id BIGINT NOT NULL,
+            data LONGBLOB,
+            partInfo BIGINT NOT NULL,
+            PRIMARY KEY (id, partInfo),
+            KEY INDPOINSattachDocContent (id, partInfo)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            PARTITION BY LIST (partInfo) (
+            PARTITION part_1 VALUES IN (1),
+            PARTITION part_2 VALUES IN (2),
+            PARTITION part_3 VALUES IN (3),
+            PARTITION part_4 VALUES IN (4),
+            PARTITION part_5 VALUES IN (5),
+            PARTITION part_6 VALUES IN (6),
+            PARTITION part_7 VALUES IN (7),
+            PARTITION part_8 VALUES IN (8),
+            PARTITION part_9 VALUES IN (9),
+            PARTITION part_10 VALUES IN (10),
+            PARTITION part_11 VALUES IN (11),
+            PARTITION part_12 VALUES IN (12)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE IF EXISTS poinsattachdoccontent;
+        </rollback>
     </changeSet>
 
-    <changeSet id="0013-create-index-INDPOINSattachDocContent" author="ru-orlov">
+    <changeSet id="0012-create-table-poinsattachdoccontent-postgresql" author="ru-orlov">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <indexExists indexName="INDPOINSattachDocContent" tableName="poinsattachdoccontent"/>
-            </not>
+            <and>
+                <dbms type="postgresql"/>
+                <not>
+                    <tableExists tableName="poinsattachdoccontent"/>
+                </not>
+            </and>
         </preConditions>
-        <createIndex indexName="INDPOINSattachDocContent" tableName="poinsattachdoccontent">
-            <column name="id"/>
-            <column name="partInfo"/>
-        </createIndex>
+        <sql>
+            CREATE TABLE poinsattachdoccontent (
+            id BIGINT NOT NULL,
+            data BYTEA,
+            partInfo BIGINT NOT NULL,
+            PRIMARY KEY (id, partInfo)
+            ) PARTITION BY LIST (partInfo);
+
+            CREATE TABLE poinsattachdoccontent_part_1 PARTITION OF poinsattachdoccontent FOR VALUES IN (1);
+            CREATE TABLE poinsattachdoccontent_part_2 PARTITION OF poinsattachdoccontent FOR VALUES IN (2);
+            CREATE TABLE poinsattachdoccontent_part_3 PARTITION OF poinsattachdoccontent FOR VALUES IN (3);
+            CREATE TABLE poinsattachdoccontent_part_4 PARTITION OF poinsattachdoccontent FOR VALUES IN (4);
+            CREATE TABLE poinsattachdoccontent_part_5 PARTITION OF poinsattachdoccontent FOR VALUES IN (5);
+            CREATE TABLE poinsattachdoccontent_part_6 PARTITION OF poinsattachdoccontent FOR VALUES IN (6);
+            CREATE TABLE poinsattachdoccontent_part_7 PARTITION OF poinsattachdoccontent FOR VALUES IN (7);
+            CREATE TABLE poinsattachdoccontent_part_8 PARTITION OF poinsattachdoccontent FOR VALUES IN (8);
+            CREATE TABLE poinsattachdoccontent_part_9 PARTITION OF poinsattachdoccontent FOR VALUES IN (9);
+            CREATE TABLE poinsattachdoccontent_part_10 PARTITION OF poinsattachdoccontent FOR VALUES IN (10);
+            CREATE TABLE poinsattachdoccontent_part_11 PARTITION OF poinsattachdoccontent FOR VALUES IN (11);
+            CREATE TABLE poinsattachdoccontent_part_12 PARTITION OF poinsattachdoccontent FOR VALUES IN (12);
+
+            CREATE INDEX INDPOINSattachDocContent ON poinsattachdoccontent (id, partInfo);
+        </sql>
     </changeSet>
+
+    <changeSet id="0012-create-table-poinsattachdoccontent-oracle" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <dbms type="oracle"/>
+                <not>
+                    <tableExists tableName="poinsattachdoccontent"/>
+                </not>
+            </and>
+        </preConditions>
+        <sql>
+            CREATE TABLE poinsattachdoccontent (
+            id NUMBER(19) NOT NULL,
+            data BLOB,
+            partInfo NUMBER(19) NOT NULL,
+            PRIMARY KEY (id, partInfo)
+            )
+            PARTITION BY LIST (partInfo) (
+            PARTITION part_1 VALUES (1),
+            PARTITION part_2 VALUES (2),
+            PARTITION part_3 VALUES (3),
+            PARTITION part_4 VALUES (4),
+            PARTITION part_5 VALUES (5),
+            PARTITION part_6 VALUES (6),
+            PARTITION part_7 VALUES (7),
+            PARTITION part_8 VALUES (8),
+            PARTITION part_9 VALUES (9),
+            PARTITION part_10 VALUES (10),
+            PARTITION part_11 VALUES (11),
+            PARTITION part_12 VALUES (12)
+            );
+
+            CREATE INDEX INDPOINSattachDocContent ON poinsattachdoccontent (id, partInfo);
+        </sql>
+    </changeSet>
+
 
     <changeSet id="0014-create-table-poinsattachmentds" author="ru-orlov">
         <preConditions onFail="MARK_RAN">
@@ -465,24 +543,109 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="0026-create-table-poinsdigitaldoccontent" author="ru-orlov">
+    <changeSet id="0026-create-table-poinsdigitaldoccontent-mysql" author="ru-orlov">
         <preConditions onFail="MARK_RAN">
-            <not>
-                <tableExists tableName="poinsdigitaldoccontent"/>
-            </not>
+            <and>
+                <dbms type="mysql"/>
+                <not>
+                    <tableExists tableName="poinsdigitaldoccontent"/>
+                </not>
+            </and>
         </preConditions>
-        <createTable tableName="poinsdigitaldoccontent" remarks="Шаблон содержимого документа">
-            <column name="id" remarks="Идентификатор" type="BIGINT"/>
-            <column name="data" remarks="Данные" type="BLOB"/>
-            <column name="partInfo" remarks="Номер части" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <createIndex tableName="poinsdigitaldoccontent" indexName="INDPOINSdigitalDocContent">
-            <column name="id"/>
-            <column name="partInfo"/>
-        </createIndex>
-        <!-- NOTE: original DDL included PARTITION BY LIST (partInfo). Liquibase createTable doesn't support engine-specific partitioning. -->
+        <sql>
+            CREATE TABLE poinsdigitaldoccontent (
+            id BIGINT NOT NULL,
+            data LONGBLOB,
+            partInfo BIGINT NOT NULL,
+            KEY INDPOINSdigitalDocContent (id, partInfo)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            PARTITION BY LIST (partInfo) (
+            PARTITION part_1 VALUES IN (1),
+            PARTITION part_2 VALUES IN (2),
+            PARTITION part_3 VALUES IN (3),
+            PARTITION part_4 VALUES IN (4),
+            PARTITION part_5 VALUES IN (5),
+            PARTITION part_6 VALUES IN (6),
+            PARTITION part_7 VALUES IN (7),
+            PARTITION part_8 VALUES IN (8),
+            PARTITION part_9 VALUES IN (9),
+            PARTITION part_10 VALUES IN (10),
+            PARTITION part_11 VALUES IN (11),
+            PARTITION part_12 VALUES IN (12)
+            );
+        </sql>
+    </changeSet>
+
+    <!-- PostgreSQL: Создание партиционированной таблицы -->
+    <changeSet id="0026-create-table-poinsdigitaldoccontent-postgresql" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <dbms type="postgresql"/>
+                <not>
+                    <tableExists tableName="poinsdigitaldoccontent"/>
+                </not>
+            </and>
+        </preConditions>
+        <sql>
+            -- Создать партиционированную таблицу
+            CREATE TABLE poinsdigitaldoccontent (
+            id BIGINT NOT NULL,
+            data BYTEA,
+            partInfo BIGINT NOT NULL
+            ) PARTITION BY LIST (partInfo);
+
+            -- Создать партиции
+            CREATE TABLE poinsdigitaldoccontent_part_1 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (1);
+            CREATE TABLE poinsdigitaldoccontent_part_2 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (2);
+            CREATE TABLE poinsdigitaldoccontent_part_3 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (3);
+            CREATE TABLE poinsdigitaldoccontent_part_4 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (4);
+            CREATE TABLE poinsdigitaldoccontent_part_5 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (5);
+            CREATE TABLE poinsdigitaldoccontent_part_6 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (6);
+            CREATE TABLE poinsdigitaldoccontent_part_7 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (7);
+            CREATE TABLE poinsdigitaldoccontent_part_8 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (8);
+            CREATE TABLE poinsdigitaldoccontent_part_9 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (9);
+            CREATE TABLE poinsdigitaldoccontent_part_10 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (10);
+            CREATE TABLE poinsdigitaldoccontent_part_11 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (11);
+            CREATE TABLE poinsdigitaldoccontent_part_12 PARTITION OF poinsdigitaldoccontent FOR VALUES IN (12);
+
+            -- Создать индекс
+            CREATE INDEX INDPOINSdigitalDocContent ON poinsdigitaldoccontent (id, partInfo);
+        </sql>
+    </changeSet>
+
+    <!-- Oracle:  Создание партиционированной таблицы -->
+    <changeSet id="0026-create-table-poinsdigitaldoccontent-oracle" author="ru-orlov">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <dbms type="oracle"/>
+                <not>
+                    <tableExists tableName="poinsdigitaldoccontent"/>
+                </not>
+            </and>
+        </preConditions>
+        <sql>
+            CREATE TABLE poinsdigitaldoccontent (
+            id NUMBER(19) NOT NULL,
+            data BLOB,
+            partInfo NUMBER(19) NOT NULL
+            )
+            PARTITION BY LIST (partInfo) (
+            PARTITION part_1 VALUES (1),
+            PARTITION part_2 VALUES (2),
+            PARTITION part_3 VALUES (3),
+            PARTITION part_4 VALUES (4),
+            PARTITION part_5 VALUES (5),
+            PARTITION part_6 VALUES (6),
+            PARTITION part_7 VALUES (7),
+            PARTITION part_8 VALUES (8),
+            PARTITION part_9 VALUES (9),
+            PARTITION part_10 VALUES (10),
+            PARTITION part_11 VALUES (11),
+            PARTITION part_12 VALUES (12)
+            );
+
+            CREATE INDEX INDPOINSdigitalDocContent ON poinsdigitaldoccontent (id, partInfo);
+        </sql>
     </changeSet>
 
     <changeSet id="0027-create-table-poinsdoccontent" author="ru-orlov">
